@@ -24,36 +24,24 @@ namespace ContentJson.Helpers
         private Dictionary<string, object> CreatePropertyDictionary(IEnumerable<PropertyInfo> jsonProperties, ContentData content)
         {
             var propertyDict = new Dictionary<string, object>();
-            var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
 
             foreach (var property in jsonProperties)
             {
                 var propertyValue = property.GetValue(content, null);
 
-                var jsonKey = GetJsonKey(property);
-
-                if (propertyValue is ContentArea)
+                if (propertyValue is ContentArea) //ContentArea
                 {
                     var contentArea = propertyValue as ContentArea;
 
                     if (contentArea.Items == null || !contentArea.Items.Any()) continue;
 
-                    var groupedContentTypes = contentArea.Items.GroupBy(x => x.GetContent().ContentTypeID);
                     var contentAreaJsonKey = GetJsonKey(property);
-                    var test = new Dictionary<string,object>();
+                    var propertyAsDictionary = GetDictionaryFromContentArea(contentArea);
 
-                    foreach (var contentType in groupedContentTypes)
-                    {
-                        var contentTypeJsonKey = GetJsonKey(contentType.First().GetContent() as ContentData);
-                        var items = GetContentTypeAsList(contentType, contentLoader);
-                        test.Add(contentTypeJsonKey, items);
-                    }
-
-                    propertyDict.Add(contentAreaJsonKey, test);
+                    propertyDict.Add(contentAreaJsonKey, propertyAsDictionary);
                 }
-                else if (propertyValue is BlockData)
+                else if (propertyValue is BlockData) //Internal Block
                 {
-                    //Get block properties
                     var contentData = propertyValue as ContentData;
                     var blockJsonKey = GetJsonKey(contentData);
                     var blockAsDictionary = GetStructuredDictionary(contentData);
@@ -62,6 +50,7 @@ namespace ContentJson.Helpers
                 }
                 else //Simple properties like strings etc
                 {
+                    var jsonKey = GetJsonKey(property);
                     propertyDict.Add(jsonKey, propertyValue);
                 }
             }
@@ -69,8 +58,24 @@ namespace ContentJson.Helpers
             return propertyDict;
         }
 
-        private List<object> GetContentTypeAsList(IGrouping<int, ContentAreaItem> contentType, IContentLoader contentLoader)
+        private Dictionary<string, object> GetDictionaryFromContentArea(ContentArea contentArea)
         {
+            var groupedContentTypes = contentArea.Items.GroupBy(x => x.GetContent().ContentTypeID);
+            var propertyDict = new Dictionary<string, object>();
+
+            foreach (var contentType in groupedContentTypes)
+            {
+                var contentTypeJsonKey = GetJsonKey(contentType.First().GetContent() as ContentData);
+                var items = GetContentTypeAsList(contentType);
+                propertyDict.Add(contentTypeJsonKey, items);
+            }
+
+            return propertyDict;
+        } 
+
+        private List<object> GetContentTypeAsList(IGrouping<int, ContentAreaItem> contentType)
+        {
+            var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
             var items = new List<object>();
             foreach (var item in contentType)
             {

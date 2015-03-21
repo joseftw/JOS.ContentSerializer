@@ -11,7 +11,6 @@ namespace ContentJson.Extensions
         public static string ToJson(this ContentData contentData)
         {
             var propertiesDict = ContentJsonHelper.GetStructuredDictionary(contentData);
-
             return JsonConvert.SerializeObject(propertiesDict);
         }
     }
