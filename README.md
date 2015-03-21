@@ -167,9 +167,9 @@ Why is that? Well this is to support different ContentTypes in the ContentArea. 
     [ContentType(DisplayName = "DifferentBlock", GUID = "18bd1b92-9ec2-4da9-909d-1c98f9624cfe", Description = "")]
     public class DifferentBlock : BlockData
     {
-        [Display(Name = "Worse Rapper Alive")]
-        [JsonProperty("worseRapperAlive")]
-        public virtual string WorseRapperAlive { get; set; }
+        [Display(Name = "Worst Rapper Alive")]
+        [JsonProperty("worstRapperAlive")]
+        public virtual string WorstRapperAlive { get; set; }
         
         [Display(Name = "Worst rapper ever?")]
         [JsonProperty("worstRapperEver")]
@@ -216,9 +216,9 @@ If you want to give the Items in your ContentArea a different JSON key you could
     [JsonObject("customJsonKey")]
     public class DifferentBlock : BlockData
     {
-        [Display(Name = "Worse Rapper Alive")]
-        [JsonProperty("worseRapperAlive")]
-        public virtual string WorseRapperAlive { get; set; }
+        [Display(Name = "Worst Rapper Alive")]
+        [JsonProperty("worstRapperAlive")]
+        public virtual string WorstRapperAlive { get; set; }
         
         [Display(Name = "Worst rapper ever?")]
         [JsonProperty("worstRapperEver")]
