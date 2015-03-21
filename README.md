@@ -37,7 +37,7 @@ This will return a JSON representation of the `Startpage` type like this:
     }
 ````    
 And this is how the Startpage class looks like:
-
+```c#
     [ContentType(DisplayName = "Startpage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d")]
     public class Startpage : PageData
     {
@@ -61,7 +61,7 @@ And this is how the Startpage class looks like:
         [JsonProperty("thisIsSweet")]
         public virtual bool ThisIsSweet { get; set; }
     }
-    
+```    
 Each property that you want to include in the JSON response needs to be decorated with the JsonProperty attribute(Json.net...).
 Im thinking about making this optional(if you want to specify a custom JSON key for example) and instead select all properties
 that has the Display attribute...
@@ -71,7 +71,7 @@ Anyhow, that example was pretty basic, what about internal blocks?
 ####Internal Blocks####
 
 My **Startpage** now looks like this:
-
+```c#
     [ContentType(DisplayName = "Startpage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d", Description = "")]
     public class Startpage : PageData
     {
@@ -87,9 +87,9 @@ My **Startpage** now looks like this:
         [JsonProperty("internalBlock")]
         public virtual InternalBlock InternalBlock { get; set; }
     }
-
+```
 And the InternalBlock looks like this:
-
+```c#
     [ContentType(DisplayName = "InternalBlock", GUID = "07bd1b92-9ec2-4da9-909d-1c98f9624cfd", Description = "")]
     public class InternalBlock : BlockData
     {
@@ -101,9 +101,9 @@ And the InternalBlock looks like this:
         [JsonProperty("greatestRapperAlive")]
         public virtual string GreatestRapperAlive { get; set; }
     }
-    
+  ```  
   The JSON response would look like this:
-  
+  ```javascript
     {
         "heading": "This is pretty Cool",
         "thisIsSweet": true,
@@ -112,11 +112,11 @@ And the InternalBlock looks like this:
             "greatestRapperAlive": "Eminem"
         }
     }
-
+```
 ####Contentarea####
 
 Now I've added a ContentArea to my Startpage like this:
-
+```c#
     [ContentType(DisplayName = "Startpage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d", Description = "")]
     public class Startpage : PageData
     {
@@ -136,9 +136,9 @@ Now I've added a ContentArea to my Startpage like this:
         [JsonProperty("contentArea")]
         public virtual ContentArea ContentArea { get; set; }
     }
-    
+``` 
 When adding a couple of InternalBlocks to the ContentArea the JSON response would look like this:
-
+```javascript
     {
         "heading": "This is pretty cool",
         "thisIsSweet": true,
@@ -159,11 +159,11 @@ When adding a couple of InternalBlocks to the ContentArea the JSON response woul
             ]
         }
     }
-
+```
 As you can see the blocks get placed in an array under the property internalBlock.
 Why is that? Well this is to support different ContentTypes in the ContentArea. What would happen if we added the BlockType 
 `DifferentBlock` to our ContentArea?
-
+```c#
     [ContentType(DisplayName = "DifferentBlock", GUID = "18bd1b92-9ec2-4da9-909d-1c98f9624cfe", Description = "")]
     public class DifferentBlock : BlockData
     {
@@ -175,9 +175,9 @@ Why is that? Well this is to support different ContentTypes in the ContentArea. 
         [JsonProperty("worstRapperEver")]
         public virtual bool worstRapperEver { get; set; }
     }
-
+```
 The JSON response would look like this if we added one `DifferentBlock` to our ContentArea:
-
+```javascript
     {
         "heading": "This is pretty cool",
         "thisIsSweet": true,
@@ -208,10 +208,10 @@ The JSON response would look like this if we added one `DifferentBlock` to our C
             ]
         }
     }
-    
+```
 #####Custom JSON key#####
 If you want to give the Items in your ContentArea a different JSON key you could decorate your class with the JsonObject attribute like this:
-
+```c#
     [ContentType(DisplayName = "DifferentBlock", GUID = "18bd1b92-9ec2-4da9-909d-1c98f9624cfe", Description = "")]
     [JsonObject("customJsonKey")]
     public class DifferentBlock : BlockData
@@ -224,9 +224,9 @@ If you want to give the Items in your ContentArea a different JSON key you could
         [JsonProperty("worstRapperEver")]
         public virtual bool worstRapperEver { get; set; }
     }
-
+```
 The JSON would now look like this:
-
+```javascript
     {
         "heading": "This is pretty cool",
         "thisIsSweet": true,
@@ -257,9 +257,9 @@ The JSON would now look like this:
             ]
         }
     }
-
+```
 There is, of course :), support for nested ContentAreas and Internal Blocks etc...heres an JSON example:
-
+```javascript
     {
         "heading": "This is Pretty cool",
         "thisIsSweet": true,
@@ -310,3 +310,4 @@ There is, of course :), support for nested ContentAreas and Internal Blocks etc.
             ]
         }
     }
+```
