@@ -29,7 +29,7 @@ I decided to create an extensionmethod to the ContentData type, it can be used l
 This will return a JSON representation of the `Startpage` type like this:
 
     {
-        "heading": "Joooosef",
+        "heading": "This is the heading",
         "body": "<p>This is some text, its cool because <strong>JOSEF WROTE IT</strong></p>",
         "endDate": "2015-03-25T00:00:00",
         "price": 13.37,
@@ -80,8 +80,8 @@ My **Startpage** now looks like this:
         public virtual string Heading { get; set; }
 
         [Display(Name = "bool", Order = 150)]
-        [JsonProperty("bool")]
-        public virtual bool Bool { get; set; }
+        [JsonProperty("thisIsSweet")]
+        public virtual bool ThisIsSweet { get; set; }
 
         [Display(Name = "InternalBlock", Order = 160)]
         [JsonProperty("internalBlock")]
@@ -104,4 +104,209 @@ And the InternalBlock looks like this:
     
   The JSON response would look like this:
   
-  
+    {
+        "heading": "This is pretty Cool",
+        "thisIsSweet": true,
+        "internalBlock": {
+            "heading": "Internal JOOOSEF",
+            "greatestRapperAlive": "Eminem"
+        }
+    }
+
+####Contentarea####
+
+Now I've added a ContentArea to my Startpage like this:
+
+    [ContentType(DisplayName = "Startpage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d", Description = "")]
+    public class Startpage : PageData
+    {
+        [Display(Name = "Heading")]
+        [JsonProperty("heading")]
+        public virtual string Heading { get; set; }
+
+        [Display(Name = "bool")]
+        [JsonProperty("thisIsSweet")]
+        public virtual bool ThisIsSweet { get; set; }
+
+        [Display(Name = "InternalBlock")]
+        [JsonProperty("internalBlock")]
+        public virtual InternalBlock InternalBlock { get; set; }
+        
+        [Display(Name = "Contentarea")]
+        [JsonProperty("contentArea")]
+        public virtual ContentArea ContentArea { get; set; }
+    }
+    
+When adding a couple of InternalBlocks to the ContentArea the JSON response would look like this:
+
+    {
+        "heading": "This is pretty cool",
+        "thisIsSweet": true,
+        "internalBlock": {
+            "heading": "This is the Heading",
+            "greatestRapperAlive": "Eminem"
+        },
+        "contentArea": {
+                "internalBlock": [
+                {
+                    "heading": "Im in a ContentArea",
+                    "greatestRapperAlive": "Biggie"
+                },
+                {
+                    "heading": "Me too",
+                    "greatestRapperAlive": "Tupac"
+                }
+            ]
+        }
+    }
+
+As you can see the blocks get placed in an array under the property internalBlock.
+Why is that? Well this is to support different ContentTypes in the ContentArea. What would happen if we added the BlockType 
+`DifferentBlock` to our ContentArea?
+
+    [ContentType(DisplayName = "DifferentBlock", GUID = "18bd1b92-9ec2-4da9-909d-1c98f9624cfe", Description = "")]
+    public class DifferentBlock : BlockData
+    {
+        [Display(Name = "Worse Rapper Alive")]
+        [JsonProperty("worseRapperAlive")]
+        public virtual string WorseRapperAlive { get; set; }
+        
+        [Display(Name = "Worst rapper ever?")]
+        [JsonProperty("worstRapperEver")]
+        public virtual bool worstRapperEver { get; set; }
+    }
+
+The JSON response would look like this if we added one `DifferentBlock` to our ContentArea:
+
+    {
+        "heading": "This is pretty cool",
+        "thisIsSweet": true,
+        "internalBlock": {
+            "heading": "This is the Heading",
+            "greatestRapperAlive": "Eminem"
+        },
+         "contentArea": {
+             "internalBlock": [
+                {
+                    "heading": "Im in a ContentArea",
+                    "greatestRapperAlive": "Biggie(will never die)"
+                },
+                {
+                    "heading": "Me too",
+                    "greatestRapperAlive": "Tupac(will never die)"
+                }
+            ],
+            "differentBlock": [
+                {
+                    "worstRapperAlive": "Drake",
+                    "worstRapperEver": false
+                },
+                {
+                    "worstRapperAlive": "Flo Rida",
+                    "worstRapperEver": true
+                }
+            ]
+        }
+    }
+    
+#####Custom JSON key#####
+If you want to give the Items in your ContentArea a different JSON key you could decorate your class with the JsonObject attribute like this:
+
+    [ContentType(DisplayName = "DifferentBlock", GUID = "18bd1b92-9ec2-4da9-909d-1c98f9624cfe", Description = "")]
+    [JsonObject("customJsonKey")]
+    public class DifferentBlock : BlockData
+    {
+        [Display(Name = "Worse Rapper Alive")]
+        [JsonProperty("worseRapperAlive")]
+        public virtual string WorseRapperAlive { get; set; }
+        
+        [Display(Name = "Worst rapper ever?")]
+        [JsonProperty("worstRapperEver")]
+        public virtual bool worstRapperEver { get; set; }
+    }
+
+The JSON would now look like this:
+
+    {
+        "heading": "This is pretty cool",
+        "thisIsSweet": true,
+        "internalBlock": {
+            "heading": "This is the Heading",
+            "greatestRapperAlive": "Eminem"
+        },
+         "contentArea": {
+             "internalBlock": [
+                {
+                    "heading": "Im in a ContentArea",
+                    "greatestRapperAlive": "Biggie(will never die)"
+                },
+                {
+                    "heading": "Me too",
+                    "greatestRapperAlive": "Tupac(will never die)"
+                }
+            ],
+            "customJsonKey": [
+                {
+                    "worstRapperAlive": "Drake",
+                    "worstRapperEver": false
+                },
+                {
+                    "worstRapperAlive": "Flo Rida",
+                    "worstRapperEver": true
+                }
+            ]
+        }
+    }
+
+There is, of course :), support for nested ContentAreas and Internal Blocks etc...heres an JSON example:
+
+    {
+        "heading": "This is Pretty cool",
+        "thisIsSweet": true,
+        "internalBlock": {
+            "heading": "This is the Heading",
+            "greatestRapperAlive": "Eminem",
+            "differentBlock": {
+                "one": "This is",
+                "two": "The Sound of",
+                "three": "The POLICE!!!"
+            },
+            "contentArea": {
+                "internalBlock": [
+                    {
+                        "heading": "Damn Im deep...",
+                        "greatestRapperAlive": "Biggie(will never die)"
+                    },
+                    {
+                        "heading": "Me too bro",
+                        "greatestRapperAlive": "Tupac(will never die)"
+                    }
+                ],
+                "differentBlock": [
+                    {
+                        "worstRapperAlive": "Drake",
+                        "worstRapperEver": false
+                    },
+                    {
+                        "worstRapperAlive": "Flo Rida",
+                        "worstRapperEver": true
+                    }
+                ]
+            }
+        },
+        "contentArea": {
+            "differentBlock": [
+                {
+                    "one": "Sound",
+                    "two": "of the",
+                    "three": "Police!"
+                }
+            ],
+            "sharedBlock": [
+                {
+                    "heading": "HEJ",
+                    "subHeading": "JOSEF"
+                }
+            ]
+        }
+    }
