@@ -16,7 +16,7 @@ We needed to get a JSON representation of EPiServer contenttypes at work because
 how our frontend-framework(uses backbone and stuff) works.
 
 I decided to create an extensionmethod to the ContentData type, it can be used like this:
-
+```c#
     public class StartpageController : PageController<Startpage>
     {
         public string Index(Startpage currentPage)
@@ -25,9 +25,9 @@ I decided to create an extensionmethod to the ContentData type, it can be used l
             return json;
         }
     }
-
+```
 This will return a JSON representation of the `Startpage` type like this:
-
+````javascript
     {
         "heading": "This is the heading",
         "body": "<p>This is some text, its cool because <strong>JOSEF WROTE IT</strong></p>",
@@ -35,7 +35,7 @@ This will return a JSON representation of the `Startpage` type like this:
         "price": 13.37,
         "thisIsSweet": true
     }
-    
+````    
 And this is how the Startpage class looks like:
 
     [ContentType(DisplayName = "Startpage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d")]
