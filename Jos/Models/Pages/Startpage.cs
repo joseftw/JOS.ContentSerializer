@@ -4,6 +4,7 @@ using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
 using EPiServer.Framework.DataAnnotations;
+using EPiServer.SpecializedProperties;
 using Jos.Models.Blocks;
 using Newtonsoft.Json;
 
@@ -76,5 +77,9 @@ namespace Jos.Models.Pages
         [JsonProperty("mediaUrl")]
         public virtual Url MediaUrl { get; set; }
 
+        [CultureSpecific]
+        [Display(Name = "Links", Order = 230)]
+        [JsonProperty("links")]
+        public virtual LinkItemCollection Links { get; set; }
     }
 }

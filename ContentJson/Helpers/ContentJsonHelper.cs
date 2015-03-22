@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ContentJson.Extensions;
+using ContentJson.Models.LinkItemCollection;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.Personalization.VisitorGroups;
 using EPiServer.ServiceLocation;
+using EPiServer.SpecializedProperties;
 using Newtonsoft.Json;
 
 namespace ContentJson.Helpers
@@ -47,14 +49,50 @@ namespace ContentJson.Helpers
 
                     propertyDict.Add(blockJsonKey, blockAsDictionary);
                 }
+                else if (propertyValue is LinkItemCollection)
+                {
+                    var linkItemCollection = propertyValue as LinkItemCollection;
+                    var linksAsDictionary = GetDictionaryFromLinkItemCollection(linkItemCollection, property);
+
+                    if (linksAsDictionary.Any())
+                    {
+                        propertyDict.Add(linksAsDictionary.First().Key, linksAsDictionary.First().Value);
+                    }
+
+                }
+
                 else //Simple properties like strings etc
                 {
                     var propertyAsDictionary = GetSimplePropertyValue(propertyValue, property);
-                    propertyDict.Add(propertyAsDictionary.First().Key, propertyAsDictionary.First().Value);
+                    if (propertyAsDictionary.Any())
+                    {
+                        propertyDict.Add(propertyAsDictionary.First().Key, propertyAsDictionary.First().Value);   
+                    }
                 }
             }
 
             return propertyDict;
+        }
+
+        private Dictionary<string, object> GetDictionaryFromLinkItemCollection(LinkItemCollection linkItemCollection, PropertyInfo property)
+        {
+            var links = new List<LinkItemDto>();
+            foreach (var link in linkItemCollection)
+            {
+                
+                var linkItemDto = new LinkItemDto
+                {
+                    Text = link.Text,
+                    Title = link.Title,
+                    Target = link.Target,
+                    Href = link.Href.StartsWith("mailto:") ? link.Href : link.UrlResolver.Service.GetUrl(link.Href)
+                };
+
+                links.Add(linkItemDto);
+            }
+
+            var jsonKey = GetJsonKey(property);
+            return new Dictionary<string, object>{{jsonKey, links}};
         }
 
         private Dictionary<string, object> GetSimplePropertyValue(object property, PropertyInfo propertyInfo)
