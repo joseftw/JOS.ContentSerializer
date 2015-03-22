@@ -4,7 +4,6 @@ using EPiServer;
 using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors.SelectionFactories;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
-using EPiServer.Framework.DataAnnotations;
 using EPiServer.Shell.ObjectEditing;
 using EPiServer.SpecializedProperties;
 using Jos.Models.Blocks;

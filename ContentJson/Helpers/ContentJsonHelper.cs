@@ -6,7 +6,6 @@ using ContentJson.Extensions;
 using ContentJson.Models.LinkItemCollection;
 using ContentJson.Models.SelectOne;
 using EPiServer;
-using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors.SelectionFactories;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using EPiServer.Shell.ObjectEditing;
