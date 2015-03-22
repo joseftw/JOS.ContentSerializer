@@ -9,6 +9,8 @@ namespace ContentJson.Extensions
     {
         public static string ToPrettyUrl(this Url url)
         {
+            if (url.Scheme == "mailto") return url.OriginalString;
+
             var helper = ServiceLocator.Current.GetInstance<UrlHelper>();
             var prettyUrl = helper.ContentUrl(url);
             return prettyUrl;

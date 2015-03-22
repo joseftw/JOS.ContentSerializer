@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
+using EPiServer.Framework.DataAnnotations;
 using Jos.Models.Blocks;
 using Newtonsoft.Json;
 
@@ -69,6 +70,11 @@ namespace Jos.Models.Pages
         [Display(Name = "Internal Url", Order = 210)]
         [JsonProperty("internalUrl")]
         public virtual Url InternallUrl { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "Media Url", Order = 220)]
+        [JsonProperty("mediaUrl")]
+        public virtual Url MediaUrl { get; set; }
 
     }
 }
