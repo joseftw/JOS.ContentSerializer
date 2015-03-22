@@ -5,9 +5,10 @@ using System.Reflection;
 using ContentJson.Extensions;
 using ContentJson.Models.LinkItemCollection;
 using EPiServer;
+using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors.SelectionFactories;
 using EPiServer.Core;
-using EPiServer.Personalization.VisitorGroups;
 using EPiServer.ServiceLocation;
+using EPiServer.Shell.ObjectEditing;
 using EPiServer.SpecializedProperties;
 using Newtonsoft.Json;
 
@@ -109,11 +110,31 @@ namespace ContentJson.Helpers
                 return valueAsDictionary;
             }
 
+            if (property is String && PropertyIsSelectAttribute(propertyInfo))
+            {
+                var selectOneAttribute = GetSelectOneAttribute(propertyInfo);
+
+                if (selectOneAttribute != null)
+                {
+                    var valueAsDictionary = GetDictionaryFromSelectOne(property, propertyInfo, selectOneAttribute);
+                }
+            }
+
             var jsonKey = GetJsonKey(propertyInfo);
             var jsonValue = property;
 
             return new Dictionary<string, object>{{jsonKey, jsonValue}};
         }
+
+        private Dictionary<string, object> GetDictionaryFromSelectOne(object property, PropertyInfo propertyInfo, SelectOneAttribute attribute)
+        {
+            var factoryType = attribute.SelectionFactoryType;
+            var factory = (ISelectionFactory)Activator.CreateInstance(factoryType);
+            var test = factory.GetSelections(property as ExtendedMetadata);
+
+            var casted = property as String;
+            return new Dictionary<string, object>();
+        } 
 
         private Dictionary<string, object> GetDictionaryFromUrl(object property, PropertyInfo propertyInfo)
         {
@@ -197,6 +218,27 @@ namespace ContentJson.Helpers
         {
             var hasAttribute = Attribute.GetCustomAttribute(property, typeof(JsonPropertyAttribute));
             return hasAttribute != null;
+        }
+
+        private bool PropertyIsSelectAttribute(PropertyInfo property)
+        {
+            var selectOne = GetSelectOneAttribute(property);
+            if (selectOne != null) return true;
+
+            var selectMany = HasSelectManyAttribute(property);
+            return selectMany;
+        }
+
+        private SelectOneAttribute GetSelectOneAttribute(PropertyInfo property)
+        {
+            var attribute = (SelectOneAttribute)Attribute.GetCustomAttribute(property, typeof(SelectOneAttribute));
+            return attribute;
+        }
+
+        private bool HasSelectManyAttribute(PropertyInfo property)
+        {
+            var selectMany = Attribute.IsDefined(property, typeof(SelectManyAttribute));
+            return selectMany;   
         }
     }
 }

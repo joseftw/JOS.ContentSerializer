@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using EPiServer;
+using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors.SelectionFactories;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
 using EPiServer.Framework.DataAnnotations;
+using EPiServer.Shell.ObjectEditing;
 using EPiServer.SpecializedProperties;
 using Jos.Models.Blocks;
 using Newtonsoft.Json;
@@ -81,5 +83,17 @@ namespace Jos.Models.Pages
         [Display(Name = "Links", Order = 230)]
         [JsonProperty("links")]
         public virtual LinkItemCollection Links { get; set; }
+
+        [SelectOne(SelectionFactoryType = typeof(LanguageSelectionFactory))]
+        [CultureSpecific]
+        [Display(Name = "Single Language", Order = 240)]
+        [JsonProperty("singleLanguage")]
+        public virtual string SingleLanguage { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "Multiple Languages", Order = 250)]
+        [JsonProperty("multipleLanguages")]
+        [SelectMany(SelectionFactoryType = typeof(LanguageSelectionFactory))]
+        public virtual string MultipleLanguage { get; set; }
     }
 }
