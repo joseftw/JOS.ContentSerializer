@@ -75,28 +75,6 @@ namespace ContentJson.Helpers
             return propertyDict;
         }
 
-        private Dictionary<string, object> GetDictionaryFromLinkItemCollection(LinkItemCollection linkItemCollection, PropertyInfo property)
-        {
-            var links = new List<LinkItemDto>();
-            foreach (var link in linkItemCollection)
-            {
-                
-                var linkItemDto = new LinkItemDto
-                {
-                    Href = link.Href.StartsWith("mailto:") ? link.Href : link.UrlResolver.Service.GetUrl(link.Href),
-                    Language = link.Language,
-                    Target = link.Target,
-                    Text = link.Text,
-                    Title = link.Title,
-                };
-
-                links.Add(linkItemDto);
-            }
-
-            var jsonKey = GetJsonKey(property);
-            return new Dictionary<string, object>{{jsonKey, links}};
-        }
-
         private Dictionary<string, object> GetSimplePropertyValue(object property, PropertyInfo propertyInfo)
         {
             if (property is ContentReference)
@@ -134,7 +112,7 @@ namespace ContentJson.Helpers
             return new Dictionary<string, object>{{jsonKey, jsonValue}};
         }
 
-        private IEnumerable<SelectOptionDto> GetSelectOneOptions(string property, IEnumerable<ISelectItem> selectOptions)
+        private IEnumerable<SelectOptionDto> GetSelectOptions(string property, IEnumerable<ISelectItem> selectOptions)
         {
             var items = new List<SelectOptionDto>();
             var selectedValues = property.Split(',');
@@ -155,6 +133,28 @@ namespace ContentJson.Helpers
             return items;
         }
 
+        private Dictionary<string, object> GetDictionaryFromLinkItemCollection(LinkItemCollection linkItemCollection, PropertyInfo property)
+        {
+            var links = new List<LinkItemDto>();
+            foreach (var link in linkItemCollection)
+            {
+
+                var linkItemDto = new LinkItemDto
+                {
+                    Href = link.Href.StartsWith("mailto:") ? link.Href : link.UrlResolver.Service.GetUrl(link.Href),
+                    Language = link.Language,
+                    Target = link.Target,
+                    Text = link.Text,
+                    Title = link.Title,
+                };
+
+                links.Add(linkItemDto);
+            }
+
+            var jsonKey = GetJsonKey(property);
+            return new Dictionary<string, object> { { jsonKey, links } };
+        }
+
         private Dictionary<string, object> GetDictionaryFromSelectProperty(object property, PropertyInfo propertyInfo, Type selectionFactoryType)
         {
             var castedProperty = property as String ?? string.Empty;
@@ -162,7 +162,7 @@ namespace ContentJson.Helpers
             var selectOptions = GetSelectionOptions(factoryType, property);
 
             var jsonKey = GetJsonKey(propertyInfo);
-            var items = GetSelectOneOptions(castedProperty, selectOptions);
+            var items = GetSelectOptions(castedProperty, selectOptions);
 
             return new Dictionary<string, object> { { jsonKey, items } };
         }
@@ -188,7 +188,15 @@ namespace ContentJson.Helpers
             }
 
             return propertyDict;
-        } 
+        }
+
+        private Dictionary<string, object> GetDictionaryFromContentReference(object property, PropertyInfo propertyInfo)
+        {
+            var contentReference = property as ContentReference;
+            var url = contentReference.ToPrettyUrl();
+            var jsonKey = GetJsonKey(propertyInfo);
+            return new Dictionary<string, object> { { jsonKey, url } };
+        }
 
         private List<object> GetContentTypeAsList(IGrouping<int, ContentAreaItem> contentType)
         {
@@ -235,14 +243,6 @@ namespace ContentJson.Helpers
         {
             var properties = contentData.GetType().GetProperties().Where(HasJsonPropertyAttribute);
             return properties;
-        }
-
-        private Dictionary<string, object> GetDictionaryFromContentReference(object property, PropertyInfo propertyInfo)
-        {
-            var contentReference = property as ContentReference;
-            var url = contentReference.ToPrettyUrl();
-            var jsonKey = GetJsonKey(propertyInfo);
-            return new Dictionary<string, object> {{jsonKey, url}};
         }
 
         private bool HasJsonPropertyAttribute(PropertyInfo property)
