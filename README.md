@@ -77,8 +77,8 @@ And this is how the Startpage class looks like:
     }
 ```    
 Each property that you want to include in the JSON response needs to be decorated with the JsonProperty attribute(Json.net...).
-Im thinking about making this optional(if you want to specify a custom JSON key for example) and instead select all properties
-that has the Display attribute...
+*Im thinking about making this optional(if you want to specify a custom JSON key for example) and instead select all properties
+that has the Display attribute...*
 
 Anyhow, that example was pretty basic, what about internal blocks?
 
