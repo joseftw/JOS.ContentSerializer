@@ -11,6 +11,12 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  Double
 -  Int
 -  DateTime
+-  SelectOne
+-  SelectMany
+-  PageReference
+-  ContentReference
+-  LinkItemCollection
+-  Url
 
 We needed to get a JSON representation of EPiServer contenttypes at work because of 
 how our frontend-framework(uses backbone and stuff) works.
