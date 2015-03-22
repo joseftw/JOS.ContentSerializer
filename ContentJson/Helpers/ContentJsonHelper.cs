@@ -82,10 +82,11 @@ namespace ContentJson.Helpers
                 
                 var linkItemDto = new LinkItemDto
                 {
+                    Href = link.Href.StartsWith("mailto:") ? link.Href : link.UrlResolver.Service.GetUrl(link.Href),
+                    Language = link.Language,
+                    Target = link.Target,
                     Text = link.Text,
                     Title = link.Title,
-                    Target = link.Target,
-                    Href = link.Href.StartsWith("mailto:") ? link.Href : link.UrlResolver.Service.GetUrl(link.Href)
                 };
 
                 links.Add(linkItemDto);

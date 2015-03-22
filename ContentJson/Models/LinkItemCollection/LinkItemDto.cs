@@ -7,6 +7,9 @@ namespace ContentJson.Models.LinkItemCollection
         [JsonProperty("href")]
         public string Href { get; set; }
 
+        [JsonProperty("language")]
+        public string Language { get; set; }
+
         [JsonProperty("target")]
         public string Target { get; set; }
 
