@@ -112,27 +112,6 @@ namespace ContentJson.Helpers
             return new Dictionary<string, object>{{jsonKey, jsonValue}};
         }
 
-        private IEnumerable<SelectOptionDto> GetSelectOptions(string property, IEnumerable<ISelectItem> selectOptions)
-        {
-            var items = new List<SelectOptionDto>();
-            var selectedValues = property.Split(',');
-            if (!selectedValues.Any()) return items;
-
-            foreach (var option in selectOptions)
-            {
-                var item = new SelectOptionDto
-                {
-                    Selected = selectedValues.Contains(option.Value),
-                    Text = option.Text,
-                    Value = option.Value.ToString()
-                };
-
-                items.Add(item);
-            }
-
-            return items;
-        }
-
         private Dictionary<string, object> GetDictionaryFromLinkItemCollection(LinkItemCollection linkItemCollection, PropertyInfo property)
         {
             var links = new List<LinkItemDto>();
@@ -277,6 +256,27 @@ namespace ContentJson.Helpers
             var factory = (ISelectionFactory)Activator.CreateInstance(selectionFactoryType);
             var options = factory.GetSelections(property as ExtendedMetadata);
             return options;
+        }
+
+        private IEnumerable<SelectOptionDto> GetSelectOptions(string property, IEnumerable<ISelectItem> selectOptions)
+        {
+            var items = new List<SelectOptionDto>();
+            var selectedValues = property.Split(',');
+            if (!selectedValues.Any()) return items;
+
+            foreach (var option in selectOptions)
+            {
+                var item = new SelectOptionDto
+                {
+                    Selected = selectedValues.Contains(option.Value),
+                    Text = option.Text,
+                    Value = option.Value.ToString()
+                };
+
+                items.Add(item);
+            }
+
+            return items;
         }
     }
 }
