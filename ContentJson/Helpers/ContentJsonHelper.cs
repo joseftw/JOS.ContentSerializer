@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using ContentJson.Extensions;
 using ContentJson.Models.LinkItemCollection;
+using ContentJson.Models.SelectOne;
 using EPiServer;
 using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors.SelectionFactories;
 using EPiServer.Core;
@@ -113,11 +114,19 @@ namespace ContentJson.Helpers
             if (property is String && PropertyIsSelectAttribute(propertyInfo))
             {
                 var selectOneAttribute = GetSelectOneAttribute(propertyInfo);
-
+                Type selectionFactoryType; 
                 if (selectOneAttribute != null)
                 {
-                    var valueAsDictionary = GetDictionaryFromSelectOne(property, propertyInfo, selectOneAttribute);
+                    selectionFactoryType = selectOneAttribute.SelectionFactoryType;
                 }
+                else
+                {
+                    var selectManyAttribute = GetSelectManyAttribute(propertyInfo);
+                    selectionFactoryType = selectManyAttribute.SelectionFactoryType;
+                }
+
+                var valueAsDictionary = GetDictionaryFromSelectProperty(property, propertyInfo, selectionFactoryType);
+                return valueAsDictionary;   
             }
 
             var jsonKey = GetJsonKey(propertyInfo);
@@ -126,15 +135,38 @@ namespace ContentJson.Helpers
             return new Dictionary<string, object>{{jsonKey, jsonValue}};
         }
 
-        private Dictionary<string, object> GetDictionaryFromSelectOne(object property, PropertyInfo propertyInfo, SelectOneAttribute attribute)
+        private IEnumerable<SelectOptionDto> GetSelectOneOptions(string property, IEnumerable<ISelectItem> selectOptions)
         {
-            var factoryType = attribute.SelectionFactoryType;
-            var factory = (ISelectionFactory)Activator.CreateInstance(factoryType);
-            var test = factory.GetSelections(property as ExtendedMetadata);
+            var items = new List<SelectOptionDto>();
+            var selectedValues = property.Split(',');
+            if (!selectedValues.Any()) return items;
 
-            var casted = property as String;
-            return new Dictionary<string, object>();
-        } 
+            foreach (var option in selectOptions)
+            {
+                var item = new SelectOptionDto
+                {
+                    Selected = selectedValues.Contains(option.Value),
+                    Text = option.Text,
+                    Value = option.Value.ToString()
+                };
+
+                items.Add(item);
+            }
+
+            return items;
+        }
+
+        private Dictionary<string, object> GetDictionaryFromSelectProperty(object property, PropertyInfo propertyInfo, Type selectionFactoryType)
+        {
+            var castedProperty = property as String ?? string.Empty;
+            var factoryType = selectionFactoryType;
+            var selectOptions = GetSelectionOptions(factoryType, property);
+
+            var jsonKey = GetJsonKey(propertyInfo);
+            var items = GetSelectOneOptions(castedProperty, selectOptions);
+
+            return new Dictionary<string, object> { { jsonKey, items } };
+        }
 
         private Dictionary<string, object> GetDictionaryFromUrl(object property, PropertyInfo propertyInfo)
         {
@@ -225,8 +257,8 @@ namespace ContentJson.Helpers
             var selectOne = GetSelectOneAttribute(property);
             if (selectOne != null) return true;
 
-            var selectMany = HasSelectManyAttribute(property);
-            return selectMany;
+            var selectMany = GetSelectManyAttribute(property);
+            return selectMany != null;
         }
 
         private SelectOneAttribute GetSelectOneAttribute(PropertyInfo property)
@@ -235,10 +267,17 @@ namespace ContentJson.Helpers
             return attribute;
         }
 
-        private bool HasSelectManyAttribute(PropertyInfo property)
+        private SelectManyAttribute GetSelectManyAttribute(PropertyInfo property)
         {
-            var selectMany = Attribute.IsDefined(property, typeof(SelectManyAttribute));
+            var selectMany = (SelectManyAttribute)Attribute.GetCustomAttribute(property, typeof(SelectManyAttribute));
             return selectMany;   
+        }
+
+        private IEnumerable<ISelectItem> GetSelectionOptions(Type selectionFactoryType, object property)
+        {
+            var factory = (ISelectionFactory)Activator.CreateInstance(selectionFactoryType);
+            var options = factory.GetSelections(property as ExtendedMetadata);
+            return options;
         }
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="Helpers\ContentJsonHelper.cs" />
     <Compile Include="Helpers\ContentJsonHelperBase.cs" />
     <Compile Include="Models\LinkItemCollection\LinkItemDto.cs" />
+    <Compile Include="Models\SelectOne\SelectOptionDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
