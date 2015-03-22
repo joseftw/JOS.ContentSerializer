@@ -50,7 +50,7 @@ This will return a JSON representation of the `Startpage` type like this:
         "thisIsSweet": true
     }
 ````    
-And this is how the Startpage class looks like:
+**Startpage**:
 ```c#
     [ContentType(DisplayName = "Startpage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d")]
     public class Startpage : PageData
@@ -84,7 +84,7 @@ Anyhow, that example was pretty basic, what about internal blocks?
 
 ####Internal Blocks####
 
-My **Startpage** now looks like this:
+**Startpage**:
 ```c#
     [ContentType(DisplayName = "Startpage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d", Description = "")]
     public class Startpage : PageData
@@ -102,7 +102,7 @@ My **Startpage** now looks like this:
         public virtual InternalBlock InternalBlock { get; set; }
     }
 ```
-And the InternalBlock looks like this:
+**InternalBlock**:
 ```c#
     [ContentType(DisplayName = "InternalBlock", GUID = "07bd1b92-9ec2-4da9-909d-1c98f9624cfd", Description = "")]
     public class InternalBlock : BlockData
@@ -272,7 +272,7 @@ The JSON would now look like this:
         }
     }
 ```
-There is, of course :), support for nested ContentAreas and Internal Blocks etc...heres an JSON example:
+There is, of course :), support for nested ContentAreas and Internal Blocks etc...here's an JSON example:
 ```javascript
     {
         "heading": "This is Pretty cool",
