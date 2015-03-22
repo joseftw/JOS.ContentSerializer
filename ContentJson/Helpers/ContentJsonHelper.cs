@@ -262,7 +262,6 @@ namespace ContentJson.Helpers
         {
             var items = new List<SelectOptionDto>();
             var selectedValues = property.Split(',');
-            if (!selectedValues.Any()) return items;
 
             foreach (var option in selectOptions)
             {
