@@ -1,6 +1,9 @@
 # EPiServer-ContentData-ToJson
 Converts any ContentData object to JSON 
 
+We needed to get a JSON representation of EPiServer contenttypes at work because of 
+how our frontend-framework(uses backbone and stuff) works.
+
 It currently supports the following EPiServer Property Types(more to come!):
 
 -  String
@@ -11,11 +14,22 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  Double
 -  Int
 -  DateTime
+-  SelectOne
+-  SelectMany
+-  PageReference
+-  ContentReference
+-  LinkItemCollection
+-  Url
 
-We needed to get a JSON representation of EPiServer contenttypes at work because of 
-how our frontend-framework(uses backbone and stuff) works.
+###Installation###
 
-I decided to create an extensionmethod to the ContentData type, it can be used like this:
+Just check out this repo and add the ContentJson project to your solution.
+
+###Examples###
+
+Check out this repo and open the Jos project and start toying around!
+
+Use it like this:
 ```c#
     public class StartpageController : PageController<Startpage>
     {
@@ -63,8 +77,8 @@ And this is how the Startpage class looks like:
     }
 ```    
 Each property that you want to include in the JSON response needs to be decorated with the JsonProperty attribute(Json.net...).
-Im thinking about making this optional(if you want to specify a custom JSON key for example) and instead select all properties
-that has the Display attribute...
+*Im thinking about making this optional(if you want to specify a custom JSON key for example) and instead select all properties
+that has the Display attribute...*
 
 Anyhow, that example was pretty basic, what about internal blocks?
 
