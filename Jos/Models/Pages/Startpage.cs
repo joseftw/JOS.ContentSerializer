@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
 using Jos.Models.Blocks;
@@ -48,6 +49,26 @@ namespace Jos.Models.Pages
         [Display(Name = "Contentarea", Order = 170)]
         [JsonProperty("contentArea")]
         public virtual ContentArea ContentArea { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "ContentReference", Order = 180)]
+        [JsonProperty("contentReference")]
+        public virtual ContentReference ContentReference { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "PageReference", Order = 190)]
+        [JsonProperty("pageReference")]
+        public virtual PageReference PageReference { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "External Url", Order = 200)]
+        [JsonProperty("externalUrl")]
+        public virtual Url ExternalUrl { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "Internal Url", Order = 210)]
+        [JsonProperty("internalUrl")]
+        public virtual Url InternallUrl { get; set; }
 
     }
 }

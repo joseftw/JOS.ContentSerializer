@@ -5,9 +5,8 @@ using System.Reflection;
 using ContentJson.Extensions;
 using EPiServer;
 using EPiServer.Core;
-using EPiServer.Data.Cache;
+using EPiServer.Personalization.VisitorGroups;
 using EPiServer.ServiceLocation;
-using EPiServer.Web;
 using Newtonsoft.Json;
 
 namespace ContentJson.Helpers
@@ -50,12 +49,39 @@ namespace ContentJson.Helpers
                 }
                 else //Simple properties like strings etc
                 {
-                    var jsonKey = GetJsonKey(property);
-                    propertyDict.Add(jsonKey, propertyValue);
+                    var propertyAsDictionary = GetSimplePropertyValue(propertyValue, property);
+                    propertyDict.Add(propertyAsDictionary.First().Key, propertyAsDictionary.First().Value);
                 }
             }
 
             return propertyDict;
+        }
+
+        private Dictionary<string, object> GetSimplePropertyValue(object property, PropertyInfo propertyInfo)
+        {
+            if (property is ContentReference)
+            {
+                var valueAsDictionary = GetDictionaryFromContentReference(property, propertyInfo);
+                return valueAsDictionary;
+            }
+            if (property is Url)
+            {
+                var valueAsDictionary = GetDictionaryFromUrl(property, propertyInfo);
+                return valueAsDictionary;
+            }
+
+            var jsonKey = GetJsonKey(propertyInfo);
+            var jsonValue = property;
+
+            return new Dictionary<string, object>{{jsonKey, jsonValue}};
+        }
+
+        private Dictionary<string, object> GetDictionaryFromUrl(object property, PropertyInfo propertyInfo)
+        {
+            var casted = property as Url;
+            var url = casted.ToPrettyUrl();
+            var jsonKey = GetJsonKey(propertyInfo);
+            return new Dictionary<string, object>{{jsonKey, url}};
         }
 
         private Dictionary<string, object> GetDictionaryFromContentArea(ContentArea contentArea)
@@ -85,7 +111,6 @@ namespace ContentJson.Helpers
             }
             return items;
         }
-
 
         private string GetJsonKey(ContentData contentData)
         {
@@ -119,6 +144,14 @@ namespace ContentJson.Helpers
         {
             var properties = contentData.GetType().GetProperties().Where(HasJsonPropertyAttribute);
             return properties;
+        }
+
+        private Dictionary<string, object> GetDictionaryFromContentReference(object property, PropertyInfo propertyInfo)
+        {
+            var contentReference = property as ContentReference;
+            var url = contentReference.ToPrettyUrl();
+            var jsonKey = GetJsonKey(propertyInfo);
+            return new Dictionary<string, object> {{jsonKey, url}};
         }
 
         private bool HasJsonPropertyAttribute(PropertyInfo property)
