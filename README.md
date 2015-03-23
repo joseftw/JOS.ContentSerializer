@@ -187,7 +187,7 @@ Why is that? Well this is to support different ContentTypes in the ContentArea. 
         
         [Display(Name = "Worst rapper ever?")]
         [JsonProperty("worstRapperEver")]
-        public virtual bool worstRapperEver { get; set; }
+        public virtual bool WorstRapperEver { get; set; }
     }
 ```
 The JSON response would look like this if we added one `DifferentBlock` to our ContentArea:
@@ -236,7 +236,7 @@ If you want to give the Items in your ContentArea a different JSON key you could
         
         [Display(Name = "Worst rapper ever?")]
         [JsonProperty("worstRapperEver")]
-        public virtual bool worstRapperEver { get; set; }
+        public virtual bool WorstRapperEver { get; set; }
     }
 ```
 The JSON would now look like this:
