@@ -9,7 +9,7 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  String
 -  bool
 -  XhtmlString
--  ContentArea
+-  ContentArea(*different ContentTypes as well!*)
 -  InternalBlock
 -  Double
 -  Int
