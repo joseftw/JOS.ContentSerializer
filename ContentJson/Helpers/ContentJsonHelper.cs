@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using ContentJson.Extensions;
 using ContentJson.Models.LinkItemCollection;
-using ContentJson.Models.SelectOne;
+using ContentJson.Models.SelectOption;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
