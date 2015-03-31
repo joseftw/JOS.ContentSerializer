@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
@@ -148,7 +149,7 @@ namespace Jos.ContentJson.Helpers
         private Dictionary<string, object> GetDictionaryFromUrl(object property, PropertyInfo propertyInfo)
         {
             var casted = property as Url;
-            var url = casted.ToPrettyUrl();
+            var url = casted.ToPrettyUrl(true);
             var jsonKey = propertyInfo.GetJsonKey();
             return new Dictionary<string, object>{{jsonKey, url}};
         }
@@ -172,7 +173,7 @@ namespace Jos.ContentJson.Helpers
         private Dictionary<string, object> GetDictionaryFromContentReference(object property, PropertyInfo propertyInfo)
         {
             var contentReference = property as ContentReference;
-            var url = contentReference.ToPrettyUrl();
+            var url = contentReference.ToPrettyUrl(true);
             var jsonKey = propertyInfo.GetJsonKey();
             return new Dictionary<string, object> { { jsonKey, url } };
         }
