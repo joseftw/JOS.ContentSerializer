@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jos.ContentJson", "ContentJson\Jos.ContentJson.csproj", "{54811676-D987-4834-9EF2-D924DED1C1CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jos.ContentJson", "Jos.ContentJson\Jos.ContentJson.csproj", "{54811676-D987-4834-9EF2-D924DED1C1CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jos", "Jos\Jos.csproj", "{CEAD2CDA-C12A-4D39-A0ED-A25E5CF63496}"
 EndProject
