@@ -1,5 +1,6 @@
 ﻿using System;
-namespace ContentJson.Extensions
+
+namespace Jos.ContentJson.Extensions
 {
     public static class StringExtensions
     {

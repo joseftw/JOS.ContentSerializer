@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ContentJson.Models.LinkItemCollection
+namespace Jos.ContentJson.Models.LinkItemCollection
 {
     public class LinkItemDto
     {

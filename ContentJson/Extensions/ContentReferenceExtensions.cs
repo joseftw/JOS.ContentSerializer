@@ -2,7 +2,7 @@
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 
-namespace ContentJson.Extensions
+namespace Jos.ContentJson.Extensions
 {
     public static class ContentReferenceExtensions
     {

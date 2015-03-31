@@ -264,9 +264,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContentJson\ContentJson.csproj">
+    <ProjectReference Include="..\ContentJson\Jos.ContentJson.csproj">
       <Project>{54811676-D987-4834-9EF2-D924DED1C1CC}</Project>
-      <Name>ContentJson</Name>
+      <Name>Jos.ContentJson</Name>
     </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>

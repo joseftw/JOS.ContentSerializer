@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
-using ContentJson.Extensions;
 using EPiServer.Web.Mvc;
+using Jos.ContentJson.Extensions;
 using Jos.Models.Pages;
 
 namespace Jos.Controllers

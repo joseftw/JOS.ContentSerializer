@@ -1,8 +1,8 @@
-﻿using ContentJson.Helpers;
-using EPiServer.Core;
+﻿using EPiServer.Core;
+using Jos.ContentJson.Helpers;
 using Newtonsoft.Json;
 
-namespace ContentJson.Extensions
+namespace Jos.ContentJson.Extensions
 {
     public static class ContentDataExtensions
     {

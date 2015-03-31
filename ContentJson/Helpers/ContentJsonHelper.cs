@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ContentJson.Extensions;
-using ContentJson.Models.LinkItemCollection;
-using ContentJson.Models.SelectOption;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using EPiServer.Shell.ObjectEditing;
 using EPiServer.SpecializedProperties;
+using Jos.ContentJson.Extensions;
+using Jos.ContentJson.Models.LinkItemCollection;
+using Jos.ContentJson.Models.SelectOption;
 using Newtonsoft.Json;
 
-namespace ContentJson.Helpers
+namespace Jos.ContentJson.Helpers
 {
     public class ContentJsonHelper : ContentJsonHelperBase
     {

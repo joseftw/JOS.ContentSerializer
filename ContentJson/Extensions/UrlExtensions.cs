@@ -3,7 +3,7 @@ using EPiServer;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc.Html;
 
-namespace ContentJson.Extensions
+namespace Jos.ContentJson.Extensions
 {
     public static class UrlExtensions
     {

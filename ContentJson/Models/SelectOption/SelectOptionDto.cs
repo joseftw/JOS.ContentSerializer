@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ContentJson.Models.SelectOption
+namespace Jos.ContentJson.Models.SelectOption
 {
     public class SelectOptionDto
     {
