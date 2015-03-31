@@ -10,7 +10,6 @@ using EPiServer.SpecializedProperties;
 using Jos.ContentJson.Extensions;
 using Jos.ContentJson.Models.LinkItemCollection;
 using Jos.ContentJson.Models.SelectOption;
-using Newtonsoft.Json;
 
 namespace Jos.ContentJson.Helpers
 {
@@ -18,7 +17,7 @@ namespace Jos.ContentJson.Helpers
     {
         public Dictionary<string, object> GetStructuredDictionary(ContentData contentData)
         {
-            var jsonProperties = GetJsonProperties(contentData);
+            var jsonProperties = contentData.GetJsonProperties();
             var propertyDict = CreatePropertyDictionary(jsonProperties, contentData);
             return propertyDict;
         }
@@ -37,7 +36,7 @@ namespace Jos.ContentJson.Helpers
 
                     if (contentArea.Items == null || !contentArea.Items.Any()) continue;
 
-                    var contentAreaJsonKey = GetJsonKey(property);
+                    var contentAreaJsonKey = property.GetJsonKey();
                     var propertyAsDictionary = GetDictionaryFromContentArea(contentArea);
 
                     propertyDict.Add(contentAreaJsonKey, propertyAsDictionary);
@@ -45,7 +44,7 @@ namespace Jos.ContentJson.Helpers
                 else if (propertyValue is BlockData) //Internal Block
                 {
                     var contentData = propertyValue as ContentData;
-                    var blockJsonKey = GetJsonKey(contentData);
+                    var blockJsonKey = contentData.GetJsonKey();
                     var blockAsDictionary = GetStructuredDictionary(contentData);
 
                     propertyDict.Add(blockJsonKey, blockAsDictionary);
@@ -88,9 +87,9 @@ namespace Jos.ContentJson.Helpers
                 return valueAsDictionary;
             }
 
-            if (property is String && PropertyIsSelectAttribute(propertyInfo))
+            if (property is String && propertyInfo.HasSelectAttribute())
             {
-                var selectOneAttribute = GetSelectOneAttribute(propertyInfo);
+                var selectOneAttribute = propertyInfo.GetSelectOneAttribute();
                 Type selectionFactoryType; 
                 if (selectOneAttribute != null)
                 {
@@ -98,7 +97,7 @@ namespace Jos.ContentJson.Helpers
                 }
                 else
                 {
-                    var selectManyAttribute = GetSelectManyAttribute(propertyInfo);
+                    var selectManyAttribute = propertyInfo.GetSelectManyAttribute();
                     selectionFactoryType = selectManyAttribute.SelectionFactoryType;
                 }
 
@@ -106,7 +105,7 @@ namespace Jos.ContentJson.Helpers
                 return valueAsDictionary;   
             }
 
-            var jsonKey = GetJsonKey(propertyInfo);
+            var jsonKey = propertyInfo.GetJsonKey();
             var jsonValue = property;
 
             return new Dictionary<string, object>{{jsonKey, jsonValue}};
@@ -130,7 +129,7 @@ namespace Jos.ContentJson.Helpers
                 links.Add(linkItemDto);
             }
 
-            var jsonKey = GetJsonKey(property);
+            var jsonKey = property.GetJsonKey();
             return new Dictionary<string, object> { { jsonKey, links } };
         }
 
@@ -140,7 +139,7 @@ namespace Jos.ContentJson.Helpers
             var factoryType = selectionFactoryType;
             var selectOptions = GetSelectionOptions(factoryType, property);
 
-            var jsonKey = GetJsonKey(propertyInfo);
+            var jsonKey = propertyInfo.GetJsonKey();
             var items = GetSelectOptions(castedProperty, selectOptions);
 
             return new Dictionary<string, object> { { jsonKey, items } };
@@ -150,7 +149,7 @@ namespace Jos.ContentJson.Helpers
         {
             var casted = property as Url;
             var url = casted.ToPrettyUrl();
-            var jsonKey = GetJsonKey(propertyInfo);
+            var jsonKey = propertyInfo.GetJsonKey();
             return new Dictionary<string, object>{{jsonKey, url}};
         }
 
@@ -161,7 +160,8 @@ namespace Jos.ContentJson.Helpers
 
             foreach (var contentType in groupedContentTypes)
             {
-                var contentTypeJsonKey = GetJsonKey(contentType.First().GetContent() as ContentData);
+                var contentData = contentType.First().GetContent() as ContentData;
+                var contentTypeJsonKey = contentData.GetJsonKey();
                 var items = GetContentTypeAsList(contentType);
                 propertyDict.Add(contentTypeJsonKey, items);
             }
@@ -173,7 +173,7 @@ namespace Jos.ContentJson.Helpers
         {
             var contentReference = property as ContentReference;
             var url = contentReference.ToPrettyUrl();
-            var jsonKey = GetJsonKey(propertyInfo);
+            var jsonKey = propertyInfo.GetJsonKey();
             return new Dictionary<string, object> { { jsonKey, url } };
         }
 
@@ -188,67 +188,6 @@ namespace Jos.ContentJson.Helpers
                 items.Add(itemAsDictionary);
             }
             return items;
-        }
-
-        private string GetJsonKey(ContentData contentData)
-        {
-            var contentType = contentData.GetType();
-            var attribute = (JsonObjectAttribute)Attribute.GetCustomAttribute(contentData.GetType(), typeof (JsonObjectAttribute));
-            if (attribute == null)
-            {
-                if (contentType.BaseType != null)
-                {
-                    return contentType.BaseType.Name.LowerCaseFirstLetter();
-                }
-
-                return contentType.Name.LowerCaseFirstLetter();
-            }
-
-            var jsonKey = attribute.Id;
-
-            if (!string.IsNullOrWhiteSpace(jsonKey)) return jsonKey;
-
-            throw new Exception(string.Format("Missing ID on JsonObject attribute on class{0}", contentType.Name));
-        }
-
-        private string GetJsonKey(PropertyInfo property)
-        {
-            var jsonAttribute = (JsonPropertyAttribute)Attribute.GetCustomAttribute(property, typeof(JsonPropertyAttribute));
-
-            return jsonAttribute == null ? property.Name : jsonAttribute.PropertyName.LowerCaseFirstLetter();
-        }
-
-        private IEnumerable<PropertyInfo> GetJsonProperties(ContentData contentData)
-        {
-            var properties = contentData.GetType().GetProperties().Where(HasJsonPropertyAttribute);
-            return properties;
-        }
-
-        private bool HasJsonPropertyAttribute(PropertyInfo property)
-        {
-            var hasAttribute = Attribute.GetCustomAttribute(property, typeof(JsonPropertyAttribute));
-            return hasAttribute != null;
-        }
-
-        private bool PropertyIsSelectAttribute(PropertyInfo property)
-        {
-            var selectOne = GetSelectOneAttribute(property);
-            if (selectOne != null) return true;
-
-            var selectMany = GetSelectManyAttribute(property);
-            return selectMany != null;
-        }
-
-        private SelectOneAttribute GetSelectOneAttribute(PropertyInfo property)
-        {
-            var attribute = (SelectOneAttribute)Attribute.GetCustomAttribute(property, typeof(SelectOneAttribute));
-            return attribute;
-        }
-
-        private SelectManyAttribute GetSelectManyAttribute(PropertyInfo property)
-        {
-            var selectMany = (SelectManyAttribute)Attribute.GetCustomAttribute(property, typeof(SelectManyAttribute));
-            return selectMany;   
         }
 
         private IEnumerable<ISelectItem> GetSelectionOptions(Type selectionFactoryType, object property)

@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Extensions\ContentDataExtensions.cs" />
     <Compile Include="Extensions\ContentReferenceExtensions.cs" />
+    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UrlExtensions.cs" />
     <Compile Include="Helpers\ContentJsonHelper.cs" />
