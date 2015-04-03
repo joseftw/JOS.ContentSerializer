@@ -8,7 +8,6 @@ using EPiServer.ServiceLocation;
 using EPiServer.Shell.ObjectEditing;
 using EPiServer.SpecializedProperties;
 using Jos.ContentJson.Extensions;
-using Jos.ContentJson.Models.LinkItemCollection;
 using Jos.ContentJson.Models.SelectOption;
 
 namespace Jos.ContentJson.Helpers
@@ -29,6 +28,7 @@ namespace Jos.ContentJson.Helpers
             foreach (var property in jsonProperties)
             {
                 var propertyValue = property.GetValue(content, null);
+                var jsonKey = property.GetJsonKey();
 
                 if (propertyValue is ContentArea) //ContentArea
                 {
@@ -36,29 +36,23 @@ namespace Jos.ContentJson.Helpers
 
                     if (contentArea.Items == null || !contentArea.Items.Any()) continue;
 
-                    var contentAreaJsonKey = property.GetJsonKey();
                     var structuredData = contentArea.GetStructuredData();
 
-                    propertyDict.Add(contentAreaJsonKey, structuredData);
+                    propertyDict.Add(jsonKey, structuredData);
                 }
                 else if (propertyValue is BlockData) //Internal Block
                 {
                     var contentData = propertyValue as ContentData;
-                    var blockJsonKey = property.GetJsonKey();
                     var blockAsDictionary = GetStructuredDictionary(contentData);
 
-                    propertyDict.Add(blockJsonKey, blockAsDictionary);
+                    propertyDict.Add(jsonKey, blockAsDictionary);
                 }
                 else if (propertyValue is LinkItemCollection)
                 {
                     var linkItemCollection = propertyValue as LinkItemCollection;
-                    var linksAsDictionary = GetDictionaryFromLinkItemCollection(linkItemCollection, property);
+                    var structuredData = linkItemCollection.GetStructuredData();
 
-                    if (linksAsDictionary.Any())
-                    {
-                        propertyDict.Add(linksAsDictionary.First().Key, linksAsDictionary.First().Value);
-                    }
-
+                    propertyDict.Add(jsonKey, structuredData);
                 }
 
                 else //Simple properties like strings etc
@@ -109,28 +103,6 @@ namespace Jos.ContentJson.Helpers
             var jsonValue = property;
 
             return new Dictionary<string, object>{{jsonKey, jsonValue}};
-        }
-
-        private Dictionary<string, object> GetDictionaryFromLinkItemCollection(IEnumerable<LinkItem> linkItems, PropertyInfo property)
-        {
-            var links = new List<LinkItemDto>();
-            foreach (var link in linkItems)
-            {
-
-                var linkItemDto = new LinkItemDto
-                {
-                    Href = link.Href.StartsWith("mailto:") ? link.Href : link.UrlResolver.Service.GetUrl(link.Href),
-                    Language = link.Language,
-                    Target = link.Target,
-                    Text = link.Text,
-                    Title = link.Title,
-                };
-
-                links.Add(linkItemDto);
-            }
-
-            var jsonKey = property.GetJsonKey();
-            return new Dictionary<string, object> { { jsonKey, links } };
         }
 
         private Dictionary<string, object> GetDictionaryFromSelectProperty(object property, PropertyInfo propertyInfo, Type selectionFactoryType)

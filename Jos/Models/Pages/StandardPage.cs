@@ -2,6 +2,7 @@
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using EPiServer.SpecializedProperties;
 
 namespace Jos.Models.Pages
 {
@@ -22,6 +23,13 @@ namespace Jos.Models.Pages
             GroupName = SystemTabNames.Content,
             Order = 20)]
         public virtual ContentArea ContentArea { get; set; }
+
+        [CultureSpecific]
+        [Display(
+            Name = "Links",
+            GroupName = SystemTabNames.Content,
+            Order = 30)]
+        public virtual LinkItemCollection Links { get; set; }
 
     }
 }
