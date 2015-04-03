@@ -23,7 +23,7 @@ It currently supports the following EPiServer Property Types(more to come!):
 
 ###Installation###
 
-Just check out this repo and add the ContentJson project to your solution.
+Just check out this repo and add the Jos.ContentJson project to your solution.
 
 ###Examples###
 
