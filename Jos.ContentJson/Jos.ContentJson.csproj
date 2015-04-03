@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ContentAreaExtension.cs" />
     <Compile Include="Extensions\ContentDataExtensions.cs" />
     <Compile Include="Extensions\ContentReferenceExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />

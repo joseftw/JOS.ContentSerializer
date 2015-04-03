@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
@@ -38,9 +37,9 @@ namespace Jos.ContentJson.Helpers
                     if (contentArea.Items == null || !contentArea.Items.Any()) continue;
 
                     var contentAreaJsonKey = property.GetJsonKey();
-                    var propertyAsDictionary = GetDictionaryFromContentArea(contentArea);
+                    var structuredData = contentArea.GetStructuredData();
 
-                    propertyDict.Add(contentAreaJsonKey, propertyAsDictionary);
+                    propertyDict.Add(contentAreaJsonKey, structuredData);
                 }
                 else if (propertyValue is BlockData) //Internal Block
                 {
@@ -112,10 +111,10 @@ namespace Jos.ContentJson.Helpers
             return new Dictionary<string, object>{{jsonKey, jsonValue}};
         }
 
-        private Dictionary<string, object> GetDictionaryFromLinkItemCollection(LinkItemCollection linkItemCollection, PropertyInfo property)
+        private Dictionary<string, object> GetDictionaryFromLinkItemCollection(IEnumerable<LinkItem> linkItems, PropertyInfo property)
         {
             var links = new List<LinkItemDto>();
-            foreach (var link in linkItemCollection)
+            foreach (var link in linkItems)
             {
 
                 var linkItemDto = new LinkItemDto
@@ -154,22 +153,6 @@ namespace Jos.ContentJson.Helpers
             return new Dictionary<string, object>{{jsonKey, url}};
         }
 
-        private Dictionary<string, object> GetDictionaryFromContentArea(ContentArea contentArea)
-        {
-            var groupedContentTypes = contentArea.Items.GroupBy(x => x.GetContent().ContentTypeID);
-            var propertyDict = new Dictionary<string, object>();
-
-            foreach (var contentType in groupedContentTypes)
-            {
-                var contentData = contentType.First().GetContent() as ContentData;
-                var contentTypeJsonKey = contentData.GetJsonKey();
-                var items = GetContentTypeAsList(contentType);
-                propertyDict.Add(contentTypeJsonKey, items);
-            }
-
-            return propertyDict;
-        }
-
         private Dictionary<string, object> GetDictionaryFromContentReference(object property, PropertyInfo propertyInfo)
         {
             var contentReference = property as ContentReference;
@@ -178,11 +161,11 @@ namespace Jos.ContentJson.Helpers
             return new Dictionary<string, object> { { jsonKey, url } };
         }
 
-        private List<object> GetContentTypeAsList(IGrouping<int, ContentAreaItem> contentType)
+        public List<object> GetContentTypeAsList(IEnumerable<ContentAreaItem> contentTypes)
         {
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
             var items = new List<object>();
-            foreach (var item in contentType)
+            foreach (var item in contentTypes)
             {
                 var loadedItem = contentLoader.Get<ContentData>(item.ContentLink);
                 var itemAsDictionary = GetStructuredDictionary(loadedItem);
@@ -190,6 +173,14 @@ namespace Jos.ContentJson.Helpers
             }
             return items;
         }
+
+        public object GetLoadedContentAreaItem(ContentAreaItem contentAreaItem)
+        {
+            var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+            var loadedItem = contentLoader.Get<ContentData>(contentAreaItem.ContentLink);
+            var itemAsDictionary = GetStructuredDictionary(loadedItem);
+            return itemAsDictionary;
+        } 
 
         private IEnumerable<ISelectItem> GetSelectionOptions(Type selectionFactoryType, object property)
         {
