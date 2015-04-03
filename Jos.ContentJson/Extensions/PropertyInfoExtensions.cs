@@ -11,7 +11,7 @@ namespace Jos.ContentJson.Extensions
         {
             var jsonAttribute = (JsonPropertyAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(JsonPropertyAttribute));
 
-            return jsonAttribute == null ? propertyInfo.Name : jsonAttribute.PropertyName.LowerCaseFirstLetter();
+            return jsonAttribute == null ? propertyInfo.Name.LowerCaseFirstLetter() : jsonAttribute.PropertyName.LowerCaseFirstLetter();
         }
 
         public static SelectOneAttribute GetSelectOneAttribute(this PropertyInfo propertyInfo)

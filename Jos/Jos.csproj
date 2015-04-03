@@ -224,14 +224,18 @@
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
-    <Compile Include="Controllers\StartpageController.cs" />
+    <Compile Include="Controllers\StandardPageController.cs" />
+    <Compile Include="Controllers\AllPropertiesPageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Blocks\DifferentSharedBlock.cs" />
+    <Compile Include="Models\Blocks\BlockWithInternalBlock.cs" />
+    <Compile Include="Models\Blocks\ContentAreaBlock.cs" />
     <Compile Include="Models\Blocks\InternalBlock.cs" />
-    <Compile Include="Models\Blocks\SharedBlock.cs" />
-    <Compile Include="Models\Pages\Startpage.cs" />
+    <Compile Include="Models\Blocks\TextAndImageBlock.cs" />
+    <Compile Include="Models\Blocks\YouTubeBlock.cs" />
+    <Compile Include="Models\Pages\StandardPage.cs" />
+    <Compile Include="Models\Pages\AllPropertiesPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

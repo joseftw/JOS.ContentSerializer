@@ -45,7 +45,7 @@ namespace Jos.ContentJson.Helpers
                 else if (propertyValue is BlockData) //Internal Block
                 {
                     var contentData = propertyValue as ContentData;
-                    var blockJsonKey = contentData.GetJsonKey();
+                    var blockJsonKey = property.GetJsonKey();
                     var blockAsDictionary = GetStructuredDictionary(contentData);
 
                     propertyDict.Add(blockJsonKey, blockAsDictionary);
