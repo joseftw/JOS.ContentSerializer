@@ -80,7 +80,7 @@ This will return a JSON representation of the `Startpage` type like this:
 *Im thinking about making this optional(if you want to specify a custom JSON key for example) and instead select all properties
 that has the Display attribute...*~~
 
-This is now implemented. All properties with the `Display`-attribute will appear in the JSON. You can still use the `JsonProperty`-attribute to define custom JSON-keys. You can also use the `JsonIgnore`-attribute on properties you don't want appearing in the JSON.
+This is now implemented. All properties with the `Display`-attribute will appear in the JSON. You can still use the `JsonProperty`-attribute to define custom JSON-keys and/or add properties that doesn't have the `Display`-attribute. You can also use the `JsonIgnore`-attribute on properties you don't want appearing in the JSON.
 
 Anyhow, that example was pretty basic, what about internal blocks?
 
