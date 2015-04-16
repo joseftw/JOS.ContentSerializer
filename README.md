@@ -328,7 +328,7 @@ public virtual string WorstRapperAlive { get; set; }
 
 #####Wrapping of items in ContentArea#####
 When calling ToJson on a ContentArea it's possible to NOT wrap the items. 
-Example:
+Example(wrapped):
 ```c#
 var json = currentPage.ContentArea.ToJson();
 ```
