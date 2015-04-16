@@ -331,6 +331,9 @@ The following extensions methods are provided:
 * **ContentArea**
  * ToJson - returns a JSON representation of the ContentArea
  * GetStructuredDictionary - returns a Dictionary representation of the ContentArea
+* **ContentData**
+ * ToJson - returns a JSON representation of the ContentData
+ * GetStructuredDictionary - returns a Dictionary representation of the ContentData
 * **ContentReference**
  * ToPrettyUrl - returns a pretty url to the contentreference, supports absolute and relative
 * **Url**
