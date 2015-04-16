@@ -312,7 +312,7 @@ There is, of course :), support for nested ContentAreas and Internal Blocks etc.
 
 ####Custom JSON keys
 If you want to specify a custom JSON key to a property, simply add a ```JsonProperty```-attribute like this
-```
+```c#
 [Display(Name = "Worst Rapper Alive")]
 [JsonProperty("myCustomJsonKey")]
 public virtual string WorstRapperAlive { get; set; }
@@ -320,7 +320,7 @@ public virtual string WorstRapperAlive { get; set; }
 
 ####Ignore properties
 If you have a property that you don't want to appear in the JSON, simply add a ```JsonIgnore```-attribute like this
-```
+```c#
 [Display(Name = "Worst Rapper Alive")]
 [JsonIgnore]
 public virtual string WorstRapperAlive { get; set; }
