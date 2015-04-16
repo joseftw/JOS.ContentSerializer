@@ -9,7 +9,7 @@ namespace Jos.Controllers
         public string Index(StandardPage currentPage)
         {
             Response.ContentType = "application/json";
-            return currentPage.ContentArea.ToJson(false);
+            return currentPage.ToJson();
         }
     }
 }
