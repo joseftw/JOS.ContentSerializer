@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using EPiServer.Core;
@@ -12,9 +13,16 @@ namespace Jos.ContentJson.Extensions
     {
         private static readonly ContentJsonHelper ContentJsonHelper = new ContentJsonHelper();
 
+        public static Dictionary<string, object> GetStructuredDictionary(this ContentData contentData)
+        {
+            var jsonProperties = contentData.GetJsonProperties();
+            var propertyDict = ContentJsonHelper.CreatePropertyDictionary(jsonProperties, contentData);
+            return propertyDict;
+        }
+
         public static string ToJson(this ContentData contentData)
         {
-            var propertiesDict = ContentJsonHelper.GetStructuredDictionary(contentData);
+            var propertiesDict = GetStructuredDictionary(contentData);
             return JsonConvert.SerializeObject(propertiesDict);
         }
 
@@ -41,14 +49,21 @@ namespace Jos.ContentJson.Extensions
 
         public static IEnumerable<PropertyInfo> GetJsonProperties(this ContentData contentData)
         {
-            var properties = contentData.GetType().GetProperties().Where(HasJsonPropertyAttribute);
+            var properties = contentData.GetType().GetProperties().Where(PropertyShouldBeIncluded);
             return properties;
         }
 
-        private static bool HasJsonPropertyAttribute(PropertyInfo property)
+        private static bool PropertyShouldBeIncluded(PropertyInfo property)
         {
-            var hasAttribute = Attribute.GetCustomAttribute(property, typeof(JsonPropertyAttribute));
-            return hasAttribute != null;
+            var jsonIgnoreAttribute = Attribute.IsDefined(property, typeof(JsonIgnoreAttribute));
+
+            if (jsonIgnoreAttribute) return false;
+
+            var displayAttribute = Attribute.IsDefined(property, typeof (DisplayAttribute));
+            if (displayAttribute) return true;
+
+            var jsonPropertyAttribute = Attribute.IsDefined(property, typeof(JsonPropertyAttribute));
+            return jsonPropertyAttribute;
         }
     }
 }

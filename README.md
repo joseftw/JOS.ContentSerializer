@@ -56,29 +56,26 @@ This will return a JSON representation of the `Startpage` type like this:
     public class Startpage : PageData
     {
         [Display(Name = "Heading", Order = 100)]
-        [JsonProperty("heading")]
         public virtual string Heading { get; set; }
 
         [Display(Name = "Body", Order = 110)]
-        [JsonProperty("body")]
         public virtual XhtmlString Body { get; set; }
         
         [Display(Name = "End Date", Order = 130)]
-        [JsonProperty("endDate")]
         public virtual DateTime EndDate { get; set; }
 
         [Display(Name = "Price", Order = 140)]
-        [JsonProperty("price")]
         public virtual Double Price { get; set; }
 
         [Display(Name = "This is Sweet", Order = 150)]
-        [JsonProperty("thisIsSweet")]
         public virtual bool ThisIsSweet { get; set; }
     }
 ```    
-Each property that you want to include in the JSON response needs to be decorated with the JsonProperty attribute(Json.net...).
+~~Each property that you want to include in the JSON response needs to be decorated with the JsonProperty attribute(Json.net...).
 *Im thinking about making this optional(if you want to specify a custom JSON key for example) and instead select all properties
-that has the Display attribute...*
+that has the Display attribute...*~~
+
+This is now implemented. All properties with the `Display`-attribute will appear in the JSON. You can still use the `JsonProperty`-attribute to define custom JSON-keys and/or add properties that doesn't have the `Display`-attribute. You can also use the `JsonIgnore`-attribute on properties you don't want appearing in the JSON.
 
 Anyhow, that example was pretty basic, what about internal blocks?
 
@@ -90,15 +87,12 @@ Anyhow, that example was pretty basic, what about internal blocks?
     public class Startpage : PageData
     {
         [Display(Name = "Heading", Order = 100)]
-        [JsonProperty("heading")]
         public virtual string Heading { get; set; }
 
         [Display(Name = "bool", Order = 150)]
-        [JsonProperty("thisIsSweet")]
         public virtual bool ThisIsSweet { get; set; }
 
         [Display(Name = "InternalBlock", Order = 160)]
-        [JsonProperty("internalBlock")]
         public virtual InternalBlock InternalBlock { get; set; }
     }
 ```
@@ -108,11 +102,9 @@ Anyhow, that example was pretty basic, what about internal blocks?
     public class InternalBlock : BlockData
     {
         [Display(Name = "heading")]
-        [JsonProperty("heading")]
         public virtual string Heading { get; set; }
         
         [Display(Name = "heading")]
-        [JsonProperty("greatestRapperAlive")]
         public virtual string GreatestRapperAlive { get; set; }
     }
   ```  
@@ -135,19 +127,15 @@ Now I've added a ContentArea to my Startpage like this:
     public class Startpage : PageData
     {
         [Display(Name = "Heading")]
-        [JsonProperty("heading")]
         public virtual string Heading { get; set; }
 
         [Display(Name = "bool")]
-        [JsonProperty("thisIsSweet")]
         public virtual bool ThisIsSweet { get; set; }
 
         [Display(Name = "InternalBlock")]
-        [JsonProperty("internalBlock")]
         public virtual InternalBlock InternalBlock { get; set; }
         
         [Display(Name = "Contentarea")]
-        [JsonProperty("contentArea")]
         public virtual ContentArea ContentArea { get; set; }
     }
 ``` 
@@ -182,11 +170,9 @@ Why is that? Well this is to support different ContentTypes in the ContentArea. 
     public class DifferentBlock : BlockData
     {
         [Display(Name = "Worst Rapper Alive")]
-        [JsonProperty("worstRapperAlive")]
         public virtual string WorstRapperAlive { get; set; }
         
         [Display(Name = "Worst rapper ever?")]
-        [JsonProperty("worstRapperEver")]
         public virtual bool WorstRapperEver { get; set; }
     }
 ```
@@ -231,11 +217,9 @@ If you want to give the Items in your ContentArea a different JSON key you could
     public class DifferentBlock : BlockData
     {
         [Display(Name = "Worst Rapper Alive")]
-        [JsonProperty("worstRapperAlive")]
         public virtual string WorstRapperAlive { get; set; }
         
         [Display(Name = "Worst rapper ever?")]
-        [JsonProperty("worstRapperEver")]
         public virtual bool WorstRapperEver { get; set; }
     }
 ```
@@ -325,3 +309,32 @@ There is, of course :), support for nested ContentAreas and Internal Blocks etc.
         }
     }
 ```
+
+#####Custom JSON keys#####
+If you want to specify a custom JSON key to a property, simply add a ```JsonProperty```-attribute like this
+```c#
+[Display(Name = "Worst Rapper Alive")]
+[JsonProperty("myCustomJsonKey")]
+public virtual string WorstRapperAlive { get; set; }
+```
+
+#####Ignore properties#####
+If you have a property that you don't want to appear in the JSON, simply add a ```JsonIgnore```-attribute like this
+```c#
+[Display(Name = "Worst Rapper Alive")]
+[JsonIgnore]
+public virtual string WorstRapperAlive { get; set; }
+```
+
+####Extension methods####
+The following extensions methods are provided:
+* **ContentArea**
+ * ToJson - returns a JSON representation of the ContentArea
+ * GetStructuredDictionary - returns a Dictionary representation of the ContentArea
+* **ContentData**
+ * ToJson - returns a JSON representation of the ContentData
+ * GetStructuredDictionary - returns a Dictionary representation of the ContentData
+* **ContentReference**
+ * ToPrettyUrl - returns a pretty url to the contentreference, supports absolute and relative
+* **Url**
+ * ToPrettyUrl - returns a pretty url from a Url property. Supports mailto as well. 
