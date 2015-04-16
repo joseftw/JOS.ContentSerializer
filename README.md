@@ -310,7 +310,7 @@ There is, of course :), support for nested ContentAreas and Internal Blocks etc.
     }
 ```
 
-####Custom JSON keys
+#####Custom JSON keys#####
 If you want to specify a custom JSON key to a property, simply add a ```JsonProperty```-attribute like this
 ```c#
 [Display(Name = "Worst Rapper Alive")]
@@ -318,10 +318,20 @@ If you want to specify a custom JSON key to a property, simply add a ```JsonProp
 public virtual string WorstRapperAlive { get; set; }
 ```
 
-####Ignore properties
+#####Ignore properties#####
 If you have a property that you don't want to appear in the JSON, simply add a ```JsonIgnore```-attribute like this
 ```c#
 [Display(Name = "Worst Rapper Alive")]
 [JsonIgnore]
 public virtual string WorstRapperAlive { get; set; }
 ```
+
+####Extension methods####
+The following extensions methods are provided:
+* **ContentArea**
+ * ToJson - returns a JSON representation of the ContentArea
+ * GetStructuredDictionary - returns a Dictionary representation of the ContentArea
+* **ContentReference**
+ * ToPrettyUrl - returns a pretty url to the contentreference, supports absolute and relative
+* **Url**
+ * ToPrettyUrl - returns a pretty url from a Url property. Supports mailto as well. 
