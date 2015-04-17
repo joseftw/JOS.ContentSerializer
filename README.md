@@ -22,7 +22,8 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  Url
 
 ###Installation###
-
+Nuget: **Install-Package Jos.ContentJson** (My first Nuget package, please tell me if something's wrong)
+####*OR*####
 Just check out this repo and add the Jos.ContentJson project to your solution.
 
 ###Examples###
@@ -325,6 +326,91 @@ If you have a property that you don't want to appear in the JSON, simply add a `
 [JsonIgnore]
 public virtual string WorstRapperAlive { get; set; }
 ```
+
+#####Wrapping of items in ContentArea#####
+When calling ToJson on a ContentArea it's possible to NOT wrap the items. 
+Example(wrapped):
+```c#
+var json = currentPage.ContentArea.ToJson();
+```
+Would produce this JSON:
+```javascript
+{
+    "youTubeBlock": [
+        {
+            "heading": "Heading",
+            "info": "This is some info text",
+            "youTubeId": "489ujksankf833"
+        }
+    ],
+    "textAndImageBlock": [
+        {
+            "text": "Some Text here",
+            "image": null
+        }
+    ],
+    "contentAreaBlock": [
+        {
+            "contentArea": {
+                "youTubeBlock": [
+                    {
+                        "heading": "Heading",
+                        "info": "Info text",
+                        "youTubeId": "8592jmklff4252"
+                    }
+                ]
+            }
+        }
+    ],
+    "overridenBlockWithInternalBlockName": [
+        {
+            "name": "Hey hey",
+            "overridenInternalBlockName": {
+                "heading": "Heading",
+                "summary": 4
+            }
+        }
+    ]
+}
+```
+
+And this is how the unwrapped JSON would look
+```c#
+var json = currentPage.ContentArea.ToJson(false);
+```
+Gives:
+```javascript
+[
+    {
+        "heading": "Heading",
+        "info": "This is some info text",
+        "youTubeId": "489ujksankf833"
+    },
+    {
+        "text": "Some Text here",
+        "image": null
+    },
+    {
+        "contentArea": {
+            "youTubeBlock": [
+                {
+                    "heading": "Heading",
+                    "info": "Info text",
+                    "youTubeId": "8592jmklff4252"
+                }
+            ]
+        }
+    },
+    {
+        "name": "Hey hey",
+        "overridenInternalBlockName": {
+            "heading": "Heading",
+            "summary": 4
+        }
+    }
+]
+```
+
 
 ####Extension methods####
 The following extensions methods are provided:
