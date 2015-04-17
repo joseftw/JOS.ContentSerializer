@@ -22,7 +22,8 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  Url
 
 ###Installation###
-
+Nuget: **Install-Package Jos.ContentJson** (My first Nuget package, please tell me if something's wrong)
+####*OR*####
 Just check out this repo and add the Jos.ContentJson project to your solution.
 
 ###Examples###
