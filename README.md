@@ -28,8 +28,6 @@ Just check out this repo and add the Jos.ContentJson project to your solution.
 
 ###Examples###
 
-Check out this repo and open the Jos project and start toying around!
-
 Use it like this:
 ```c#
     public class StartpageController : PageController<Startpage>
