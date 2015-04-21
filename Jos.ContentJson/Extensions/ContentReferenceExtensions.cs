@@ -2,6 +2,7 @@
 using System.Reflection;
 using EPiServer;
 using EPiServer.Core;
+using EPiServer.Globalization;
 using EPiServer.Web.Routing;
 
 namespace Jos.ContentJson.Extensions
@@ -10,7 +11,9 @@ namespace Jos.ContentJson.Extensions
     {
         public static string ToPrettyUrl(this ContentReference contentReference, bool getAbsoluteUrl = false)
         {
-            var internalUrl = UrlResolver.Current.GetUrl(contentReference);
+            if (contentReference == null) return string.Empty;
+
+            var internalUrl = UrlResolver.Current.GetUrl(contentReference, ContentLanguage.PreferredCulture.Name, new VirtualPathArguments{ValidateTemplate = false});
             if (!getAbsoluteUrl)
             {
                 return internalUrl;   
