@@ -88,7 +88,7 @@ Anyhow, that example was pretty basic, what about internal blocks?
         [Display(Name = "Heading", Order = 100)]
         public virtual string Heading { get; set; }
 
-        [Display(Name = "bool", Order = 150)]
+        [Display(Name = "ThisIsSweet", Order = 150)]
         public virtual bool ThisIsSweet { get; set; }
 
         [Display(Name = "InternalBlock", Order = 160)]
@@ -128,7 +128,7 @@ Now I've added a ContentArea to my Startpage like this:
         [Display(Name = "Heading")]
         public virtual string Heading { get; set; }
 
-        [Display(Name = "bool")]
+        [Display(Name = "ThisIsSweet")]
         public virtual bool ThisIsSweet { get; set; }
 
         [Display(Name = "InternalBlock")]
