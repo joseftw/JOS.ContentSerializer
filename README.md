@@ -103,7 +103,7 @@ Anyhow, that example was pretty basic, what about internal blocks?
         [Display(Name = "heading")]
         public virtual string Heading { get; set; }
         
-        [Display(Name = "heading")]
+        [Display(Name = "greatestRapperAlive")]
         public virtual string GreatestRapperAlive { get; set; }
     }
   ```  
