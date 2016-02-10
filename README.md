@@ -22,8 +22,11 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  Url
 
 Following Branches exists:
+
 Master - Will always support the latest EPi
+
 Develop - Bleeding edge but sometimes not stable
+
 EPi8 - Support for EPi 8.0 +
 
 ###Installation###
