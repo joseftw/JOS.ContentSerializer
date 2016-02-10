@@ -21,10 +21,15 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  LinkItemCollection
 -  Url
 
+Following Branches exists:
+Master - Will always support the latest EPi
+Develop - Bleeding edge but sometimes not stable
+EPi8 - Support for EPi 8.0 +
+
 ###Installation###
-Nuget: **Install-Package Jos.ContentJson** (My first Nuget package, please tell me if something's wrong)
+Nuget: **Install-Package Jos.ContentJson** *Note, this is the master branch.* (My first Nuget package, please tell me if something's wrong)
 ####*OR*####
-Just check out this repo and add the Jos.ContentJson project to your solution.
+Just check out the desired branch and add the Jos.ContentJson project to your solution.
 
 ###Examples###
 
