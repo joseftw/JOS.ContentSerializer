@@ -15,7 +15,9 @@ namespace Jos.ContentJson.Helpers
     public class ContentJsonHelper : ContentJsonHelperBase, IContentJsonHelper
     {
         /// <summary>
-        /// Looks for a 
+        /// Looks for a PropertyHelper class in the Helpers folder for specific properties.
+        /// You can add your own with the format PropertyNamePropertyHelper.cs, see ContentAreaPropertyHelper
+        /// for an example
         /// </summary>
         /// <param name="jsonProperties"></param>
         /// <param name="content"></param>
@@ -28,27 +30,24 @@ namespace Jos.ContentJson.Helpers
             {
                 var propertyValue = property.GetValue(content, null);
 
-                if (propertyValue == null)
-                {
-                    continue;
-                }
-                    
-                var jsonKey = property.GetJsonKey();
+                if (propertyValue == null) { continue; }
+
                 var propertyHelperNamespace = GetPropertyHelperNamespace(propertyValue);
 
-                if (propertyHelperNamespace != null)
-                {
-                    var helper = Activator.CreateInstance(propertyHelperNamespace);
-                    var propertyCastMethod = helper.GetType().GetMethod(Constants.CastMethodName);
-                    var propertyStructuredDataMethod = helper.GetType().GetMethod(Constants.GetStructuredDataMethodName);
-                    var castedProperty = propertyCastMethod.Invoke(helper, new[] {propertyValue});
+                if (propertyHelperNamespace == null) continue;
 
-                    if(castedProperty == null) continue;
+                var helper = Activator.CreateInstance(propertyHelperNamespace);
+                var propertyCastMethod = helper.GetType().GetMethod(Constants.CastMethodName);
+                var propertyStructuredDataMethod = helper.GetType().GetMethod(Constants.GetStructuredDataMethodName);
+                var castedProperty = propertyCastMethod.Invoke(helper, new[] {propertyValue});
 
-                    var parameters = new StructuredDataDto {Property = castedProperty, PropertyInfo = property};
-                    var structuredData = propertyStructuredDataMethod.Invoke(helper, new object[] {parameters});
-                    propertyDict.Add(jsonKey, structuredData);
-                }
+                if(castedProperty == null) continue;
+
+                var parameters = new StructuredDataDto {Property = castedProperty, PropertyInfo = property};
+                var structuredData = propertyStructuredDataMethod.Invoke(helper, new object[] {parameters});
+
+                var jsonKey = property.GetJsonKey();
+                propertyDict.Add(jsonKey, structuredData);
             }
 
             return propertyDict;
