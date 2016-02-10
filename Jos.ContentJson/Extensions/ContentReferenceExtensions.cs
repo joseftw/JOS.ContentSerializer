@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.Globalization;
@@ -24,6 +23,12 @@ namespace Jos.ContentJson.Extensions
 
             var friendlyUrl = UriSupport.AbsoluteUrlBySettings(url.ToString());
             return friendlyUrl;
+        }
+
+        public static string GetUrl(this ContentReference contentReference)
+        {
+            var url = contentReference.ToPrettyUrl(true);
+            return url;
         }
     }
 }

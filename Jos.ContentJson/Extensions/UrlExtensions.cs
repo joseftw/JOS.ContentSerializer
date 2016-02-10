@@ -9,7 +9,7 @@ namespace Jos.ContentJson.Extensions
 {
     public static class UrlExtensions
     {
-        public static string ToPrettyUrl(this Url url, bool getAbsoluteUrl)
+        public static string ToPrettyUrl(this Url url, bool getAbsoluteUrl = false)
         {
             if (url.Scheme == "mailto") return url.OriginalString;
 
@@ -33,10 +33,9 @@ namespace Jos.ContentJson.Extensions
             var scheme = request.Url.Scheme;
             var port = request.Url.Port;
 
-            var baseUrl = string.Empty;
             if (port == 80 || port == 443)
             {
-                baseUrl = string.Format("{0}://{1}", scheme, host);
+                var baseUrl = string.Format("{0}://{1}", scheme, host);
                 return baseUrl;
             }
 

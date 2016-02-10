@@ -24,6 +24,11 @@ namespace Jos.ContentJson.Extensions
         {
             var propertiesDict = GetStructuredDictionary(contentData);
             return JsonConvert.SerializeObject(propertiesDict);
+            //return JsonConvert.SerializeObject(propertiesDict, new JsonSerializerSettings
+            //{
+            //    ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+            //    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            //});
         }
 
         public static string GetJsonKey(this ContentData contentData)
