@@ -1,4 +1,4 @@
-# EPiServer-ContentData-ToJson
+# EPiServer-ContentJson
 Converts any ContentData object to JSON 
 
 We needed to get a JSON representation of EPiServer contenttypes at work because of 
