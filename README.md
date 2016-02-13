@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 # EPiServer-ContentData-ToJson
 Converts any ContentData object to JSON
+=======
+# EPiServer-ContentJson
+Converts any ContentData object to JSON 
+>>>>>>> 9be817d16deafa6316e451043ad9d6add6c0ba3e
 
 We needed to get a JSON representation of EPiServer contenttypes at work because of
 how our frontend-framework(uses backbone and stuff) works.
