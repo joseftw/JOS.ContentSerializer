@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Reflection;
 using EPiServer.Shell.ObjectEditing;
+using Jos.ContentJson.Helpers;
+using Jos.ContentJson.Interfaces;
+using Jos.ContentJson.Models.Dtos;
 using Newtonsoft.Json;
 
 namespace Jos.ContentJson.Extensions
 {
     public static class PropertyInfoExtensions
     {
+        private static readonly IPropertyHelperBase PropertyHelperBase = new PropertyHelperBase();
+
         public static string GetJsonKey(this PropertyInfo propertyInfo)
         {
             var jsonAttribute = (JsonPropertyAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(JsonPropertyAttribute));
@@ -33,6 +38,26 @@ namespace Jos.ContentJson.Extensions
 
             var selectMany = property.GetSelectManyAttribute();
             return selectMany != null;
+        }
+
+        public static object GetProcessedData(this PropertyInfo property, object item)
+        {
+            var propertyValue = property.GetValue(item, null);
+
+            if (propertyValue == null) return null;
+
+            var propertyHelper = PropertyHelperBase.GetPropertyHelper(propertyValue);
+
+            if (propertyHelper == null) return null;
+
+            var castedProperty = PropertyHelperBase.GetCastedProperty(propertyHelper, propertyValue);
+
+            if (castedProperty == null) return null;
+
+            var parameters = new StructuredDataDto { Property = castedProperty, PropertyInfo = property };
+            var structuredData = PropertyHelperBase.GetStructuredData(propertyHelper, parameters);
+
+            return structuredData;
         }
     }
 }

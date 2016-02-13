@@ -15,7 +15,7 @@ namespace Jos.ContentJson.Helpers
         public object GetStructuredData(StructuredDataDto dataDto)
         {
             var contentArea = dataDto.Property as ContentArea;
-            return contentArea.GetStructuredDictionary();
+            return contentArea.GetStructuredData();
         }
     }
 }

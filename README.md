@@ -1,7 +1,7 @@
 # EPiServer-ContentData-ToJson
-Converts any ContentData object to JSON 
+Converts any ContentData object to JSON
 
-We needed to get a JSON representation of EPiServer contenttypes at work because of 
+We needed to get a JSON representation of EPiServer contenttypes at work because of
 how our frontend-framework(uses backbone and stuff) works.
 
 It currently supports the following EPiServer Property Types(more to come!):
@@ -67,7 +67,7 @@ This will return a JSON representation of the `Startpage` type like this:
 
         [Display(Name = "Body", Order = 110)]
         public virtual XhtmlString Body { get; set; }
-        
+
         [Display(Name = "End Date", Order = 130)]
         public virtual DateTime EndDate { get; set; }
 
@@ -110,7 +110,7 @@ Anyhow, that example was pretty basic, what about internal blocks?
     {
         [Display(Name = "heading")]
         public virtual string Heading { get; set; }
-        
+
         [Display(Name = "greatestRapperAlive")]
         public virtual string GreatestRapperAlive { get; set; }
     }
@@ -141,11 +141,11 @@ Now I've added a ContentArea to my Startpage like this:
 
         [Display(Name = "InternalBlock")]
         public virtual InternalBlock InternalBlock { get; set; }
-        
+
         [Display(Name = "Contentarea")]
         public virtual ContentArea ContentArea { get; set; }
     }
-``` 
+```
 When adding a couple of InternalBlocks to the ContentArea the JSON response would look like this:
 ```javascript
     {
@@ -170,7 +170,7 @@ When adding a couple of InternalBlocks to the ContentArea the JSON response woul
     }
 ```
 As you can see the blocks get placed in an array under the property internalBlock.
-Why is that? Well this is to support different ContentTypes in the ContentArea. What would happen if we added the BlockType 
+Why is that? Well this is to support different ContentTypes in the ContentArea. What would happen if we added the BlockType
 `DifferentBlock` to our ContentArea?
 ```c#
     [ContentType(DisplayName = "DifferentBlock", GUID = "18bd1b92-9ec2-4da9-909d-1c98f9624cfe", Description = "")]
@@ -178,7 +178,7 @@ Why is that? Well this is to support different ContentTypes in the ContentArea. 
     {
         [Display(Name = "Worst Rapper Alive")]
         public virtual string WorstRapperAlive { get; set; }
-        
+
         [Display(Name = "Worst rapper ever?")]
         public virtual bool WorstRapperEver { get; set; }
     }
@@ -225,7 +225,7 @@ If you want to give the Items in your ContentArea a different JSON key you could
     {
         [Display(Name = "Worst Rapper Alive")]
         public virtual string WorstRapperAlive { get; set; }
-        
+
         [Display(Name = "Worst rapper ever?")]
         public virtual bool WorstRapperEver { get; set; }
     }
@@ -334,7 +334,7 @@ public virtual string WorstRapperAlive { get; set; }
 ```
 
 #####Wrapping of items in ContentArea#####
-When calling ToJson on a ContentArea it's possible to NOT wrap the items. 
+When calling ToJson on a ContentArea it's possible to NOT wrap the items.
 Example(wrapped):
 ```c#
 var json = currentPage.ContentArea.ToJson();
@@ -429,4 +429,4 @@ The following extensions methods are provided:
 * **ContentReference**
  * ToPrettyUrl - returns a pretty url to the contentreference, supports absolute and relative
 * **Url**
- * ToPrettyUrl - returns a pretty url from a Url property. Supports mailto as well. 
+ * ToPrettyUrl - returns a pretty url from a Url property. Supports mailto as well.
