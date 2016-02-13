@@ -1,4 +1,3 @@
-
 # EPiServer-ContentJson
 Converts any ContentData object to JSON 
 
@@ -420,7 +419,7 @@ Gives:
 ```
 
 ####PropertyList
-I used the Alloy site when developing this, I added a ```IList<Contact>```-property(you can follow this guide, http://world.episerver.com/blogs/Per-Magne-Skuseth/Dates/2015/11/trying-out-propertylistt/ ) to my ```StartPage.cs``` like this:
+I used the Alloy site when developing this, I added a ```IList<Contact>```-property([you can follow this guide](http://world.episerver.com/blogs/Per-Magne-Skuseth/Dates/2015/11/trying-out-propertylistt/ )) to my ```StartPage.cs``` like this:
 
 ```c#
 [Display(
