@@ -64,8 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ContentAreaExtensions.cs" />
+    <Compile Include="Extensions\ContentAreaItemExtensions.cs" />
     <Compile Include="Extensions\ContentDataExtensions.cs" />
     <Compile Include="Extensions\ContentReferenceExtensions.cs" />
+    <Compile Include="Extensions\GenericListExtensions.cs" />
     <Compile Include="Extensions\LinkItemCollectionExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -76,20 +78,26 @@
     <Compile Include="Helpers\ContentJsonHelperBase.cs" />
     <Compile Include="Helpers\ContentReferencePropertyHelper.cs" />
     <Compile Include="Helpers\LinkItemCollectionPropertyHelper.cs" />
+    <Compile Include="Helpers\ListPropertyHelper.cs" />
     <Compile Include="Helpers\PageReferencePropertyHelper.cs" />
+    <Compile Include="Helpers\PropertyHelper.cs" />
     <Compile Include="Helpers\StringArrayPropertyHelper.cs" />
     <Compile Include="Helpers\StringPropertyHelper.cs" />
     <Compile Include="Helpers\UrlPropertyHelper.cs" />
+    <Compile Include="Helpers\ValueTypePropertyHelper.cs" />
     <Compile Include="Interfaces\IBlockDataPropertyHelper.cs" />
     <Compile Include="Interfaces\IContentAreaPropertyHelper.cs" />
     <Compile Include="Interfaces\IContentJsonHelper.cs" />
     <Compile Include="Interfaces\IContentReferencePropertyHelper.cs" />
     <Compile Include="Interfaces\ILinkItemCollectionPropertyHelper.cs" />
+    <Compile Include="Interfaces\IListPropertyHelper.cs" />
     <Compile Include="Interfaces\IPageReferencePropertyHelper.cs" />
     <Compile Include="Interfaces\IPropertyHelper.cs" />
+    <Compile Include="Interfaces\IPropertyHelperBase.cs" />
     <Compile Include="Interfaces\IStringArrayPropertyHelper.cs" />
     <Compile Include="Interfaces\IStringPropertyHelper.cs" />
     <Compile Include="Interfaces\IUrlPropertyHelper.cs" />
+    <Compile Include="Interfaces\IValueTypePropertyHelper.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Dtos\StructuredDataDto.cs" />
     <Compile Include="Models\LinkItemCollection\LinkItemDto.cs" />
@@ -97,6 +105,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Jos.ContentJson.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

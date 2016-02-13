@@ -12,7 +12,7 @@ namespace Jos.ContentJson.Extensions
     {
         public static string ToJson(this ContentArea contentArea, bool wrapItems = true)
         {
-            var structuredData = GetStructuredDictionary(contentArea, wrapItems);
+            var structuredData = GetStructuredData(contentArea, wrapItems);
             var json = JsonConvert.SerializeObject(structuredData);
             return json;
         }
@@ -27,17 +27,15 @@ namespace Jos.ContentJson.Extensions
         /// If false, it will be returned as an list of objects.
         /// </param>
         /// <returns></returns>
-        public static object GetStructuredDictionary(this ContentArea contentArea, bool wrapItems = true)
+        public static object GetStructuredData(this ContentArea contentArea, bool wrapItems = true)
         {
-            var contentJsonHelper = new ContentJsonHelper();
-
             if (!wrapItems)
             {
                 var contentAreaItems = contentArea.Items;
                 var propertyList = new List<object>();
                 foreach (var contentAreaItem in contentAreaItems)
                 {
-                    var loadedContentAreaItem = contentJsonHelper.GetLoadedContentAreaItem(contentAreaItem);
+                    var loadedContentAreaItem = contentAreaItem.GetLoadedContentAreaItem();
                     propertyList.Add(loadedContentAreaItem);
                 }
 

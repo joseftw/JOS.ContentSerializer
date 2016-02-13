@@ -7,5 +7,7 @@
         public static string StringArrayTypeName = "StringArray";
         public static string CastMethodName = "CastProperty";
         public static string GetStructuredDataMethodName = "GetStructuredData";
+        public static string ListTypeName = "List";
+        public static string ValueTypeName = "ValueType";
     }
 }
