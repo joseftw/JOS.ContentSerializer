@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # EPiServer-ContentData-ToJson
 Converts any ContentData object to JSON
 =======
@@ -25,6 +24,7 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  ContentReference
 -  LinkItemCollection
 -  Url
+-  PropertyList<T>
 
 Following Branches exists:
 
