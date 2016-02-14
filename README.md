@@ -1,5 +1,5 @@
-# EPiServer-ContentData-ToJson
-Converts any ContentData object to JSON
+# EPiServer-ContentJson
+Converts any ContentData object to JSON 
 
 We needed to get a JSON representation of EPiServer contenttypes at work because of
 how our frontend-framework(uses backbone and stuff) works.
@@ -20,6 +20,7 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  ContentReference
 -  LinkItemCollection
 -  Url
+-  PropertyList<T>
 
 Following Branches exists:
 
@@ -417,9 +418,54 @@ Gives:
 ]
 ```
 
+####PropertyList
+I used the Alloy site when developing this, I added a ```IList<Contact>```-property([you can follow this guide](http://world.episerver.com/blogs/Per-Magne-Skuseth/Dates/2015/11/trying-out-propertylistt/ )) to my ```StartPage.cs``` like this:
+
+```c#
+[Display(
+    GroupName = SystemTabNames.Content,
+    Order = 300)]
+[EditorDescriptor(EditorDescriptorType = typeof(CollectionEditorDescriptor<Contact>))]
+public virtual IList<Contact> Contacts { get; set; }
+```
+
+My ```Contact.cs```-file looks like this:
+```c#
+public class Contact
+{
+    [Display(Name = "Name")]
+    public string Name { get; set; }
+
+    [Display(Name = "Age")]
+    public int Age { get; set; }
+
+    [Display(Name = "Phone number")]
+    public string PhoneNumber { get; set; }
+
+    [Display(Name = "My Page")]
+    public virtual PageReference MyPage { get; set; }
+}
+```
+
+The JSON would look like this:
+```javascript
+{
+	"contacts": [{
+		"name": "Josef Ottosson",
+		"age": 26,
+		"phoneNumber": "0500123456",
+		"myPage": "http://localhost:50198/search/"
+	}, {
+		"name": "Marshall Mathers",
+		"age": 43,
+		"phoneNumber": "1337",
+		"myPage": "http://localhost:50198/alloy-plan/"
+	}]
+}
+```
 
 ####Extension methods####
-The following extensions methods are provided:
+There's a bunch of extension methods you can use, here's a few:
 * **ContentArea**
  * ToJson - returns a JSON representation of the ContentArea
  * GetStructuredDictionary - returns a Dictionary representation of the ContentArea
