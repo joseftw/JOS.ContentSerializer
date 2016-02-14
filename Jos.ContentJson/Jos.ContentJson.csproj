@@ -80,7 +80,7 @@
     <Compile Include="Helpers\LinkItemCollectionPropertyHelper.cs" />
     <Compile Include="Helpers\ListPropertyHelper.cs" />
     <Compile Include="Helpers\PageReferencePropertyHelper.cs" />
-    <Compile Include="Helpers\PropertyHelper.cs" />
+    <Compile Include="Helpers\PropertyHelperBase.cs" />
     <Compile Include="Helpers\StringArrayPropertyHelper.cs" />
     <Compile Include="Helpers\StringPropertyHelper.cs" />
     <Compile Include="Helpers\UrlPropertyHelper.cs" />

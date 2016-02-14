@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Web.Mvc;
 using EPiServer.Shell.ObjectEditing;
 using Jos.ContentJson.Helpers;
 using Jos.ContentJson.Interfaces;
@@ -10,7 +12,7 @@ namespace Jos.ContentJson.Extensions
 {
     public static class PropertyInfoExtensions
     {
-        private static readonly IPropertyHelperBase PropertyHelperBase = new PropertyHelperBase();
+        private static readonly IPropertyHelperBase PropertyHelperBase = DependencyResolver.Current.GetService<IPropertyHelperBase>() ?? new PropertyHelperBase();
 
         public static string GetJsonKey(this PropertyInfo propertyInfo)
         {
@@ -58,6 +60,19 @@ namespace Jos.ContentJson.Extensions
             var structuredData = PropertyHelperBase.GetStructuredData(propertyHelper, parameters);
 
             return structuredData;
+        }
+
+        public static bool PropertyShouldBeIncluded(this PropertyInfo property)
+        {
+            var jsonIgnoreAttribute = Attribute.IsDefined(property, typeof(JsonIgnoreAttribute));
+
+            if (jsonIgnoreAttribute) return false;
+
+            var displayAttribute = Attribute.IsDefined(property, typeof(DisplayAttribute));
+            if (displayAttribute) return true;
+
+            var jsonPropertyAttribute = Attribute.IsDefined(property, typeof(JsonPropertyAttribute));
+            return jsonPropertyAttribute;
         }
     }
 }
