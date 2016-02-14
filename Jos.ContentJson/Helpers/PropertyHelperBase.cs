@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Web.Mvc;
 using EPiServer.Core;
 using Jos.ContentJson.Interfaces;
 using Jos.ContentJson.Models;
@@ -30,6 +31,14 @@ namespace Jos.ContentJson.Helpers
                 propertyType = Constants.ValueTypeName;
             }
 
+            //Check if injected
+            var interfaceName = string.Format("Jos.ContentJson.Interfaces.I{0}PropertyHelper", propertyType);
+            var interfaceType = Type.GetType(interfaceName);
+            var injectedType = DependencyResolver.Current.GetService(interfaceType);
+
+            if (injectedType != null) return injectedType.GetType();
+
+            //Else use default type.
             var helperName = string.Format("{0}.{1}PropertyHelper", Constants.PropertyHelpersNameSpace, propertyType);
             var helperType = Type.GetType(helperName);
 
