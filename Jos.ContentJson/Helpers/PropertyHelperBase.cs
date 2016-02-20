@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Web.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using EPiServer.Core;
 using Jos.ContentJson.Interfaces;
 using Jos.ContentJson.Models;
@@ -10,10 +12,18 @@ namespace Jos.ContentJson.Helpers
 {
     public class PropertyHelperBase : IPropertyHelperBase
     {
+        private static readonly List<Type> RegisteredCustomPropertyHelpers = GetCustomRegisteredPropertyHelpers();
+        private static readonly List<Type> DefaultPropertyHelpers = GetDefaultPropertyHelpers(); 
+
         public Type GetPropertyHelper(object propertyValue)
         {
             var propertyType = propertyValue.GetType().Name;
-    
+
+            var helperName = string.Format("{0}PropertyHelper", propertyType);
+            var helper = RegisteredCustomPropertyHelpers.FirstOrDefault(x => x.Name == helperName) ?? DefaultPropertyHelpers.FirstOrDefault(x => x.Name == helperName);
+
+            if (helper != null) return helper;
+
             if (propertyValue is string[])
             {
                 propertyType = Constants.StringArrayTypeName;
@@ -30,19 +40,11 @@ namespace Jos.ContentJson.Helpers
             {
                 propertyType = Constants.ValueTypeName;
             }
+            
+            helperName = string.Format("{0}PropertyHelper", propertyType);
+            helper = RegisteredCustomPropertyHelpers.FirstOrDefault(x => x.Name == helperName) ?? DefaultPropertyHelpers.FirstOrDefault(x => x.Name == helperName);
 
-            //Check if injected
-            var interfaceName = string.Format("Jos.ContentJson.Interfaces.I{0}PropertyHelper", propertyType);
-            var interfaceType = Type.GetType(interfaceName);
-            var injectedType = DependencyResolver.Current.GetService(interfaceType);
-
-            if (injectedType != null) return injectedType.GetType();
-
-            //Else use default type.
-            var helperName = string.Format("{0}.{1}PropertyHelper", Constants.PropertyHelpersNameSpace, propertyType);
-            var helperType = Type.GetType(helperName);
-
-            return helperType;
+            return helper;
         }
 
         public object GetCastedProperty(Type propertyHelper, object propertyValue)
@@ -63,5 +65,27 @@ namespace Jos.ContentJson.Helpers
 
             return structuredData;
         }
+
+        private static List<Type> GetCustomRegisteredPropertyHelpers()
+        {
+            var type = typeof(IPropertyHelper);
+            var josAssembly = Assembly.GetExecutingAssembly();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName != josAssembly.FullName);
+            
+            var registeredHelpers = assemblies
+                .SelectMany(s => s.GetTypes())
+                .Where(p => type.IsAssignableFrom(p))
+                .ToList();
+
+            return registeredHelpers;
+        }
+
+        private static List<Type> GetDefaultPropertyHelpers()
+        {
+            var type = typeof (IPropertyHelper);
+            var josAssembly = Assembly.GetExecutingAssembly();
+            var defaultHelpers = josAssembly.GetTypes().Where(p => type.IsAssignableFrom(p)).ToList();
+            return defaultHelpers;
+        } 
     }
 }
