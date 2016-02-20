@@ -19,11 +19,14 @@ namespace Jos.ContentJson.Helpers
         {
             var propertyType = propertyValue.GetType().Name;
 
+            //Check if we have any helper registered, first look in the CustomPropertyHelpers, if no registered, look in the DefaultOnes.
             var helperName = string.Format("{0}PropertyHelper", propertyType);
             var helper = RegisteredCustomPropertyHelpers.FirstOrDefault(x => x.Name == helperName) ?? DefaultPropertyHelpers.FirstOrDefault(x => x.Name == helperName);
 
             if (helper != null) return helper;
 
+            //Handle specialcases like string[], BlockData, PropertyList etc. Reason is that you cant name a helper String[]PropertyHelper,
+            //so we are "cleaning" the name making it StringArrayPropertyHelper.
             if (propertyValue is string[])
             {
                 propertyType = Constants.StringArrayTypeName;
@@ -41,6 +44,7 @@ namespace Jos.ContentJson.Helpers
                 propertyType = Constants.ValueTypeName;
             }
             
+            //Look again if we can find the helper, now with a clean name.
             helperName = string.Format("{0}PropertyHelper", propertyType);
             helper = RegisteredCustomPropertyHelpers.FirstOrDefault(x => x.Name == helperName) ?? DefaultPropertyHelpers.FirstOrDefault(x => x.Name == helperName);
 
