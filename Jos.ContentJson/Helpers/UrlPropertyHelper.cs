@@ -15,7 +15,7 @@ namespace Jos.ContentJson.Helpers
         public string GetStructuredData(StructuredDataDto dataDto)
         {
             var url = dataDto.Property as Url;
-            return url.ToPrettyUrl();
+            return url.ToPrettyUrl(true);
         }
     }
 }

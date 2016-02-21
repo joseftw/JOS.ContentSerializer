@@ -6,7 +6,7 @@ namespace Jos.ContentJson.Extensions
     {
         public static string LowerCaseFirstLetter(this string propertyName)
         {
-            //This will like...never happen.
+            //This will like...never happen. This is added instead of throwing so that the object will have a JsonKey.
             if (string.IsNullOrWhiteSpace(propertyName)) return "missingPropertyName";
 
             if (propertyName.Length == 1) return propertyName.ToLower();

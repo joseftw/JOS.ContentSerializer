@@ -35,11 +35,11 @@ namespace Jos.ContentJson.Extensions
 
             if (port == 80 || port == 443)
             {
-                var baseUrl = string.Format("{0}://{1}", scheme, host);
+                var baseUrl = $"{scheme}://{host}";
                 return baseUrl;
             }
 
-            return string.Format("{0}://{1}:{2}", scheme, host, port);
+            return $"{scheme}://{host}:{port}";
         }
     }
 }

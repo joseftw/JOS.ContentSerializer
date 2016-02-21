@@ -20,7 +20,7 @@ namespace Jos.ContentJson.Helpers
             var propertyType = propertyValue.GetType().Name;
 
             //Check if we have any helper registered, first look in the CustomPropertyHelpers, if no registered, look in the DefaultOnes.
-            var helperName = string.Format("{0}PropertyHelper", propertyType);
+            var helperName = $"{propertyType}PropertyHelper";
             var helper = RegisteredCustomPropertyHelpers.FirstOrDefault(x => x.Name == helperName) ?? DefaultPropertyHelpers.FirstOrDefault(x => x.Name == helperName);
 
             if (helper != null) return helper;
@@ -45,7 +45,7 @@ namespace Jos.ContentJson.Helpers
             }
             
             //Look again if we can find the helper, now with a clean name.
-            helperName = string.Format("{0}PropertyHelper", propertyType);
+            helperName = $"{propertyType}PropertyHelper";
             helper = RegisteredCustomPropertyHelpers.FirstOrDefault(x => x.Name == helperName) ?? DefaultPropertyHelpers.FirstOrDefault(x => x.Name == helperName);
 
             return helper;

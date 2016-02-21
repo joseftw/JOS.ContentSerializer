@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using EPiServer.Shell.ObjectEditing;
@@ -16,8 +18,7 @@ namespace Jos.ContentJson.Extensions
 
         public static string GetJsonKey(this PropertyInfo propertyInfo)
         {
-            var jsonAttribute = (JsonPropertyAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(JsonPropertyAttribute));
-
+            var jsonAttribute = TypeDescriptor.GetAttributes(propertyInfo).OfType<JsonPropertyAttribute>().FirstOrDefault();
             return jsonAttribute == null ? propertyInfo.Name.LowerCaseFirstLetter() : jsonAttribute.PropertyName.LowerCaseFirstLetter();
         }
 
@@ -64,15 +65,19 @@ namespace Jos.ContentJson.Extensions
 
         public static bool PropertyShouldBeIncluded(this PropertyInfo property)
         {
-            var jsonIgnoreAttribute = Attribute.IsDefined(property, typeof(JsonIgnoreAttribute));
+            var attributes = TypeDescriptor.GetAttributes(property);
 
-            if (jsonIgnoreAttribute) return false;
+            var jsonIgnoreAttribute =
+                attributes.OfType<JsonIgnoreAttribute>().FirstOrDefault();
 
-            var displayAttribute = Attribute.IsDefined(property, typeof(DisplayAttribute));
-            if (displayAttribute) return true;
+            if (jsonIgnoreAttribute != null) return false;
 
-            var jsonPropertyAttribute = Attribute.IsDefined(property, typeof(JsonPropertyAttribute));
-            return jsonPropertyAttribute;
+            var displayAttribute = attributes.OfType<DisplayAttribute>().FirstOrDefault();
+            if (displayAttribute != null) return true;
+
+            var jsonPropertyAttribute = attributes.OfType<JsonPropertyAttribute>().FirstOrDefault();
+
+            return jsonPropertyAttribute != null;
         }
     }
 }
