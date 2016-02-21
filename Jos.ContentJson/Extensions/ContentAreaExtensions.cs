@@ -3,7 +3,6 @@ using System.Linq;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
-using Jos.ContentJson.Helpers;
 using Newtonsoft.Json;
 
 namespace Jos.ContentJson.Extensions
