@@ -20,7 +20,7 @@ Now supports PropertyList.
 Major refactoring, updated to support EPi 9 as minimum(for master branch). EPi 8 branch exists.
 <hr/>
 
-##Converts any ContentData object to JSON 
+##Converts any ContentData object to JSON
 
 We needed to get a JSON representation of EPiServer contenttypes at work because of
 how our frontend-framework(uses backbone and stuff) works.
