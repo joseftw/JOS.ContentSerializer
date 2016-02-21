@@ -3,7 +3,6 @@ using EPiServer;
 using EPiServer.Core;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
-using EPiServer.Logging.Compatibility;
 using EPiServer.ServiceLocation;
 using Jos.ContentJson.Extensions;
 
@@ -13,13 +12,6 @@ namespace Jos.ContentJson.InitializeModules
     [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
     public class OnChange : IInitializableModule
     {
-        private readonly ILog _logger;
-
-        public OnChange(ILog logger)
-        {
-            _logger = logger;
-        }
-
         public void Initialize(InitializationEngine context)
         {
             var events = ServiceLocator.Current.GetInstance<IContentEvents>();
@@ -44,7 +36,7 @@ namespace Jos.ContentJson.InitializeModules
             }
             catch (Exception ex)
             {
-                _logger.Error("Failed in UpdateContentJsonCache. \n", ex);
+                //TODO: Add logging support.
             }            
         }
 
