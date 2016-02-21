@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jos.ContentJson</id>
-    <version>2.5.961</version>
+    <version>2.6.961</version>
     <title>Jos.ContentJson</title>
     <authors>joseftw</authors>
     <owners>joseftw</owners>
@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>By simply calling .ToJson on any ContentData object you will get a JSON representation of that object.
 </description>
-    <releaseNotes>Defaults to relative urls.</releaseNotes>
+    <releaseNotes>Fixed OnChange initialaztion module.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>EPiServer Json</tags>
   </metadata>
