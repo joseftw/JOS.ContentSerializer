@@ -1,5 +1,24 @@
 # EPiServer-ContentJson
-Converts any ContentData object to JSON 
+
+###Changelog
+
+**2.4.961**
+Now caches the ToJson method using EPiServer CacheManager. The average encoding of the Alloy Startpage went from 23ms to 0(since it's cached ;) )
+<hr/>
+**2.3.961**
+Now even easier to register(and override default) PropertyHelpers. Just inherit from IPropertyHelper and name it like this(int32 example) Int32PropertyHelper
+<hr/>
+**2.2.961**
+Now possible to override existing PropertyHelpers with Injection.
+<hr/>
+**2.1.961**
+Now supports PropertyList.
+<hr/>
+**2.0.961**
+Major refactoring, updated to support EPi 9 as minimum(for master branch). EPi 8 branch exists.
+<hr/>
+
+##Converts any ContentData object to JSON 
 
 We needed to get a JSON representation of EPiServer contenttypes at work because of
 how our frontend-framework(uses backbone and stuff) works.
