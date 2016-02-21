@@ -66,7 +66,7 @@ namespace Jos.ContentJson.Extensions
 
             if (!string.IsNullOrWhiteSpace(jsonKey)) return jsonKey;
 
-            throw new Exception(string.Format("Missing ID on JsonObject attribute on class {0}", contentType.Name));
+            throw new Exception($"Missing ID on JsonObject attribute on class {contentType.Name}");
         }
 
         public static IEnumerable<PropertyInfo> GetJsonProperties(this IContentData contentData)

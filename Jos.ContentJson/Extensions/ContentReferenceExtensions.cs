@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using EPiServer;
+﻿using EPiServer;
 using EPiServer.Core;
 using EPiServer.Globalization;
 using EPiServer.Web.Routing;
@@ -27,7 +26,7 @@ namespace Jos.ContentJson.Extensions
 
         public static string GetUrl(this ContentReference contentReference)
         {
-            var url = contentReference.ToPrettyUrl(true);
+            var url = contentReference.ToPrettyUrl(false);
             return url;
         }
     }
