@@ -1,7 +1,9 @@
 # EPiServer-ContentJson
 
 ###Changelog
-
+**2.5.961**
+Defaults to relative urls.
+<hr/>
 **2.4.961**
 Now caches the ToJson method using EPiServer CacheManager. The average encoding of the Alloy Startpage went from 23ms to 0(since it's cached ;) )
 <hr/>
