@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jos.ContentJson</id>
-    <version>2.3.961</version>
+    <version>2.4.961</version>
     <title>Jos.ContentJson</title>
     <authors>joseftw</authors>
     <owners>joseftw</owners>
@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>By simply calling .ToJson on any ContentData object you will get a JSON representation of that object.
 </description>
-    <releaseNotes>Now even easier to register(and override default) PropertyHelpers. Just inherit from IPropertyHelper and name it like this(int32 example) Int32PropertyHelper</releaseNotes>
+    <releaseNotes>Now caches the ToJson method.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>EPiServer Json</tags>
   </metadata>
