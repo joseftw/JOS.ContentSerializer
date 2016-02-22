@@ -65,7 +65,7 @@ namespace Jos.ContentJson.Extensions
 
         public static bool PropertyShouldBeIncluded(this PropertyInfo property)
         {
-            var attributes = TypeDescriptor.GetAttributes(property);
+            var attributes = Attribute.GetCustomAttributes(property);
 
             var jsonIgnoreAttribute =
                 attributes.OfType<JsonIgnoreAttribute>().FirstOrDefault();

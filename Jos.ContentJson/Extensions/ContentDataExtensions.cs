@@ -41,10 +41,13 @@ namespace Jos.ContentJson.Extensions
             if (fromCache != null) return fromCache as string;
 
             propertiesDict = GetStructuredDictionary(contentData);
-            json = JsonConvert.SerializeObject(propertiesDict);
 
-            CacheManager.Insert(cacheKey, json);
-
+            if (propertiesDict.Any())
+            {
+                json = JsonConvert.SerializeObject(propertiesDict);
+                CacheManager.Insert(cacheKey, json);
+            }
+            
             return json;
         }
 
@@ -71,8 +74,9 @@ namespace Jos.ContentJson.Extensions
 
         public static IEnumerable<PropertyInfo> GetJsonProperties(this IContentData contentData)
         {
-            var properties = contentData.GetType().GetProperties().Where(x => x.PropertyShouldBeIncluded());
-            return properties;
+            var properties = contentData.GetType().GetProperties();
+            var includedProperties = properties.Where(x => x.PropertyShouldBeIncluded());
+            return includedProperties;
         }
     }
 }
