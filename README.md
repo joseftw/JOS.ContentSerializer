@@ -1,11 +1,14 @@
 # EPiServer-ContentJson
 
 ###Changelog
+**2.6.961**
+Fixes attributes bug in PropertyShouldBeIncluded
+<hr/>
 **2.5.961**
-Defaults to relative urls.
+Defaults to relative urls. **Has a bug in PropertyShouldBeIncluded, please use version 2.6.961 or higher**
 <hr/>
 **2.4.961**
-Now caches the ToJson method using EPiServer CacheManager. The average encoding of the Alloy Startpage went from 23ms to 0(since it's cached ;) )
+Now caches the ToJson method using EPiServer CacheManager. The average encoding of the Alloy Startpage went from 23ms to 0(since it's cached ;) )**Has a bug in PropertyShouldBeIncluded, please use version 2.6.961 or higher**
 <hr/>
 **2.3.961**
 Now even easier to register(and override default) PropertyHelpers. Just inherit from IPropertyHelper and name it like this(int32 example) Int32PropertyHelper
