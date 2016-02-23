@@ -1,6 +1,9 @@
 # EPiServer-ContentJson
 
 ###Changelog
+**2.7.961**
+Removes caching of ToJson for now, will need to figure out how to handle cache invalidation of blocks on a cached site. To be continued :)
+<hr/>
 **2.6.961**
 Fixes attributes bug in PropertyShouldBeIncluded
 <hr/>
