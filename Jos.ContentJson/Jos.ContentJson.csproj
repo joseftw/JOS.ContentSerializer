@@ -86,7 +86,6 @@
     <Compile Include="Helpers\StringPropertyHelper.cs" />
     <Compile Include="Helpers\UrlPropertyHelper.cs" />
     <Compile Include="Helpers\ValueTypePropertyHelper.cs" />
-    <Compile Include="InitializeModules\OnChange.cs" />
     <Compile Include="Interfaces\IBlockDataPropertyHelper.cs" />
     <Compile Include="Interfaces\IContentAreaPropertyHelper.cs" />
     <Compile Include="Interfaces\IContentJsonHelper.cs" />

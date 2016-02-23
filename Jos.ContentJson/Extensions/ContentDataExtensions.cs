@@ -22,32 +22,10 @@ namespace Jos.ContentJson.Extensions
             return propertyDict;
         }
 
-        public static string ToJson(this IContentData contentData, bool cached = true)
+        public static string ToJson(this IContentData contentData)
         {
-            Dictionary<string, object> propertiesDict;
-            var json = string.Empty;
-            if (cached == false)
-            {
-                propertiesDict = GetStructuredDictionary(contentData);
-                json = JsonConvert.SerializeObject(propertiesDict);
-                return json;
-            }
-
-            var content = contentData as IContent;
-            var cacheKey = content.GetCacheKey();
-
-            var fromCache = CacheManager.Get(cacheKey);
-
-            if (fromCache != null) return fromCache as string;
-
-            propertiesDict = GetStructuredDictionary(contentData);
-
-            if (propertiesDict.Any())
-            {
-                json = JsonConvert.SerializeObject(propertiesDict);
-                CacheManager.Insert(cacheKey, json);
-            }
-            
+            var propertiesDict = GetStructuredDictionary(contentData);
+            var json = JsonConvert.SerializeObject(propertiesDict);
             return json;
         }
 
