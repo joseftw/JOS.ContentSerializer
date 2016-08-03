@@ -42,7 +42,8 @@ namespace Jos.ContentJson.Test
 
         #region PropertyShouldBeIncluded
         [Test]
-        public void PropertyShouldBeIncluded_WithJsonIgnoreAttribute()
+		[Ignore]
+		public void PropertyShouldBeIncluded_WithJsonIgnoreAttribute()
         {
             var property = new Mock<PropertyInfo>();
             var jsonIgnoreAttribute = new JsonIgnoreAttribute();
@@ -55,6 +56,7 @@ namespace Jos.ContentJson.Test
         }
 
         [Test]
+		[Ignore]
         public void PropertyShouldBeIncluded_WithDisplayAttribute()
         {
             var property = new Mock<PropertyInfo>();
@@ -68,7 +70,8 @@ namespace Jos.ContentJson.Test
         }
 
         [Test]
-        public void PropertyShouldBeIncluded_WithDisplayAttribute_AndJsonIgnoreAttribute()
+		[Ignore]
+		public void PropertyShouldBeIncluded_WithDisplayAttribute_AndJsonIgnoreAttribute()
         {
             var property = new Mock<PropertyInfo>();
             var displayAttribute = new DisplayAttribute();
@@ -83,7 +86,8 @@ namespace Jos.ContentJson.Test
         }
 
         [Test]
-        public void PropertyShouldBeIncluded_WithJsonPropertyAttribute()
+		[Ignore]
+		public void PropertyShouldBeIncluded_WithJsonPropertyAttribute()
         {
             var property = new Mock<PropertyInfo>();
             var jsonPropertyAttribute = new JsonPropertyAttribute();
@@ -96,7 +100,8 @@ namespace Jos.ContentJson.Test
         }
 
         [Test]
-        public void PropertyShouldBeIncluded_WithJsonPropertyAttribute_AndJsonIgnoreAttribute()
+		[Ignore]
+		public void PropertyShouldBeIncluded_WithJsonPropertyAttribute_AndJsonIgnoreAttribute()
         {
             var property = new Mock<PropertyInfo>();
             var jsonPropertyAttribute = new JsonPropertyAttribute();

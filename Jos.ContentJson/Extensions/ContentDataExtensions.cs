@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web.Caching;
-using EPiServer;
 using EPiServer.Core;
-using EPiServer.Framework.Cache;
 using Jos.ContentJson.Helpers;
 using Newtonsoft.Json;
 
