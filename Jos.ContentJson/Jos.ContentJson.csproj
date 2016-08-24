@@ -91,6 +91,7 @@
     <Compile Include="Helpers\StringPropertyHelper.cs" />
     <Compile Include="Helpers\UrlPropertyHelper.cs" />
     <Compile Include="Helpers\ValueTypePropertyHelper.cs" />
+    <Compile Include="Helpers\XhtmlPropertyHelper.cs" />
     <Compile Include="Interfaces\IBlockDataPropertyHelper.cs" />
     <Compile Include="Interfaces\IContentAreaPropertyHelper.cs" />
     <Compile Include="Interfaces\IContentJsonHelper.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Interfaces\IStringPropertyHelper.cs" />
     <Compile Include="Interfaces\IUrlPropertyHelper.cs" />
     <Compile Include="Interfaces\IValueTypePropertyHelper.cs" />
+    <Compile Include="Interfaces\IXhtmlStringPropertyHelper.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Dtos\StructuredDataDto.cs" />
     <Compile Include="Models\LinkItemCollection\LinkItemDto.cs" />
