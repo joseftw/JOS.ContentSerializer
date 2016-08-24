@@ -1,6 +1,9 @@
 # EPiServer-ContentJson
 
 ###Changelog
+**2.9.961**
+Restored support for XHtmlString property
+<hr/>
 **2.7.961**
 Removes caching of ToJson for now, will need to figure out how to handle cache invalidation of blocks on a cached site. To be continued :)
 <hr/>
