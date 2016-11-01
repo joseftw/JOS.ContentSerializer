@@ -9,9 +9,13 @@ namespace Jos.ContentJson.Extensions
     {
         public static string ToJson(this LinkItemCollection linkItemCollection)
         {
-            var structuredData = GetStructuredData(linkItemCollection);
-            var json = JsonConvert.SerializeObject(structuredData);
+            var json = JsonConvert.SerializeObject(ToSerializable(linkItemCollection));
             return json;
+        }
+
+        public static object ToSerializable(this LinkItemCollection linkItemCollection)
+        {
+            return GetStructuredData(linkItemCollection);
         }
 
         public static IEnumerable<LinkItemDto> GetStructuredData(this LinkItemCollection linkItemCollection)
