@@ -4,14 +4,14 @@ using Jos.ContentJson.Models.Dtos;
 
 namespace Jos.ContentJson.Helpers
 {
-    public class PageReferencePropertyHelper : ContentReferencePropertyHelper, IPropertyHelper, IPageReferencePropertyHelper
+    public class PageReferencePropertyHelper : ContentReferencePropertyHelper, IPageReferencePropertyHelper
     {
-        public ContentReference CastProperty(object propertyValue)
+        public new ContentReference CastProperty(object propertyValue)
         {
             return base.CastProperty(propertyValue);
         }
 
-        public string GetStructuredData(StructuredDataDto dataDto)
+        public new string GetStructuredData(StructuredDataDto dataDto)
         {
             return base.GetStructuredData(dataDto);
         }
