@@ -11,9 +11,14 @@ namespace Jos.ContentJson.Extensions
     {
         public static string ToJson(this ContentArea contentArea, bool wrapItems = true)
         {
-            var structuredData = GetStructuredData(contentArea, wrapItems);
+            var structuredData = ToSerializable(contentArea, wrapItems);
             var json = JsonConvert.SerializeObject(structuredData);
             return json;
+        }
+
+        public static object ToSerializable(this ContentArea contentArea, bool wrapItems = true)
+        {
+            return GetStructuredData(contentArea, wrapItems);
         }
 
         /// <summary>

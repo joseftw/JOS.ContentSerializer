@@ -21,9 +21,14 @@ namespace Jos.ContentJson.Extensions
 
         public static string ToJson(this IContentData contentData)
         {
-            var propertiesDict = GetStructuredDictionary(contentData);
+            var propertiesDict = ToSerializable(contentData);
             var json = JsonConvert.SerializeObject(propertiesDict);
             return json;
+        }
+
+        public static object ToSerializable(this IContentData contentData)
+        {
+            return GetStructuredDictionary(contentData);
         }
 
         public static string GetJsonKey(this IContentData contentData)
