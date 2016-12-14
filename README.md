@@ -1,34 +1,5 @@
 # EPiServer-ContentJson
 
-###Changelog
-**2.9.961**
-Restored support for XHtmlString property
-<hr/>
-**2.7.961**
-Removes caching of ToJson for now, will need to figure out how to handle cache invalidation of blocks on a cached site. To be continued :)
-<hr/>
-**2.6.961**
-Fixes attributes bug in PropertyShouldBeIncluded
-<hr/>
-**2.5.961**
-Defaults to relative urls. **Has a bug in PropertyShouldBeIncluded, please use version 2.6.961 or higher**
-<hr/>
-**2.4.961**
-Now caches the ToJson method using EPiServer CacheManager. The average encoding of the Alloy Startpage went from 23ms to 0(since it's cached ;) )**Has a bug in PropertyShouldBeIncluded, please use version 2.6.961 or higher**
-<hr/>
-**2.3.961**
-Now even easier to register(and override default) PropertyHelpers. Just inherit from IPropertyHelper and name it like this(int32 example) Int32PropertyHelper
-<hr/>
-**2.2.961**
-Now possible to override existing PropertyHelpers with Injection.
-<hr/>
-**2.1.961**
-Now supports PropertyList.
-<hr/>
-**2.0.961**
-Major refactoring, updated to support EPi 9 as minimum(for master branch). EPi 8 branch exists.
-<hr/>
-
 ##Converts any ContentData object to JSON
 
 We needed to get a JSON representation of EPiServer contenttypes at work because of
