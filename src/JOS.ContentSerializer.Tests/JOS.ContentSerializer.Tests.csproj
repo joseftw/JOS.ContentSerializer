@@ -168,6 +168,7 @@
     <Compile Include="Pages\VideoBlock.cs" />
     <Compile Include="PageTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyManagerTests.cs" />
     <Compile Include="StandardPageBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

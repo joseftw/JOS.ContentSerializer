@@ -7,11 +7,11 @@ namespace JOS.ContentSerializer.Tests
 {
     public class DefaultPropertyNameStrategyTests
     {
-        private readonly DefaultPropertyNameStrategy sut;
+        private readonly DefaultPropertyNameStrategy _sut;
 
         public DefaultPropertyNameStrategyTests()
         {
-            this.sut = new DefaultPropertyNameStrategy();
+            this._sut = new DefaultPropertyNameStrategy();
         }
 
         [Fact]
@@ -19,7 +19,7 @@ namespace JOS.ContentSerializer.Tests
         {
             var page = new DefaultPropertyNameStrategyPage();
 
-            var result = this.sut.GetPropertyName(page.GetType().GetProperty(nameof(DefaultPropertyNameStrategyPage.Heading)));
+            var result = this._sut.GetPropertyName(page.GetType().GetProperty(nameof(DefaultPropertyNameStrategyPage.Heading)));
 
             result.ShouldBe("Heading");
         }
@@ -29,7 +29,7 @@ namespace JOS.ContentSerializer.Tests
         {
             var page = new DefaultPropertyNameStrategyPage();
 
-            var result = this.sut.GetPropertyName(page.GetType().GetProperty(nameof(DefaultPropertyNameStrategyPage.Author)));
+            var result = this._sut.GetPropertyName(page.GetType().GetProperty(nameof(DefaultPropertyNameStrategyPage.Author)));
 
             result.ShouldBe("customAuthor");
         }
