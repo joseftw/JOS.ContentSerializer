@@ -6,8 +6,8 @@
     <ProjectGuid>{4A97CB84-60AB-4517-BE5D-73976D33EA91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JOS.ContentJson.Tests</RootNamespace>
-    <AssemblyName>JOS.ContentJson.Tests</AssemblyName>
+    <RootNamespace>JOS.ContentSerializer.Tests</RootNamespace>
+    <AssemblyName>JOS.ContentSerializer.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -160,6 +160,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultPropertyNameStrategyTests.cs" />
+    <Compile Include="DefaultPropertyResolverTests.cs" />
+    <Compile Include="Pages\DefaultPropertyNameStrategyPage.cs" />
+    <Compile Include="Pages\DefaultPropertyResolverPage.cs" />
     <Compile Include="Pages\StandardPage.cs" />
     <Compile Include="Pages\VideoBlock.cs" />
     <Compile Include="PageTests.cs" />
@@ -171,13 +175,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JOS.ContentJson.Core\JOS.ContentJson.Core.csproj">
-      <Project>{E21F96CA-3590-4AFC-A86A-B4513FEC73CB}</Project>
-      <Name>JOS.ContentJson.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JOS.ContentJson\JOS.ContentJson.csproj">
+    <ProjectReference Include="..\JOS.ContentSerializer\JOS.ContentSerializer.csproj">
       <Project>{8a190000-f8c2-429e-931a-692c8ded1168}</Project>
-      <Name>JOS.ContentJson</Name>
+      <Name>JOS.ContentSerializer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

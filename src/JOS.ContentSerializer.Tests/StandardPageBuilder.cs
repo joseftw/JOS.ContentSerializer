@@ -1,9 +1,9 @@
 ﻿using System;
 using EPiServer.Core;
-using JOS.ContentJson.Tests.Pages;
+using JOS.ContentSerializer.Tests.Pages;
 using Ploeh.AutoFixture;
 
-namespace JOS.ContentJson.Tests
+namespace JOS.ContentSerializer.Tests
 {
     public class StandardPageBuilder
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{8A190000-F8C2-429E-931A-692C8DED1168}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JOS.ContentJson</RootNamespace>
-    <AssemblyName>JOS.ContentJson</AssemblyName>
+    <RootNamespace>JOS.ContentSerializer</RootNamespace>
+    <AssemblyName>JOS.ContentSerializer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -91,6 +91,7 @@
       <HintPath>..\..\JOS.ContentJson\packages\structuremap.web-signed.3.1.6.186\lib\net40\StructureMap.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\JOS.ContentJson\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
@@ -118,17 +119,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentJson.cs" />
+    <Compile Include="ContentSerializerNameAttribute.cs" />
+    <Compile Include="ContentSerializerSettings.cs" />
+    <Compile Include="ContentSerializer.cs" />
+    <Compile Include="IContentSerializer.cs" />
+    <Compile Include="Internal\DefaultPropertyNameStrategy.cs" />
+    <Compile Include="Internal\DefaultPropertyResolver.cs" />
+    <Compile Include="Internal\DefaultJsonContentSerializer.cs" />
+    <Compile Include="Internal\DefaultStringPropertyHandler.cs" />
+    <Compile Include="Internal\PropertyManager.cs" />
+    <Compile Include="IPropertyNameStrategy.cs" />
+    <Compile Include="IPropertyResolver.cs" />
+    <Compile Include="IStringPropertyHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JOS.ContentJson.Core\JOS.ContentJson.Core.csproj">
-      <Project>{E21F96CA-3590-4AFC-A86A-B4513FEC73CB}</Project>
-      <Name>JOS.ContentJson.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

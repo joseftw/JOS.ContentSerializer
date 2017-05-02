@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
+using Newtonsoft.Json;
 
-namespace JOS.ContentJson.Tests.Pages
+namespace JOS.ContentSerializer.Tests.Pages
 {
     [ContentType(DisplayName = "StandardPage", GUID = "e48d76d2-016c-4588-9768-f68caf3a9b43", Description = "")]
     public class StandardPage : PageData
     {
-
         [CultureSpecific]
         [Display(
             Name = "Heading")]
@@ -44,5 +44,10 @@ namespace JOS.ContentJson.Tests.Pages
 
         [Display(Name = "Main Video")]
         public virtual VideoBlock MainVideo { get; set; }
+
+        [JsonIgnore]
+        public virtual string Author { get; set; }
+
+        public virtual string Phone { get; set; }
     }
 }
