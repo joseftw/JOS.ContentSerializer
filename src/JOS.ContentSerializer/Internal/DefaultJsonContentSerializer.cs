@@ -6,13 +6,9 @@ namespace JOS.ContentSerializer.Internal
     public class DefaultJsonContentSerializer : IContentSerializer
     {
         private readonly PropertyManager _propertyManager;
-        private readonly IPropertyResolver _propertyResolver;
 
-        public DefaultJsonContentSerializer(
-            IPropertyResolver propertyResolver,
-            PropertyManager propertyManager)
+        public DefaultJsonContentSerializer(PropertyManager propertyManager)
         {
-            _propertyResolver = propertyResolver ?? throw new ArgumentNullException(nameof(propertyResolver));
             _propertyManager = propertyManager ?? throw new ArgumentNullException(nameof(propertyManager));
         }
 
@@ -28,8 +24,7 @@ namespace JOS.ContentSerializer.Internal
 
         private string Execute(IContentData contentData, ContentSerializerSettings settings)
         {
-            var properties = this._propertyResolver.GetProperties(contentData);
-            var hej = this._propertyManager.GetStructuredData(contentData, properties, settings);
+            var hej = this._propertyManager.GetStructuredData(contentData, settings);
             return "HEJ";
         }
     }

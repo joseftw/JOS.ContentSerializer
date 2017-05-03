@@ -8,67 +8,36 @@ namespace JOS.ContentSerializer.Internal
 {
     public class DefaultContentAreaPropertyHandler : IContentAreaPropertyHandler
     {
-        private readonly IContentDataPropertyHandler _contentDataPropertyHandler;
         private readonly IContentLoader _contentLoader;
 
-        public DefaultContentAreaPropertyHandler(
-            IContentLoader contentLoader,
-            IContentDataPropertyHandler contentDataPropertyHandler)
+        public DefaultContentAreaPropertyHandler(IContentLoader contentLoader)
         {
-            _contentDataPropertyHandler = contentDataPropertyHandler?? throw new ArgumentNullException(nameof(contentDataPropertyHandler));
             _contentLoader = contentLoader ?? throw new ArgumentNullException(nameof(contentLoader));
         }
 
-        public object GetValue(ContentArea contentArea)
+        public IEnumerable<IContentData> GetValue(ContentArea contentArea)
         {
-            return GetValue(contentArea, null); // TODO Add default settings here.
+            return GetValue(contentArea, DefaultContentSerializerSettings.Instance);
         }
 
-        public object GetValue(ContentArea contentArea, ContentSerializerSettings settings)
+        public IEnumerable<IContentData> GetValue(ContentArea contentArea, ContentSerializerSettings settings)
         {
-            if (!settings.GlobalWrapContentAreaItems)
+            if (contentArea?.Items == null || !contentArea.Items.Any())
             {
-                var contentAreaItems = contentArea.Items;
-                var propertyList = new List<object>();
-                foreach (var contentAreaItem in contentAreaItems)
+                return Enumerable.Empty<IContentData>();
+            }
+
+            var content = new List<IContentData>();
+            foreach (var contentAreaItem in contentArea.Items)
+            {
+                var loadedContent = this._contentLoader.Get<ContentData>(contentAreaItem.ContentLink);
+                if (loadedContent != null)
                 {
-                    var loadedContentAreaItem = GetLoadedContentAreaItem(contentAreaItem);
-                    propertyList.Add(loadedContentAreaItem);
+                    content.Add(loadedContent);
                 }
-
-                return propertyList;
             }
 
-            var propertyDict = new Dictionary<string, object>();
-            var groupedContentTypes = contentArea.Items.GroupBy(x => x.GetContent().ContentTypeID);
-
-            foreach (var contentType in groupedContentTypes)
-            {
-                var contentData = (ContentData)contentType.First().GetContent();
-                var contentTypeJsonKey = contentData.GetType().Name; // TODO fix this, read from attribute.
-                var items = GetContentTypeAsList(contentType);
-                propertyDict.Add(contentTypeJsonKey, items);
-            }
-
-            return propertyDict;
-        }
-
-        public object GetLoadedContentAreaItem(ContentAreaItem contentAreaItem)
-        {
-            var loadedItem = this._contentLoader.Get<ContentData>(contentAreaItem.ContentLink);
-            var itemAsDictionary = this._contentDataPropertyHandler.GetValue(loadedItem);
-            return itemAsDictionary;
-        }
-
-        private List<object> GetContentTypeAsList(IEnumerable<ContentAreaItem> contentType)
-        {
-            var items = new List<object>();
-            foreach (var item in contentType)
-            {
-                var loaded = GetLoadedContentAreaItem(item);
-                items.Add(loaded);
-            }
-            return items;
+            return content;
         }
     }
 }

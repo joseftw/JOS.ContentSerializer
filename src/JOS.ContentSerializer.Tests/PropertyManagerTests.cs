@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using EPiServer;
 using EPiServer.Core;
 using JOS.ContentSerializer.Internal;
@@ -14,7 +13,6 @@ namespace JOS.ContentSerializer.Tests
     {
         private readonly PropertyManager _sut;
         private readonly StandardPage _page;
-        private readonly IEnumerable<PropertyInfo> _properties;
 
         public PropertyManagerTests()
         {
@@ -22,19 +20,17 @@ namespace JOS.ContentSerializer.Tests
             SetupContentLoader(contentLoader);
             this._sut = new PropertyManager(
                 new DefaultPropertyNameStrategy(),
+                new DefaultPropertyResolver(),
                 new DefaultStringPropertyHandler(),
-                new DefaultContentAreaPropertyHandler(
-                    contentLoader,
-                    new DefaultContentDataPropertyHandler())
+                new DefaultContentAreaPropertyHandler(contentLoader)
             );
             this._page = new StandardPageBuilder().Build();
-            this._properties = new DefaultPropertyResolver().GetProperties(this._page);
         }
 
         [Fact]
         public void GivenStringProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
-            var result = this._sut.GetStructuredData(_page, _properties, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Heading)) && x.Value.Equals(_page.Heading));
         }
@@ -42,7 +38,7 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenIntProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
-            var result = this._sut.GetStructuredData(_page, _properties, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Age)) && x.Value.Equals(_page.Age));
         }
@@ -50,7 +46,7 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenDoubleProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
-            var result = this._sut.GetStructuredData(_page, _properties, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Degrees)) && x.Value.Equals(_page.Degrees));
         }
@@ -58,7 +54,7 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenBoolProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
-            var result = this._sut.GetStructuredData(_page, _properties, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Private)) && x.Value.Equals(_page.Private));
         }
@@ -66,7 +62,7 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenDateTimeProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
-            var result = this._sut.GetStructuredData(_page, _properties, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Starting)) && x.Value.Equals(_page.Starting));
         }
@@ -76,14 +72,18 @@ namespace JOS.ContentSerializer.Tests
         {
             var contentArea = CreateContentArea();
             var page = new StandardPageBuilder().WithMainContentArea(contentArea).Build();
-            var result = this._sut.GetStructuredData(page, _properties, new ContentSerializerSettings());
+
+            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+
+            result.ShouldContainKey(nameof(StandardPage.MainContentArea));
         }
 
-        private void SetupContentLoader(IContentLoader contentLoader)
+        private static void SetupContentLoader(IContentLoader contentLoader)
         {
             contentLoader.Get<ContentData>(new ContentReference(1000))
                 .Returns(new VideoBlock
                 {
+                    Name = "My name",
                     Url = new Url("https://josef.guru")
                 });
         }

@@ -4,6 +4,6 @@ namespace JOS.ContentSerializer
 {
     public interface IContentDataPropertyHandler
     {
-        object GetValue(ContentData loadedItem);
+        object GetValue(IContentData loadedItem);
     }
 }

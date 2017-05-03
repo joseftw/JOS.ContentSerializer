@@ -5,7 +5,7 @@ namespace JOS.ContentSerializer.Internal
 {
     public class DefaultContentDataPropertyHandler : IContentDataPropertyHandler
     {
-        public object GetValue(ContentData loadedItem)
+        public object GetValue(IContentData contentData)
         {
             throw new NotImplementedException();
         }

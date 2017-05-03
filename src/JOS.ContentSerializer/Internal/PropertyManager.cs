@@ -1,31 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class PropertyManager
+    public class PropertyManager : IPropertyManager
     {
+        private readonly IPropertyResolver _propertyResolver;
         private readonly IContentAreaPropertyHandler _contentAreaPropertyHandler;
         private readonly IStringPropertyHandler _stringPropertyHandler;
         private readonly IPropertyNameStrategy _propertyNameStrategy;
 
         public PropertyManager(
             IPropertyNameStrategy propertyNameStrategy,
+            IPropertyResolver propertyResolver,
             IStringPropertyHandler stringPropertyHandler,
             IContentAreaPropertyHandler contentAreaPropertyHandler)
         {
             _propertyNameStrategy = propertyNameStrategy ?? throw new ArgumentNullException(nameof(propertyNameStrategy));
+            _propertyResolver = propertyResolver ?? throw new ArgumentNullException(nameof(propertyResolver));
             _stringPropertyHandler = stringPropertyHandler ?? throw new ArgumentNullException(nameof(stringPropertyHandler));
             _contentAreaPropertyHandler = contentAreaPropertyHandler ?? throw new ArgumentNullException(nameof(contentAreaPropertyHandler));
         }
 
         public Dictionary<string, object> GetStructuredData(
             IContentData contentData,
-            IEnumerable<PropertyInfo> properties,
             ContentSerializerSettings settings)
         {
+            var properties = this._propertyResolver.GetProperties(contentData);
             var structuredData = new Dictionary<string, object>();
             foreach (var property in properties)
             {
@@ -43,8 +45,13 @@ namespace JOS.ContentSerializer.Internal
                         structuredData.Add(key, stringValue);
                         break;
                     case ContentArea c:
-                        var contentAreaValue = this._contentAreaPropertyHandler.GetValue(c, settings);
-                        structuredData.Add(key, contentAreaValue);
+                        var contentAreaItems = this._contentAreaPropertyHandler.GetValue(c, settings);
+                        // TODO check if items should be wrapped or not.
+                        foreach (var item in contentAreaItems)
+                        {
+                            var result = GetStructuredData(item, settings);
+                            structuredData.Add(key, result);
+                        }
                         break;
                 }
             }

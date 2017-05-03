@@ -13,12 +13,11 @@ namespace JOS.ContentSerializer.Tests
         {
             this._sut = new ContentSerializer(
                 new DefaultJsonContentSerializer(
-                    new DefaultPropertyResolver(),
                     new PropertyManager(
                         new DefaultPropertyNameStrategy(),
+                        new DefaultPropertyResolver(),
                         new DefaultStringPropertyHandler(),
-                        new DefaultContentAreaPropertyHandler(Substitute.For<IContentLoader>(),
-                        new DefaultContentDataPropertyHandler()))
+                        new DefaultContentAreaPropertyHandler(Substitute.For<IContentLoader>()))
             ));
         }
 
