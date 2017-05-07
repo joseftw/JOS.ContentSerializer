@@ -7,6 +7,7 @@ namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
+        private readonly IStringArrayPropertyHandler _stringArrayPropertyHandler;
         private readonly IValueTypePropertyHandler _valueTypePropertyHandler;
         private readonly IUrlPropertyHandler _urlPropertyHandler;
         private readonly IPropertyResolver _propertyResolver;
@@ -20,7 +21,9 @@ namespace JOS.ContentSerializer.Internal
             IPropertyResolver propertyResolver,
             IStringPropertyHandler stringPropertyHandler,
             IContentAreaPropertyHandler contentAreaPropertyHandler,
-            IUrlPropertyHandler urlPropertyHandler)
+            IUrlPropertyHandler urlPropertyHandler,
+            IStringArrayPropertyHandler stringArrayPropertyHandler
+        )
         {
             _valueTypePropertyHandler = valueTypePropertyHandler ?? throw new ArgumentNullException(nameof(valueTypePropertyHandler));
             _propertyNameStrategy = propertyNameStrategy ?? throw new ArgumentNullException(nameof(propertyNameStrategy));
@@ -28,6 +31,7 @@ namespace JOS.ContentSerializer.Internal
             _stringPropertyHandler = stringPropertyHandler ?? throw new ArgumentNullException(nameof(stringPropertyHandler));
             _contentAreaPropertyHandler = contentAreaPropertyHandler ?? throw new ArgumentNullException(nameof(contentAreaPropertyHandler));
             _urlPropertyHandler = urlPropertyHandler ?? throw new ArgumentNullException(nameof(urlPropertyHandler));
+            _stringArrayPropertyHandler = stringArrayPropertyHandler ?? throw new ArgumentNullException(nameof(stringArrayPropertyHandler));
         }
 
         public Dictionary<string, object> GetStructuredData(
@@ -64,6 +68,10 @@ namespace JOS.ContentSerializer.Internal
                     case Url url:
                         var urlValue = this._urlPropertyHandler.GetValue(url, true); // TODO fix urlsettings here.
                         structuredData.Add(key, urlValue);
+                        break;
+                    case string[] _:
+                        var strings = this._stringArrayPropertyHandler.GetValue(contentData, property);
+                        structuredData.Add(key, strings);
                         break;
                 }
             }

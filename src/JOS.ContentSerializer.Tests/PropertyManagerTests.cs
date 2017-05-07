@@ -25,7 +25,8 @@ namespace JOS.ContentSerializer.Tests
                 new DefaultPropertyResolver(),
                 new DefaultStringPropertyHandler(),
                 new DefaultContentAreaPropertyHandler(contentLoader),
-                new DefaultUrlPropertyHandler(Substitute.For<UrlHelper>())
+                new DefaultUrlPropertyHandler(Substitute.For<UrlHelper>()),
+                new DefaultStringArrayPropertyHandler()
             );
             this._page = new StandardPageBuilder().Build();
         }

@@ -20,7 +20,8 @@ namespace JOS.ContentSerializer.Tests
                         new DefaultPropertyResolver(),
                         new DefaultStringPropertyHandler(),
                         new DefaultContentAreaPropertyHandler(Substitute.For<IContentLoader>()),
-                        new DefaultUrlPropertyHandler(Substitute.For<UrlHelper>()))
+                        new DefaultUrlPropertyHandler(Substitute.For<UrlHelper>()),
+                        new DefaultStringArrayPropertyHandler())
             ));
         }
 

@@ -167,6 +167,8 @@
     <Compile Include="DefaultValueTypePropertyHandlerTests.cs" />
     <Compile Include="Pages\DefaultPropertyNameStrategyPage.cs" />
     <Compile Include="Pages\DefaultPropertyResolverPage.cs" />
+    <Compile Include="Pages\DefaultStringArrayPropertyHandlerPage.cs" />
+    <Compile Include="Pages\DefaultStringArrayPropertyHandlerTests.cs" />
     <Compile Include="Pages\DefaultStringPropertyHandlerPage.cs" />
     <Compile Include="Pages\DefaultValueTypePropertyHandlerPage.cs" />
     <Compile Include="Pages\StandardPage.cs" />
