@@ -20,6 +20,7 @@ namespace JOS.ContentSerializer.Tests
             var contentLoader = Substitute.For<IContentLoader>();
             SetupContentLoader(contentLoader);
             this._sut = new PropertyManager(
+                new DefaultValueTypePropertyHandler(),
                 new DefaultPropertyNameStrategy(),
                 new DefaultPropertyResolver(),
                 new DefaultStringPropertyHandler(),

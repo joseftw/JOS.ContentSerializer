@@ -164,9 +164,11 @@
     <Compile Include="DefaultPropertyNameStrategyTests.cs" />
     <Compile Include="DefaultPropertyResolverTests.cs" />
     <Compile Include="DefaultStringPropertyHandlerTests.cs" />
+    <Compile Include="DefaultValueTypePropertyHandlerTests.cs" />
     <Compile Include="Pages\DefaultPropertyNameStrategyPage.cs" />
     <Compile Include="Pages\DefaultPropertyResolverPage.cs" />
     <Compile Include="Pages\DefaultStringPropertyHandlerPage.cs" />
+    <Compile Include="Pages\DefaultValueTypePropertyHandlerPage.cs" />
     <Compile Include="Pages\StandardPage.cs" />
     <Compile Include="Pages\VideoBlock.cs" />
     <Compile Include="PageTests.cs" />

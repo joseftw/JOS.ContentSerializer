@@ -7,6 +7,7 @@ namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
+        private readonly IValueTypePropertyHandler _valueTypePropertyHandler;
         private readonly IUrlPropertyHandler _urlPropertyHandler;
         private readonly IPropertyResolver _propertyResolver;
         private readonly IContentAreaPropertyHandler _contentAreaPropertyHandler;
@@ -14,12 +15,14 @@ namespace JOS.ContentSerializer.Internal
         private readonly IPropertyNameStrategy _propertyNameStrategy;
 
         public PropertyManager(
+            IValueTypePropertyHandler valueTypePropertyHandler,
             IPropertyNameStrategy propertyNameStrategy,
             IPropertyResolver propertyResolver,
             IStringPropertyHandler stringPropertyHandler,
             IContentAreaPropertyHandler contentAreaPropertyHandler,
             IUrlPropertyHandler urlPropertyHandler)
         {
+            _valueTypePropertyHandler = valueTypePropertyHandler ?? throw new ArgumentNullException(nameof(valueTypePropertyHandler));
             _propertyNameStrategy = propertyNameStrategy ?? throw new ArgumentNullException(nameof(propertyNameStrategy));
             _propertyResolver = propertyResolver ?? throw new ArgumentNullException(nameof(propertyResolver));
             _stringPropertyHandler = stringPropertyHandler ?? throw new ArgumentNullException(nameof(stringPropertyHandler));
@@ -36,11 +39,12 @@ namespace JOS.ContentSerializer.Internal
             foreach (var property in properties)
             {
                 var key = this._propertyNameStrategy.GetPropertyName(property);
-                var value = property.GetValue(contentData);
                 if (property.PropertyType.IsValueType)
                 {
-                    structuredData.Add(key, value);
+                    structuredData.Add(key, this._valueTypePropertyHandler.GetValue(contentData, property));
                 }
+
+                var value = property.GetValue(contentData);
 
                 switch (value)
                 {

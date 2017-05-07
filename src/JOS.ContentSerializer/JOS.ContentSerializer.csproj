@@ -129,6 +129,7 @@
     <Compile Include="ContentSerializerNameAttribute.cs" />
     <Compile Include="ContentSerializerSettings.cs" />
     <Compile Include="ContentSerializer.cs" />
+    <Compile Include="IValueTypePropertyHandler.cs" />
     <Compile Include="IContentAreaPropertyHandler.cs" />
     <Compile Include="IContentDataPropertyHandler.cs" />
     <Compile Include="IContentSerializer.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Internal\DefaultJsonContentSerializer.cs" />
     <Compile Include="Internal\DefaultStringPropertyHandler.cs" />
     <Compile Include="Internal\DefaultUrlPropertyHandler.cs" />
+    <Compile Include="Internal\DefaultValueTypePropertyHandler.cs" />
     <Compile Include="Internal\PropertyManager.cs" />
     <Compile Include="IPropertyManager.cs" />
     <Compile Include="IPropertyNameStrategy.cs" />

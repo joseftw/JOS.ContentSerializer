@@ -15,6 +15,7 @@ namespace JOS.ContentSerializer.Tests
             this._sut = new ContentSerializer(
                 new DefaultJsonContentSerializer(
                     new PropertyManager(
+                        new DefaultValueTypePropertyHandler(),
                         new DefaultPropertyNameStrategy(),
                         new DefaultPropertyResolver(),
                         new DefaultStringPropertyHandler(),
