@@ -56,8 +56,7 @@ namespace JOS.ContentSerializer.Internal
 
         private static object GetStructuredData(PropertyInfo property, IContentData contentData, Type selectionFactoryType)
         {
-            var factoryType = selectionFactoryType;
-            var selectOptions = GetSelectionOptions(factoryType, property);
+            var selectOptions = GetSelectionOptions(selectionFactoryType, property);
             var propertyValue = (string)property.GetValue(contentData);
             return GetSelectOptions(propertyValue, selectOptions);
         }
@@ -72,7 +71,7 @@ namespace JOS.ContentSerializer.Internal
         private static IEnumerable<SelectOptionDto> GetSelectOptions(string property, IEnumerable<ISelectItem> selectOptions)
         {
             var items = new List<SelectOptionDto>();
-            var selectedValues = property.Split(',');
+            var selectedValues = property?.Split(',') ?? Enumerable.Empty<string>();
 
             foreach (var option in selectOptions)
             {

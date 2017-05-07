@@ -139,11 +139,13 @@
     <Compile Include="Internal\DefaultPropertyResolver.cs" />
     <Compile Include="Internal\DefaultJsonContentSerializer.cs" />
     <Compile Include="Internal\DefaultStringPropertyHandler.cs" />
+    <Compile Include="Internal\DefaultUrlPropertyHandler.cs" />
     <Compile Include="Internal\PropertyManager.cs" />
     <Compile Include="IPropertyManager.cs" />
     <Compile Include="IPropertyNameStrategy.cs" />
     <Compile Include="IPropertyResolver.cs" />
     <Compile Include="IStringPropertyHandler.cs" />
+    <Compile Include="IUrlPropertyHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectOptionDto.cs" />
   </ItemGroup>

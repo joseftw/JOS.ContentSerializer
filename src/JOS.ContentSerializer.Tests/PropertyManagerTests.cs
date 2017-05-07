@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
 using JOS.ContentSerializer.Internal;
@@ -22,7 +23,8 @@ namespace JOS.ContentSerializer.Tests
                 new DefaultPropertyNameStrategy(),
                 new DefaultPropertyResolver(),
                 new DefaultStringPropertyHandler(),
-                new DefaultContentAreaPropertyHandler(contentLoader)
+                new DefaultContentAreaPropertyHandler(contentLoader),
+                new DefaultUrlPropertyHandler(Substitute.For<UrlHelper>())
             );
             this._page = new StandardPageBuilder().Build();
         }

@@ -1,4 +1,5 @@
-﻿using EPiServer;
+﻿using System.Web.Mvc;
+using EPiServer;
 using JOS.ContentSerializer.Internal;
 using NSubstitute;
 using Shouldly;
@@ -17,7 +18,8 @@ namespace JOS.ContentSerializer.Tests
                         new DefaultPropertyNameStrategy(),
                         new DefaultPropertyResolver(),
                         new DefaultStringPropertyHandler(),
-                        new DefaultContentAreaPropertyHandler(Substitute.For<IContentLoader>()))
+                        new DefaultContentAreaPropertyHandler(Substitute.For<IContentLoader>()),
+                        new DefaultUrlPropertyHandler(Substitute.For<UrlHelper>()))
             ));
         }
 

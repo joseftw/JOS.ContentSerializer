@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using EPiServer;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
+        private readonly IUrlPropertyHandler _urlPropertyHandler;
         private readonly IPropertyResolver _propertyResolver;
         private readonly IContentAreaPropertyHandler _contentAreaPropertyHandler;
         private readonly IStringPropertyHandler _stringPropertyHandler;
@@ -15,12 +17,14 @@ namespace JOS.ContentSerializer.Internal
             IPropertyNameStrategy propertyNameStrategy,
             IPropertyResolver propertyResolver,
             IStringPropertyHandler stringPropertyHandler,
-            IContentAreaPropertyHandler contentAreaPropertyHandler)
+            IContentAreaPropertyHandler contentAreaPropertyHandler,
+            IUrlPropertyHandler urlPropertyHandler)
         {
             _propertyNameStrategy = propertyNameStrategy ?? throw new ArgumentNullException(nameof(propertyNameStrategy));
             _propertyResolver = propertyResolver ?? throw new ArgumentNullException(nameof(propertyResolver));
             _stringPropertyHandler = stringPropertyHandler ?? throw new ArgumentNullException(nameof(stringPropertyHandler));
             _contentAreaPropertyHandler = contentAreaPropertyHandler ?? throw new ArgumentNullException(nameof(contentAreaPropertyHandler));
+            _urlPropertyHandler = urlPropertyHandler ?? throw new ArgumentNullException(nameof(urlPropertyHandler));
         }
 
         public Dictionary<string, object> GetStructuredData(
@@ -52,6 +56,10 @@ namespace JOS.ContentSerializer.Internal
                             var result = GetStructuredData(item, settings);
                             structuredData.Add(key, result);
                         }
+                        break;
+                    case Url url:
+                        var urlValue = this._urlPropertyHandler.GetValue(url, true); // TODO fix urlsettings here.
+                        structuredData.Add(key, urlValue);
                         break;
                 }
             }
