@@ -1,6 +1,6 @@
 # EPiServer-ContentJson
 
-##Converts any ContentData object to JSON
+## Converts any ContentData object to JSON
 
 We needed to get a JSON representation of EPiServer contenttypes at work because of
 how our frontend-framework(uses backbone and stuff) works.
@@ -23,12 +23,12 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  Url
 -  PropertyList<T>
 
-###Installation###
+### Installation
 Nuget: **Install-Package Jos.ContentJson** *Note, this is the master branch.* (My first Nuget package, please tell me if something's wrong)
-####*OR*####
+#### *OR*
 Just check out the desired branch and add the Jos.ContentJson project to your solution.
 
-###Examples###
+### Examples
 
 Use it like this:
 ```c#
@@ -80,7 +80,7 @@ This is now implemented. All properties with the `Display`-attribute will appear
 
 Anyhow, that example was pretty basic, what about internal blocks?
 
-####Internal Blocks####
+#### Internal Blocks
 
 **Startpage**:
 ```c#
@@ -120,7 +120,7 @@ Anyhow, that example was pretty basic, what about internal blocks?
         }
     }
 ```
-####Contentarea####
+#### Contentarea
 
 Now I've added a ContentArea to my Startpage like this:
 ```c#
@@ -210,7 +210,7 @@ The JSON response would look like this if we added one `DifferentBlock` to our C
         }
     }
 ```
-#####Custom JSON key#####
+##### Custom JSON key
 If you want to give the Items in your ContentArea a different JSON key you could decorate your class with the JsonObject attribute like this:
 ```c#
     [ContentType(DisplayName = "DifferentBlock", GUID = "18bd1b92-9ec2-4da9-909d-1c98f9624cfe", Description = "")]
@@ -311,7 +311,7 @@ There is, of course :), support for nested ContentAreas and Internal Blocks etc.
     }
 ```
 
-#####Custom JSON keys#####
+##### Custom JSON keys
 If you want to specify a custom JSON key to a property, simply add a ```JsonProperty```-attribute like this
 ```c#
 [Display(Name = "Worst Rapper Alive")]
@@ -319,7 +319,7 @@ If you want to specify a custom JSON key to a property, simply add a ```JsonProp
 public virtual string WorstRapperAlive { get; set; }
 ```
 
-#####Ignore properties#####
+##### Ignore properties
 If you have a property that you don't want to appear in the JSON, simply add a ```JsonIgnore```-attribute like this
 ```c#
 [Display(Name = "Worst Rapper Alive")]
@@ -327,7 +327,7 @@ If you have a property that you don't want to appear in the JSON, simply add a `
 public virtual string WorstRapperAlive { get; set; }
 ```
 
-#####Wrapping of items in ContentArea#####
+##### Wrapping of items in ContentArea
 When calling ToJson on a ContentArea it's possible to NOT wrap the items.
 Example(wrapped):
 ```c#
@@ -411,7 +411,7 @@ Gives:
 ]
 ```
 
-####PropertyList
+#### PropertyList
 I used the Alloy site when developing this, I added a ```IList<Contact>```-property([you can follow this guide](http://world.episerver.com/blogs/Per-Magne-Skuseth/Dates/2015/11/trying-out-propertylistt/ )) to my ```StartPage.cs``` like this:
 
 ```c#
@@ -457,7 +457,7 @@ The JSON would look like this:
 }
 ```
 
-####Extension methods####
+#### Extension methods
 There's a bunch of extension methods you can use, here's a few:
 * **ContentArea**
  * ToJson - returns a JSON representation of the ContentArea
