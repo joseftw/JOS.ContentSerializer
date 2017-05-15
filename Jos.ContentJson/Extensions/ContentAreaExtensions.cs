@@ -9,16 +9,16 @@ namespace Jos.ContentJson.Extensions
 {
     public static class ContentAreaExtensions
     {
-        public static string ToJson(this ContentArea contentArea, bool wrapItems = true)
+        public static string ToJson(this ContentArea contentArea, bool wrapItems = true, string contentTypeProperty = null)
         {
-            var structuredData = ToSerializable(contentArea, wrapItems);
+            var structuredData = ToSerializable(contentArea, wrapItems, contentTypeProperty);
             var json = JsonConvert.SerializeObject(structuredData);
             return json;
         }
 
-        public static object ToSerializable(this ContentArea contentArea, bool wrapItems = true)
+        public static object ToSerializable(this ContentArea contentArea, bool wrapItems = true, string contentTypeProperty = null)
         {
-            return GetStructuredData(contentArea, wrapItems);
+            return GetStructuredData(contentArea, wrapItems, contentTypeProperty);
         }
 
         /// <summary>
@@ -30,8 +30,11 @@ namespace Jos.ContentJson.Extensions
         /// contenttypes in the contentarea
         /// If false, it will be returned as an list of objects.
         /// </param>
+        /// <param name="contentTypeProperty">
+        /// If set, the items will have an added property with a ContentType identifier
+        /// </param>
         /// <returns></returns>
-        public static object GetStructuredData(this ContentArea contentArea, bool wrapItems = true)
+        public static object GetStructuredData(this ContentArea contentArea, bool wrapItems = true, string contentTypeProperty = null)
         {
             if (!wrapItems)
             {
@@ -39,7 +42,7 @@ namespace Jos.ContentJson.Extensions
                 var propertyList = new List<object>();
                 foreach (var contentAreaItem in contentAreaItems)
                 {
-                    var loadedContentAreaItem = contentAreaItem.GetLoadedContentAreaItem();
+                    var loadedContentAreaItem = contentAreaItem.GetLoadedContentAreaItem(contentTypeProperty);
                     propertyList.Add(loadedContentAreaItem);
                 }
 
@@ -53,14 +56,14 @@ namespace Jos.ContentJson.Extensions
             {
                 var contentData = contentType.First().GetContent() as ContentData;
                 var contentTypeJsonKey = contentData.GetJsonKey();
-                var items = GetContentTypeAsList(contentType);
+                var items = GetContentTypeAsList(contentType, contentTypeProperty);
                 propertyDict.Add(contentTypeJsonKey, items);
             }
 
             return propertyDict;
         }
-    
-        private static List<object> GetContentTypeAsList(IEnumerable<ContentAreaItem> contentType)
+
+        private static List<object> GetContentTypeAsList(IEnumerable<ContentAreaItem> contentType, string contentTypeProperty = null)
         {
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
             var items = new List<object>();
@@ -68,6 +71,10 @@ namespace Jos.ContentJson.Extensions
             {
                 var loadedItem = contentLoader.Get<ContentData>(item.ContentLink);
                 var itemAsDictionary = loadedItem.GetStructuredDictionary();
+                if(contentTypeProperty != null)
+                {
+                    itemAsDictionary.Add(contentTypeProperty, contentAreaItem.GetContent().getJsonKey());
+                }
                 items.Add(itemAsDictionary);
             }
             return items;
