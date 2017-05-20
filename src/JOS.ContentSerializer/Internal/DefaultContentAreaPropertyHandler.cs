@@ -17,7 +17,7 @@ namespace JOS.ContentSerializer.Internal
 
         public IEnumerable<IContentData> GetValue(ContentArea contentArea)
         {
-            return GetValue(contentArea, DefaultContentSerializerSettings.Instance);
+            return GetValue(contentArea, new ContentSerializerSettings());
         }
 
         public IEnumerable<IContentData> GetValue(ContentArea contentArea, ContentSerializerSettings settings)

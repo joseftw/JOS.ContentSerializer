@@ -85,11 +85,14 @@ namespace JOS.ContentSerializer.Internal
                         }
                         else
                         {
+                            var items = new List<object>();
                             foreach (var item in contentAreaItems)
                             {
                                 var result = GetStructuredData(item, settings);
-                                structuredData.Add(key, result);
+                                items.Add(result);
                             }
+
+                            structuredData.Add(key, items);
                         }
                         break;
                     case Url url:

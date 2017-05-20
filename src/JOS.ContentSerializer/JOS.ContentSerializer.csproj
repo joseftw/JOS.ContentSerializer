@@ -146,7 +146,6 @@
     <Compile Include="IContentSerializer.cs" />
     <Compile Include="Internal\DefaultContentAreaPropertyHandler.cs" />
     <Compile Include="Internal\DefaultContentDataPropertyHandler.cs" />
-    <Compile Include="Internal\DefaultContentSerializerSettings.cs" />
     <Compile Include="Internal\DefaultPropertyNameStrategy.cs" />
     <Compile Include="Internal\DefaultPropertyResolver.cs" />
     <Compile Include="Internal\DefaultJsonContentSerializer.cs" />

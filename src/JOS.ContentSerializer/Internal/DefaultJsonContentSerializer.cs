@@ -1,6 +1,7 @@
 ﻿using System;
 using EPiServer.Core;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace JOS.ContentSerializer.Internal
 {
@@ -26,7 +27,10 @@ namespace JOS.ContentSerializer.Internal
         private string Execute(IContentData contentData, ContentSerializerSettings settings)
         {
             var result = this._propertyManager.GetStructuredData(contentData, settings);
-            return JsonConvert.SerializeObject(result);
+            return JsonConvert.SerializeObject(result, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
         }
     }
 }
