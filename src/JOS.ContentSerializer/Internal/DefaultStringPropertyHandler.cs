@@ -77,7 +77,7 @@ namespace JOS.ContentSerializer.Internal
             {
                 var item = new SelectOptionDto
                 {
-                    Selected = selectedValues.Contains(option.Value),
+                    Selected = selectedValues.Contains(option.Value.ToString()),
                     Text = option.Text,
                     Value = option.Value.ToString()
                 };
