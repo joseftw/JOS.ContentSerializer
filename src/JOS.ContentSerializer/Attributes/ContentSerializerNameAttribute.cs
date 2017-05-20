@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JOS.ContentSerializer
+namespace JOS.ContentSerializer.Attributes
 {
     public class ContentSerializerNameAttribute : Attribute
     {

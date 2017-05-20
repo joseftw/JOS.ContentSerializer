@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Internal
 {

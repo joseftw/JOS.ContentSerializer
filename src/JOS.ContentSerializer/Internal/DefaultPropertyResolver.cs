@@ -5,7 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using EPiServer.Core;
-using Newtonsoft.Json;
+using EPiServer.DataAnnotations;
+using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Internal
 {
@@ -35,7 +36,7 @@ namespace JOS.ContentSerializer.Internal
         {
             var attributes = Attribute.GetCustomAttributes(property);
 
-            var jsonIgnoreAttribute = attributes.OfType<JsonIgnoreAttribute>().FirstOrDefault();
+            var jsonIgnoreAttribute = attributes.OfType<IgnoreAttribute>().FirstOrDefault();
 
             if (jsonIgnoreAttribute != null)
             {
@@ -48,7 +49,7 @@ namespace JOS.ContentSerializer.Internal
                 return true;
             }
 
-            var jsonPropertyAttribute = attributes.OfType<JsonPropertyAttribute>().FirstOrDefault();
+            var jsonPropertyAttribute = attributes.OfType<IncludeAttribute>().FirstOrDefault();
             return jsonPropertyAttribute != null;
         }
     }

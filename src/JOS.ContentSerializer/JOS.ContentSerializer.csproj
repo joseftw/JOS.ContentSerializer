@@ -126,9 +126,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\IncludeAttribute.cs" />
     <Compile Include="ContentReferenceSettings.cs" />
     <Compile Include="IContentDataExtensions.cs" />
-    <Compile Include="ContentSerializerNameAttribute.cs" />
+    <Compile Include="Attributes\ContentSerializerNameAttribute.cs" />
     <Compile Include="ContentSerializerSettings.cs" />
     <Compile Include="ContentSerializer.cs" />
     <Compile Include="IContentJsonSerializer.cs" />
@@ -171,7 +172,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectOptionDto.cs" />
     <Compile Include="UrlSettings.cs" />
-    <Compile Include="WrapItemsAttribute.cs" />
+    <Compile Include="Attributes\WrapItemsAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

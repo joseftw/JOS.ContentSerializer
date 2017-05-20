@@ -1,4 +1,5 @@
 ﻿using EPiServer.Core;
+using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Tests.Pages
 {

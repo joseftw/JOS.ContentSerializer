@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JOS.ContentSerializer
+namespace JOS.ContentSerializer.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class WrapItemsAttribute : Attribute

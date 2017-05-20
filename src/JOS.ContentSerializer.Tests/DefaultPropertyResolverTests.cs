@@ -31,6 +31,7 @@ namespace JOS.ContentSerializer.Tests
                 nameof(DefaultPropertyResolverPage.MainBody),
                 nameof(DefaultPropertyResolverPage.MainContentArea),
                 nameof(DefaultPropertyResolverPage.MainVideo),
+                nameof(DefaultPropertyResolverPage.Include)
             };
 
             var result = this._sut.GetProperties(page).ToList();

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
-using Newtonsoft.Json;
+using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Tests.Pages
 {
@@ -44,12 +44,15 @@ namespace JOS.ContentSerializer.Tests.Pages
         [Display(Name = "Main Video")]
         public virtual VideoBlock MainVideo { get; set; }
 
-        [JsonIgnore]
+        [Ignore]
         public virtual string Author { get; set; }
 
         public virtual string Phone
         {
             get; set;
         }
+
+        [Include]
+        public virtual string Include { get; set; }
     }
 }

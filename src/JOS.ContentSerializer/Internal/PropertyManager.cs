@@ -5,6 +5,7 @@ using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.SpecializedProperties;
+using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Internal
 {
