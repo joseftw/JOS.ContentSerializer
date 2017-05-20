@@ -29,7 +29,7 @@ namespace JOS.ContentSerializer.Tests
             var value = "mailto:mail@example.com";
             var url = new Url(value);
 
-            var result = this._sut.GetValue(url, true);
+            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = true });
 
             result.ShouldBe(value);
         }
@@ -40,7 +40,7 @@ namespace JOS.ContentSerializer.Tests
             var value = "https://josef.guru/example/page?anyQueryString=true&anyOtherQuery";
             var url = new Url(value);
 
-            var result = this._sut.GetValue(url, true);
+            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = true });
 
             result.ShouldBe(value);
         }
@@ -51,7 +51,7 @@ namespace JOS.ContentSerializer.Tests
             var value = "https://josef.guru/example/page?anyQueryString=true&anyOtherQuery";
             var url = new Url(value);
 
-            var result = this._sut.GetValue(url, false);
+            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = false });
 
             result.ShouldBe(url.PathAndQuery);
         }
@@ -65,12 +65,12 @@ namespace JOS.ContentSerializer.Tests
             var url = new Url(value);
             this._urlHelper.ContentUrl(Arg.Any<Url>()).Returns(prettyPath);
             this._requestHostResolver.HostName.Returns("example.com");
-            this._siteDefinitionResolver.GetByHostname(Arg.Any<string>(), true).Returns(new SiteDefinition
+            this._siteDefinitionResolver.GetByHostname(Arg.Any<string>(), Arg.Any<bool>()).Returns(new SiteDefinition
             {
                 SiteUrl = new Uri(siteUrl)
             });
 
-            var result = this._sut.GetValue(url, true);
+            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = true });
 
             result.ShouldBe($"{siteUrl}{prettyPath}");
         }
@@ -83,7 +83,7 @@ namespace JOS.ContentSerializer.Tests
             var url = new Url(value);
             this._urlHelper.ContentUrl(Arg.Any<Url>()).Returns(prettyPath);
 
-            var result = this._sut.GetValue(url, false);
+            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = false });
 
             result.ShouldBe(prettyPath);
         }

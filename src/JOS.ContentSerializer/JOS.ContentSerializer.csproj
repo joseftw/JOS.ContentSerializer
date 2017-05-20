@@ -126,9 +126,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentReferenceSettings.cs" />
+    <Compile Include="IContentDataExtensions.cs" />
     <Compile Include="ContentSerializerNameAttribute.cs" />
     <Compile Include="ContentSerializerSettings.cs" />
     <Compile Include="ContentSerializer.cs" />
+    <Compile Include="IContentReferencePropertyHandler.cs" />
+    <Compile Include="Internal\ContentSerializerInitalizationModule.cs" />
+    <Compile Include="Internal\DefaultContentReferencePropertyHandler.cs" />
     <Compile Include="Internal\DefaultStringArrayPropertyHandler.cs" />
     <Compile Include="Internal\UrlHelperAdapter.cs" />
     <Compile Include="IStringArrayPropertyHandler.cs" />
@@ -154,6 +159,7 @@
     <Compile Include="IUrlPropertyHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectOptionDto.cs" />
+    <Compile Include="UrlSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

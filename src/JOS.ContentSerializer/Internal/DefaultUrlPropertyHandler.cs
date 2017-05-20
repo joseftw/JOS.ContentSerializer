@@ -20,23 +20,18 @@ namespace JOS.ContentSerializer.Internal
             _requestHostResolver = requestHostResolver ?? throw new ArgumentNullException(nameof(requestHostResolver));
         }
 
-        public string GetValue(Url url, bool absoluteUrl) // TODO Add settings.
+        public string GetValue(Url url, UrlSettings urlSettings)
         {
-            return Execute(url, absoluteUrl);
+            return Execute(url, urlSettings);
         }
-
-        public string GetValue(Url url, string baseUrl, bool absoluteUrl)
-        {
-            throw new NotImplementedException();
-        }
-
-        private string Execute(Url url, bool absoluteUrl)
+        
+        private string Execute(Url url, UrlSettings urlSettings)
         {
             if (url.Scheme == "mailto") return url.OriginalString;
 
             if (url.IsAbsoluteUri)
             {
-                if (absoluteUrl)
+                if (urlSettings.UseAbsoluteUrls)
                 {
                     return url.OriginalString;
                 }
@@ -45,9 +40,12 @@ namespace JOS.ContentSerializer.Internal
             }
 
             var prettyUrl = this._urlHelper.ContentUrl(url);
-            if (absoluteUrl)
+            if (urlSettings.UseAbsoluteUrls)
             {
-                var siteDefinition = this._siteDefinitionResolver.GetByHostname(this._requestHostResolver.HostName, true); // TODO fallback setting
+                var siteDefinition = this._siteDefinitionResolver.GetByHostname(
+                    this._requestHostResolver.HostName,
+                    urlSettings.FallbackToWildcard
+                );
                 var uri = new Uri(siteDefinition.SiteUrl, prettyUrl);
                 return uri.AbsoluteUri;
             }

@@ -1,20 +1,21 @@
 ﻿using System;
 using EPiServer.Core;
+using Newtonsoft.Json;
 
 namespace JOS.ContentSerializer.Internal
 {
     public class DefaultJsonContentSerializer : IContentSerializer
     {
-        private readonly PropertyManager _propertyManager;
+        private readonly IPropertyManager _propertyManager;
 
-        public DefaultJsonContentSerializer(PropertyManager propertyManager)
+        public DefaultJsonContentSerializer(IPropertyManager propertyManager)
         {
             _propertyManager = propertyManager ?? throw new ArgumentNullException(nameof(propertyManager));
         }
 
         public string Serialize(IContentData contentData)
         {
-            return Execute(contentData, null);
+            return Execute(contentData, new ContentSerializerSettings());
         }
 
         public string Serialize(IContentData contentData, ContentSerializerSettings settings)
@@ -24,8 +25,8 @@ namespace JOS.ContentSerializer.Internal
 
         private string Execute(IContentData contentData, ContentSerializerSettings settings)
         {
-            var hej = this._propertyManager.GetStructuredData(contentData, settings);
-            return "HEJ";
+            var result = this._propertyManager.GetStructuredData(contentData, settings);
+            return JsonConvert.SerializeObject(result);
         }
     }
 }
