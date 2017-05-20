@@ -134,8 +134,10 @@
     <Compile Include="IContentReferencePropertyHandler.cs" />
     <Compile Include="Internal\ContentSerializerInitalizationModule.cs" />
     <Compile Include="Internal\DefaultContentReferencePropertyHandler.cs" />
+    <Compile Include="Internal\DefaultPageTypePropertyHandler.cs" />
     <Compile Include="Internal\DefaultStringArrayPropertyHandler.cs" />
     <Compile Include="Internal\UrlHelperAdapter.cs" />
+    <Compile Include="IPageTypePropertyHandler.cs" />
     <Compile Include="IStringArrayPropertyHandler.cs" />
     <Compile Include="IUrlHelper.cs" />
     <Compile Include="IValueTypePropertyHandler.cs" />

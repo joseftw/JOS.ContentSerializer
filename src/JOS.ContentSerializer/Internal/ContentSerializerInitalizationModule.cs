@@ -28,6 +28,7 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IUrlPropertyHandler, DefaultUrlPropertyHandler>();
             context.Services.AddSingleton<IValueTypePropertyHandler, DefaultValueTypePropertyHandler>();
             context.Services.AddSingleton<IContentReferencePropertyHandler, DefaultContentReferencePropertyHandler>();
+            context.Services.AddSingleton<IPageTypePropertyHandler, DefaultPageTypePropertyHandler>();
         }
 
         public void Initialize(InitializationEngine context)

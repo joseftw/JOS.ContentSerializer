@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using EPiServer;
 using EPiServer.Core;
+using EPiServer.DataAbstraction;
 
 namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
+        private readonly IPageTypePropertyHandler _pageTypePropertyHandler;
         private readonly IContentReferencePropertyHandler _contentReferencePropertyHandler;
         private readonly IStringArrayPropertyHandler _stringArrayPropertyHandler;
         private readonly IValueTypePropertyHandler _valueTypePropertyHandler;
@@ -24,7 +26,8 @@ namespace JOS.ContentSerializer.Internal
             IContentAreaPropertyHandler contentAreaPropertyHandler,
             IUrlPropertyHandler urlPropertyHandler,
             IStringArrayPropertyHandler stringArrayPropertyHandler,
-            IContentReferencePropertyHandler contentReferencePropertyHandler
+            IContentReferencePropertyHandler contentReferencePropertyHandler,
+            IPageTypePropertyHandler pageTypePropertyHandler
         )
         {
             _valueTypePropertyHandler = valueTypePropertyHandler ?? throw new ArgumentNullException(nameof(valueTypePropertyHandler));
@@ -35,6 +38,7 @@ namespace JOS.ContentSerializer.Internal
             _urlPropertyHandler = urlPropertyHandler ?? throw new ArgumentNullException(nameof(urlPropertyHandler));
             _stringArrayPropertyHandler = stringArrayPropertyHandler ?? throw new ArgumentNullException(nameof(stringArrayPropertyHandler));
             _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
+            _pageTypePropertyHandler = pageTypePropertyHandler ?? throw new ArgumentNullException(nameof(pageTypePropertyHandler));
         }
 
         public Dictionary<string, object> GetStructuredData(
@@ -104,6 +108,10 @@ namespace JOS.ContentSerializer.Internal
                         var contentReferenceResult =
                             this._contentReferencePropertyHandler.GetValue(c, settings.ContentReferenceSettings);
                         structuredData.Add(key, contentReferenceResult);
+                        break;
+                    case PageType pt:
+                        var pageTypeResult = this._pageTypePropertyHandler.GetValue(pt);
+                        structuredData.Add(key, pageTypeResult);
                         break;
                 }
             }
