@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using EPiServer;
 using EPiServer.Core;
@@ -8,6 +9,8 @@ namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
+        private readonly IXhtmlStringPropertyHandler _xhtmlStringPropertyHandler;
+        private readonly IContentReferenceListPropertyHandler _contentReferenceListPropertyHandler;
         private readonly IPageTypePropertyHandler _pageTypePropertyHandler;
         private readonly IContentReferencePropertyHandler _contentReferencePropertyHandler;
         private readonly IStringArrayPropertyHandler _stringArrayPropertyHandler;
@@ -27,7 +30,9 @@ namespace JOS.ContentSerializer.Internal
             IUrlPropertyHandler urlPropertyHandler,
             IStringArrayPropertyHandler stringArrayPropertyHandler,
             IContentReferencePropertyHandler contentReferencePropertyHandler,
-            IPageTypePropertyHandler pageTypePropertyHandler
+            IPageTypePropertyHandler pageTypePropertyHandler,
+            IContentReferenceListPropertyHandler contentReferenceListPropertyHandler,
+            IXhtmlStringPropertyHandler xhtmlStringPropertyHandler
         )
         {
             _valueTypePropertyHandler = valueTypePropertyHandler ?? throw new ArgumentNullException(nameof(valueTypePropertyHandler));
@@ -39,6 +44,9 @@ namespace JOS.ContentSerializer.Internal
             _stringArrayPropertyHandler = stringArrayPropertyHandler ?? throw new ArgumentNullException(nameof(stringArrayPropertyHandler));
             _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
             _pageTypePropertyHandler = pageTypePropertyHandler ?? throw new ArgumentNullException(nameof(pageTypePropertyHandler));
+            _contentReferenceListPropertyHandler = contentReferenceListPropertyHandler ?? throw new ArgumentNullException(nameof(contentReferenceListPropertyHandler));
+            _xhtmlStringPropertyHandler = xhtmlStringPropertyHandler ?? throw new ArgumentNullException(nameof(xhtmlStringPropertyHandler));
+
         }
 
         public Dictionary<string, object> GetStructuredData(
@@ -115,6 +123,15 @@ namespace JOS.ContentSerializer.Internal
                     case PageType pt:
                         var pageTypeResult = this._pageTypePropertyHandler.GetValue(pt);
                         structuredData.Add(key, pageTypeResult);
+                        break;
+                    case IList<ContentReference> contentReferenceList:
+                        structuredData.Add(
+                            key,
+                            this._contentReferenceListPropertyHandler.GetValue(contentReferenceList, settings.ContentReferenceSettings));
+                        break;
+                    case XhtmlString x:
+                        var xhtmlStringResult = this._xhtmlStringPropertyHandler.GetValue(x);
+                        structuredData.Add(key, xhtmlStringResult);
                         break;
                 }
             }

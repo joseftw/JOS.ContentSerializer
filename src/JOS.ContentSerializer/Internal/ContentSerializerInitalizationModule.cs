@@ -29,6 +29,9 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IValueTypePropertyHandler, DefaultValueTypePropertyHandler>();
             context.Services.AddSingleton<IContentReferencePropertyHandler, DefaultContentReferencePropertyHandler>();
             context.Services.AddSingleton<IPageTypePropertyHandler, DefaultPageTypePropertyHandler>();
+            context.Services
+                .AddSingleton<IContentReferenceListPropertyHandler, DefaultContentReferenceListPropertyHandler>();
+            context.Services.AddSingleton<IXhtmlStringPropertyHandler, DefaultXhtmlStringPropertyHandler>();
         }
 
         public void Initialize(InitializationEngine context)
