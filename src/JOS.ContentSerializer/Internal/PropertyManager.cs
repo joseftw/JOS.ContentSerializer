@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
+using EPiServer.SpecializedProperties;
 
 namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
+        private readonly ILinkItemCollectionPropertyHandler _linkItemCollectionPropertyHandler;
         private readonly IXhtmlStringPropertyHandler _xhtmlStringPropertyHandler;
         private readonly IContentReferenceListPropertyHandler _contentReferenceListPropertyHandler;
         private readonly IPageTypePropertyHandler _pageTypePropertyHandler;
@@ -32,7 +34,8 @@ namespace JOS.ContentSerializer.Internal
             IContentReferencePropertyHandler contentReferencePropertyHandler,
             IPageTypePropertyHandler pageTypePropertyHandler,
             IContentReferenceListPropertyHandler contentReferenceListPropertyHandler,
-            IXhtmlStringPropertyHandler xhtmlStringPropertyHandler
+            IXhtmlStringPropertyHandler xhtmlStringPropertyHandler,
+            ILinkItemCollectionPropertyHandler linkItemCollectionPropertyHandler
         )
         {
             _valueTypePropertyHandler = valueTypePropertyHandler ?? throw new ArgumentNullException(nameof(valueTypePropertyHandler));
@@ -46,7 +49,7 @@ namespace JOS.ContentSerializer.Internal
             _pageTypePropertyHandler = pageTypePropertyHandler ?? throw new ArgumentNullException(nameof(pageTypePropertyHandler));
             _contentReferenceListPropertyHandler = contentReferenceListPropertyHandler ?? throw new ArgumentNullException(nameof(contentReferenceListPropertyHandler));
             _xhtmlStringPropertyHandler = xhtmlStringPropertyHandler ?? throw new ArgumentNullException(nameof(xhtmlStringPropertyHandler));
-
+            _linkItemCollectionPropertyHandler = linkItemCollectionPropertyHandler ?? throw new ArgumentNullException(nameof(linkItemCollectionPropertyHandler));
         }
 
         public Dictionary<string, object> GetStructuredData(
@@ -132,6 +135,11 @@ namespace JOS.ContentSerializer.Internal
                     case XhtmlString x:
                         var xhtmlStringResult = this._xhtmlStringPropertyHandler.GetValue(x);
                         structuredData.Add(key, xhtmlStringResult);
+                        break;
+                    case LinkItemCollection linkItemCollection:
+                        var linkItemCollectionResult =
+                            this._linkItemCollectionPropertyHandler.GetValue(linkItemCollection, settings.UrlSettings);
+                        structuredData.Add(key, linkItemCollectionResult);
                         break;
                 }
             }

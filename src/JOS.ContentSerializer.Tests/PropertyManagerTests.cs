@@ -32,7 +32,10 @@ namespace JOS.ContentSerializer.Tests
                     Substitute.For<IRequestHostResolver>()),
                 new DefaultStringArrayPropertyHandler(),
                 new DefaultContentReferencePropertyHandler(Substitute.For<IUrlHelper>()),
-                new DefaultPageTypePropertyHandler()
+                new DefaultPageTypePropertyHandler(),
+                new DefaultContentReferenceListPropertyHandler(new DefaultContentReferencePropertyHandler(Substitute.For<IUrlHelper>())),
+                new DefaultXhtmlStringPropertyHandler(),
+                new DefaultLinkItemCollectionPropertyHandler(Substitute.For<IUrlHelper>())
             );
             this._page = new StandardPageBuilder().Build();
         }

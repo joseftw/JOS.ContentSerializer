@@ -162,6 +162,7 @@
   <ItemGroup>
     <Compile Include="DefaultContentAreaPropertyHandlerTests.cs" />
     <Compile Include="DefaultContentReferencePropertyHandlerTests.cs" />
+    <Compile Include="DefaultLinkItemCollectionPropertyHandlerTests.cs" />
     <Compile Include="DefaultPropertyNameStrategyTests.cs" />
     <Compile Include="DefaultPropertyResolverTests.cs" />
     <Compile Include="DefaultStringPropertyHandlerTests.cs" />

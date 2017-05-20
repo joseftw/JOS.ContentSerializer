@@ -133,12 +133,15 @@
     <Compile Include="ContentSerializer.cs" />
     <Compile Include="IContentReferenceListPropertyHandler.cs" />
     <Compile Include="IContentReferencePropertyHandler.cs" />
+    <Compile Include="ILinkItemCollectionPropertyHandler.cs" />
     <Compile Include="Internal\ContentSerializerInitalizationModule.cs" />
     <Compile Include="Internal\DefaultContentReferenceListPropertyHandler.cs" />
     <Compile Include="Internal\DefaultContentReferencePropertyHandler.cs" />
+    <Compile Include="Internal\DefaultLinkItemCollectionPropertyHandler.cs" />
     <Compile Include="Internal\DefaultPageTypePropertyHandler.cs" />
     <Compile Include="Internal\DefaultStringArrayPropertyHandler.cs" />
     <Compile Include="Internal\DefaultXhtmlStringPropertyHandler.cs" />
+    <Compile Include="Internal\LinkItem.cs" />
     <Compile Include="Internal\UrlHelperAdapter.cs" />
     <Compile Include="IPageTypePropertyHandler.cs" />
     <Compile Include="IStringArrayPropertyHandler.cs" />

@@ -32,6 +32,8 @@ namespace JOS.ContentSerializer.Internal
             context.Services
                 .AddSingleton<IContentReferenceListPropertyHandler, DefaultContentReferenceListPropertyHandler>();
             context.Services.AddSingleton<IXhtmlStringPropertyHandler, DefaultXhtmlStringPropertyHandler>();
+            context.Services
+                .AddSingleton<ILinkItemCollectionPropertyHandler, DefaultLinkItemCollectionPropertyHandler>();
         }
 
         public void Initialize(InitializationEngine context)
