@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
+using EPiServer.Web;
 using JOS.ContentSerializer.Internal;
 using JOS.ContentSerializer.Tests.Pages;
 using NSubstitute;
@@ -25,7 +26,10 @@ namespace JOS.ContentSerializer.Tests
                 new DefaultPropertyResolver(),
                 new DefaultStringPropertyHandler(),
                 new DefaultContentAreaPropertyHandler(contentLoader),
-                new DefaultUrlPropertyHandler(Substitute.For<UrlHelper>()),
+                new DefaultUrlPropertyHandler(
+                    Substitute.For<IUrlHelper>(),
+                    Substitute.For<ISiteDefinitionResolver>(),
+                    Substitute.For<IRequestHostResolver>()),
                 new DefaultStringArrayPropertyHandler()
             );
             this._page = new StandardPageBuilder().Build();

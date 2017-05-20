@@ -130,7 +130,9 @@
     <Compile Include="ContentSerializerSettings.cs" />
     <Compile Include="ContentSerializer.cs" />
     <Compile Include="Internal\DefaultStringArrayPropertyHandler.cs" />
+    <Compile Include="Internal\UrlHelperAdapter.cs" />
     <Compile Include="IStringArrayPropertyHandler.cs" />
+    <Compile Include="IUrlHelper.cs" />
     <Compile Include="IValueTypePropertyHandler.cs" />
     <Compile Include="IContentAreaPropertyHandler.cs" />
     <Compile Include="IContentDataPropertyHandler.cs" />

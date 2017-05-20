@@ -73,6 +73,10 @@ namespace JOS.ContentSerializer.Internal
                         var strings = this._stringArrayPropertyHandler.GetValue(contentData, property);
                         structuredData.Add(key, strings);
                         break;
+                    case BlockData b:
+                        var blockDataResult = GetStructuredData(b, settings);
+                        structuredData.Add(key, blockDataResult);
+                        break;
                 }
             }
             return structuredData;
