@@ -5,7 +5,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultJsonContentSerializer : IContentSerializer
+    public class DefaultJsonContentSerializer : IContentJsonSerializer
     {
         private readonly IPropertyManager _propertyManager;
 

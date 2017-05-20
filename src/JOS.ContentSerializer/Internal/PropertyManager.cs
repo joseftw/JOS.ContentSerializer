@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
@@ -10,6 +10,7 @@ namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
+        private readonly ICustomPropertiesHandler _customPropertiesHandler;
         private readonly ILinkItemCollectionPropertyHandler _linkItemCollectionPropertyHandler;
         private readonly IXhtmlStringPropertyHandler _xhtmlStringPropertyHandler;
         private readonly IContentReferenceListPropertyHandler _contentReferenceListPropertyHandler;
@@ -35,7 +36,8 @@ namespace JOS.ContentSerializer.Internal
             IPageTypePropertyHandler pageTypePropertyHandler,
             IContentReferenceListPropertyHandler contentReferenceListPropertyHandler,
             IXhtmlStringPropertyHandler xhtmlStringPropertyHandler,
-            ILinkItemCollectionPropertyHandler linkItemCollectionPropertyHandler
+            ILinkItemCollectionPropertyHandler linkItemCollectionPropertyHandler,
+            ICustomPropertiesHandler customPropertiesHandler
         )
         {
             _valueTypePropertyHandler = valueTypePropertyHandler ?? throw new ArgumentNullException(nameof(valueTypePropertyHandler));
@@ -50,6 +52,7 @@ namespace JOS.ContentSerializer.Internal
             _contentReferenceListPropertyHandler = contentReferenceListPropertyHandler ?? throw new ArgumentNullException(nameof(contentReferenceListPropertyHandler));
             _xhtmlStringPropertyHandler = xhtmlStringPropertyHandler ?? throw new ArgumentNullException(nameof(xhtmlStringPropertyHandler));
             _linkItemCollectionPropertyHandler = linkItemCollectionPropertyHandler ?? throw new ArgumentNullException(nameof(linkItemCollectionPropertyHandler));
+            _customPropertiesHandler = customPropertiesHandler ?? throw new ArgumentNullException(nameof(customPropertiesHandler));
         }
 
         public Dictionary<string, object> GetStructuredData(
@@ -64,6 +67,7 @@ namespace JOS.ContentSerializer.Internal
                 if (property.PropertyType.IsValueType)
                 {
                     structuredData.Add(key, this._valueTypePropertyHandler.GetValue(contentData, property));
+                    continue;
                 }
 
                 var value = property.GetValue(contentData);
@@ -72,11 +76,11 @@ namespace JOS.ContentSerializer.Internal
                 {
                     case string _:
                         var stringValue = this._stringPropertyHandler.GetValue(contentData, property);
-                        structuredData.Add(key, stringValue);
+                        AddItem(key, stringValue, structuredData, settings.ThrowOnDuplicate);
                         break;
                     case ContentArea c:
                         var contentAreaItems = this._contentAreaPropertyHandler.GetValue(c, settings);
-                        if (settings.GlobalWrapContentAreaItems)
+                        if (WrapItems(c, settings))
                         {
                             var items = new Dictionary<string, List<object>>();
                             foreach (var item in contentAreaItems)
@@ -92,7 +96,7 @@ namespace JOS.ContentSerializer.Internal
                                     items[typeName] = new List<object> {result};
                                 }
                             }
-                            structuredData.Add(key, items);
+                            AddItem(key, items, structuredData, settings.ThrowOnDuplicate);
                         }
                         else
                         {
@@ -102,48 +106,80 @@ namespace JOS.ContentSerializer.Internal
                                 var result = GetStructuredData(item, settings);
                                 items.Add(result);
                             }
-
-                            structuredData.Add(key, items);
+                            
+                            AddItem(key, items, structuredData, settings.ThrowOnDuplicate);
                         }
                         break;
                     case Url url:
                         var urlValue = this._urlPropertyHandler.GetValue(url, settings.UrlSettings);
-                        structuredData.Add(key, urlValue);
+                        AddItem(key, urlValue, structuredData, settings.ThrowOnDuplicate);
                         break;
                     case string[] _:
                         var strings = this._stringArrayPropertyHandler.GetValue(contentData, property);
-                        structuredData.Add(key, strings);
+                        AddItem(key, strings, structuredData, settings.ThrowOnDuplicate);
                         break;
                     case BlockData b:
                         var blockDataResult = GetStructuredData(b, settings);
-                        structuredData.Add(key, blockDataResult);
+                        AddItem(key, blockDataResult, structuredData, settings.ThrowOnDuplicate);
                         break;
                     case ContentReference c:
                         var contentReferenceResult =
                             this._contentReferencePropertyHandler.GetValue(c, settings.ContentReferenceSettings);
-                        structuredData.Add(key, contentReferenceResult);
+                        AddItem(key, contentReferenceResult, structuredData, settings.ThrowOnDuplicate);
                         break;
                     case PageType pt:
                         var pageTypeResult = this._pageTypePropertyHandler.GetValue(pt);
-                        structuredData.Add(key, pageTypeResult);
+                        AddItem(key, pageTypeResult, structuredData, settings.ThrowOnDuplicate);
                         break;
                     case IList<ContentReference> contentReferenceList:
-                        structuredData.Add(
-                            key,
-                            this._contentReferenceListPropertyHandler.GetValue(contentReferenceList, settings.ContentReferenceSettings));
+                        var contentReferenceListResult =
+                            this._contentReferenceListPropertyHandler.GetValue(contentReferenceList,
+                                settings.ContentReferenceSettings);
+                        AddItem(key, contentReferenceListResult, structuredData, settings.ThrowOnDuplicate);
                         break;
                     case XhtmlString x:
                         var xhtmlStringResult = this._xhtmlStringPropertyHandler.GetValue(x);
-                        structuredData.Add(key, xhtmlStringResult);
+                        AddItem(key, xhtmlStringResult, structuredData, settings.ThrowOnDuplicate);
                         break;
                     case LinkItemCollection linkItemCollection:
                         var linkItemCollectionResult =
                             this._linkItemCollectionPropertyHandler.GetValue(linkItemCollection, settings.UrlSettings);
-                        structuredData.Add(key, linkItemCollectionResult);
+                        AddItem(key, linkItemCollectionResult, structuredData, settings.ThrowOnDuplicate);
+                        break;
+                    default:
+                        if (settings.UseCustomPropertiesHandler && value != null)
+                        {
+                            var customPropertyResult = this._customPropertiesHandler.GetValue(value);
+                            if (customPropertyResult != null)
+                            {
+                                AddItem(key, customPropertyResult, structuredData, settings.ThrowOnDuplicate);
+                            }
+                        }
                         break;
                 }
             }
             return structuredData;
+        }
+
+        private static bool WrapItems(ContentArea contentArea, ContentSerializerSettings contentSerializerSettings)
+        {
+            var wrapItemsAttribute = contentArea.GetType().GetCustomAttribute<WrapItemsAttribute>(false);
+            var wrapItems = wrapItemsAttribute?.WrapItems ?? contentSerializerSettings.GlobalWrapContentAreaItems;
+            return wrapItems;
+        }
+
+        private void AddItem(string key, object value, Dictionary<string, object> target, bool throwOnDuplicate)
+        {
+            if (!target.ContainsKey(key))
+            {
+                target.Add(key, value);
+                return;
+            }
+
+            if (throwOnDuplicate)
+            {
+                throw new ArgumentException("An item with the same key has already been added.");
+            }
         }
     }
 }

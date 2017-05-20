@@ -35,7 +35,8 @@ namespace JOS.ContentSerializer.Tests
                 new DefaultPageTypePropertyHandler(),
                 new DefaultContentReferenceListPropertyHandler(new DefaultContentReferencePropertyHandler(Substitute.For<IUrlHelper>())),
                 new DefaultXhtmlStringPropertyHandler(),
-                new DefaultLinkItemCollectionPropertyHandler(Substitute.For<IUrlHelper>())
+                new DefaultLinkItemCollectionPropertyHandler(Substitute.For<IUrlHelper>()),
+                new DefaultCustomPropertiesHandler()
             );
             this._page = new StandardPageBuilder().Build();
         }

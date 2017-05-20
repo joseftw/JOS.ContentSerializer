@@ -39,18 +39,7 @@ namespace JOS.ContentSerializer.Internal
                 return url.PathAndQuery;
             }
 
-            var prettyUrl = this._urlHelper.ContentUrl(url);
-            if (urlSettings.UseAbsoluteUrls)
-            {
-                var siteDefinition = this._siteDefinitionResolver.GetByHostname(
-                    this._requestHostResolver.HostName,
-                    urlSettings.FallbackToWildcard
-                );
-                var uri = new Uri(siteDefinition.SiteUrl, prettyUrl);
-                return uri.AbsoluteUri;
-            }
-
-            return prettyUrl;
+           return this._urlHelper.ContentUrl(url, urlSettings);
         }
     }
 }

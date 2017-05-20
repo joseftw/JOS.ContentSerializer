@@ -34,6 +34,8 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IXhtmlStringPropertyHandler, DefaultXhtmlStringPropertyHandler>();
             context.Services
                 .AddSingleton<ILinkItemCollectionPropertyHandler, DefaultLinkItemCollectionPropertyHandler>();
+            context.Services.AddSingleton<IContentJsonSerializer, DefaultJsonContentSerializer>();
+            context.Services.AddSingleton<ICustomPropertiesHandler, DefaultCustomPropertiesHandler>();
         }
 
         public void Initialize(InitializationEngine context)

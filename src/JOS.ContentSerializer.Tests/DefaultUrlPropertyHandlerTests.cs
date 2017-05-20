@@ -1,5 +1,4 @@
-﻿using System;
-using EPiServer;
+﻿using EPiServer;
 using EPiServer.Web;
 using JOS.ContentSerializer.Internal;
 using NSubstitute;
@@ -63,14 +62,10 @@ namespace JOS.ContentSerializer.Tests
             var prettyPath = "/rewritten/pretty-url/";
             var value = "/link/d40d0056ede847d5a2f3b4a02778d15b.aspx";
             var url = new Url(value);
-            this._urlHelper.ContentUrl(Arg.Any<Url>()).Returns(prettyPath);
-            this._requestHostResolver.HostName.Returns("example.com");
-            this._siteDefinitionResolver.GetByHostname(Arg.Any<string>(), Arg.Any<bool>()).Returns(new SiteDefinition
-            {
-                SiteUrl = new Uri(siteUrl)
-            });
-
-            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = true });
+            var settings = new UrlSettings();
+            this._urlHelper.ContentUrl(Arg.Any<Url>(), settings).Returns($"{siteUrl}{prettyPath}");
+         
+            var result = this._sut.GetValue(url, settings);
 
             result.ShouldBe($"{siteUrl}{prettyPath}");
         }
@@ -81,9 +76,10 @@ namespace JOS.ContentSerializer.Tests
             var prettyPath = "/rewritten/pretty-url/";
             var value = "/link/d40d0056ede847d5a2f3b4a02778d15b.aspx";
             var url = new Url(value);
-            this._urlHelper.ContentUrl(Arg.Any<Url>()).Returns(prettyPath);
+            var settings = new UrlSettings {UseAbsoluteUrls = false};
+            this._urlHelper.ContentUrl(Arg.Any<Url>(), settings).Returns(prettyPath);
 
-            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = false });
+            var result = this._sut.GetValue(url, settings);
 
             result.ShouldBe(prettyPath);
         }

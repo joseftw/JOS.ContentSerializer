@@ -16,5 +16,17 @@ namespace JOS.ContentSerializer
             var contentSerializer = ServiceLocator.Current.GetInstance<IContentSerializer>();
             return contentSerializer.Serialize(contentData, contentSerializerSettings);
         }
+
+        public static string ToJson(this IContentData contentData)
+        {
+            var contentSerializer = ServiceLocator.Current.GetInstance<IContentJsonSerializer>();
+            return contentSerializer.Serialize(contentData);
+        }
+
+        public static string ToJson(this IContentData contentData, ContentSerializerSettings contentSerializerSettings)
+        {
+            var contentSerializer = ServiceLocator.Current.GetInstance<IContentJsonSerializer>();
+            return contentSerializer.Serialize(contentData, contentSerializerSettings);
+        }
     }
 }
