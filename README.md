@@ -1,12 +1,15 @@
-# EPiServer-ContentJson
+# JOS.ContentSerializer
 
-## Converts any ContentData object to JSON
+## Serialize any ContentData object to JSON(or xml, or something else)
 
-We needed to get a JSON representation of EPiServer contenttypes at work because of
-how our frontend-framework(uses backbone and stuff) works.
+### Installation
+Nuget: **Install-Package Jos.ContentSerializer**
+#### *OR*
+Just check out the desired branch and add the Jos.ContentSerializer project to your solution.
 
-It currently supports the following EPiServer Property Types(more to come!):
+### Features
 
+Support for the most common built in properties:
 -  String
 -  bool
 -  XhtmlString
@@ -21,12 +24,89 @@ It currently supports the following EPiServer Property Types(more to come!):
 -  ContentReference
 -  LinkItemCollection
 -  Url
--  PropertyList<T>
+-  ContentReferenceList
 
-### Installation
-Nuget: **Install-Package Jos.ContentJson** *Note, this is the master branch.* (My first Nuget package, please tell me if something's wrong)
-#### *OR*
-Just check out the desired branch and add the Jos.ContentJson project to your solution.
+### Extensible
+Need support for a custom property? Maybe a Dictionary<string, string>?
+It's easy to add support for custom properties.
+When calling .Serialize/.ToJson you can pass in some settings. If you set ```UseCustomPropertiesHandler``` to ```true``` you will activate the ```DefaultCustomPropertiesHandler```. This is just some simple code that runs returns the .GetValue representation of your property. For some this may be enough, but what if you would like to only return part of that data, or something completely different?
+
+Easy. Just implement your own CustomPropertiesHandler!
+Implement ```ICustomPropertiesHandler``` and register it in the container and you should be good to go.
+A custom implementation that supports ```Dictionary<string, string>``` might look like this
+
+```
+public class MyCustomPropertiesHandler : ICustomPropertiesHandler
+{
+    public object GetValue(object propertyValue)
+    {
+        switch (propertyValue)
+        {
+            case Dictionary<string, string> dictionary:
+                // Do something here and return it!
+                break;
+        }
+        return propertyValue;
+    }
+}
+
+```
+My goal when designing this library was that it should be easy to customize the result. All PropertyHandlers implements their own interfaces so if you want to change something, just make your own implementation of the interface and register it in the container.
+
+The following interfaces exists
+
+#### PropertyHandlers
+
+-  IContentAreaPropertyHandler
+-  IContentReferenceListPropertyHandler
+-  IContentReferencePropertyHandler
+-  ICustomPropertiesHandler
+-  ILinkItemCollectionPropertyHandler
+-  IPageTypePropertyHandler
+-  IStringArrayPropertyHandler
+-  IStringPropertyHandler
+-  IUrlPropertyHandler
+-  IValueTypePropertyHandler
+-  IXhtmlStringPropertyHandler
+
+#### Other interfaces
+
+-  IContentJsonSerializer - The default Json serializer. Implent it and register your own if you want to replace it.
+-  IContentSerializer - The default serializer. The default one is the same as IContentJsonSerializer.
+-  IPropertyManager - Handles the mapping from a property to a PropertyHandler.
+-  IPropertyNameStrategy - Handles how the serialized properties should be named.
+-  IPropertyResolver - Handles which properties that should be serialized.
+-  IUrlHelper - Handles how ContentReferences/Url-properties should be serialized.
+
+#### IPropertyNameStrategy
+The default implementation checks for the ```ContentSerializerNameAttribute``` attribute, if found, the name from the attribute will be used. If not found, the name of the property will be used.
+
+#### IPropertyResolver
+The default implementation works like this on a ContentData object.
+1. It looks for the ```ContentSerializerIgnoreAttribute```, if found, the property will be skipped.
+2. If no ```ContentSerializerIgnoreAttribute``` was found, it looks for the ```DisplayAttribute```, if found, the property will be included.
+3. If no ```DisplayAttribute``` was found, it looks for the ```ContentSerializerIncludeAttribute```, if found, the property will be included.
+
+### Customizable
+The .Serialize and .ToJson methods both have an overload where you can pass in ```ContentSerializerSettings```.
+You can change the following settings:
+
+* GlobalWrapContentAreaItems - Default = **true**
+Decides if items in a contentarea should be grouped by their ContentType or not.
+* UrlSettings
+    * UseAbsoluteUrls - Default = **true**
+    Decides if the urls returned should be absolute or relative.
+    * FallbackToWildcard - Default = **true**
+    If set to true, the site matched with wildcard (if any) is returned if no mapping could be found for the current hostname when using the GetByHostname method.
+* ContentReferenceSettings
+    * UseAbsoluteUrls - Default = **true**
+    Same as for UrlSettings.
+    * FallbackToWildcard - Default = **true**
+    Sames as for UrlSettings.
+* UseCustomPropertiesHandler - Default = **false**
+Enables/Disables the CustomPropertiesHandler. Note, **NOT ENABLED BY DEFAULT.**
+* ThrowOnDuplicate - Default = **false**
+If the code should throw if a duplicate is added to the backing dictionary. If false, the duplicate will not be added and no exception will be thrown. When implementing your own CustomPropertiesHandler, setting this to true could be useful while developing.
 
 ### Examples
 
@@ -72,400 +152,3 @@ This will return a JSON representation of the `Startpage` type like this:
         public virtual bool ThisIsSweet { get; set; }
     }
 ```    
-~~Each property that you want to include in the JSON response needs to be decorated with the JsonProperty attribute(Json.net...).
-*Im thinking about making this optional(if you want to specify a custom JSON key for example) and instead select all properties
-that has the Display attribute...*~~
-
-This is now implemented. All properties with the `Display`-attribute will appear in the JSON. You can still use the `JsonProperty`-attribute to define custom JSON-keys and/or add properties that doesn't have the `Display`-attribute. You can also use the `JsonIgnore`-attribute on properties you don't want appearing in the JSON.
-
-Anyhow, that example was pretty basic, what about internal blocks?
-
-#### Internal Blocks
-
-**Startpage**:
-```c#
-    [ContentType(DisplayName = "Startpage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d", Description = "")]
-    public class Startpage : PageData
-    {
-        [Display(Name = "Heading", Order = 100)]
-        public virtual string Heading { get; set; }
-
-        [Display(Name = "ThisIsSweet", Order = 150)]
-        public virtual bool ThisIsSweet { get; set; }
-
-        [Display(Name = "InternalBlock", Order = 160)]
-        public virtual InternalBlock InternalBlock { get; set; }
-    }
-```
-**InternalBlock**:
-```c#
-    [ContentType(DisplayName = "InternalBlock", GUID = "07bd1b92-9ec2-4da9-909d-1c98f9624cfd", Description = "")]
-    public class InternalBlock : BlockData
-    {
-        [Display(Name = "heading")]
-        public virtual string Heading { get; set; }
-
-        [Display(Name = "greatestRapperAlive")]
-        public virtual string GreatestRapperAlive { get; set; }
-    }
-  ```  
-  The JSON response would look like this:
-  ```javascript
-    {
-        "heading": "This is pretty Cool",
-        "thisIsSweet": true,
-        "internalBlock": {
-            "heading": "Internal JOOOSEF",
-            "greatestRapperAlive": "Eminem"
-        }
-    }
-```
-#### Contentarea
-
-Now I've added a ContentArea to my Startpage like this:
-```c#
-    [ContentType(DisplayName = "Startpage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d", Description = "")]
-    public class Startpage : PageData
-    {
-        [Display(Name = "Heading")]
-        public virtual string Heading { get; set; }
-
-        [Display(Name = "ThisIsSweet")]
-        public virtual bool ThisIsSweet { get; set; }
-
-        [Display(Name = "InternalBlock")]
-        public virtual InternalBlock InternalBlock { get; set; }
-
-        [Display(Name = "Contentarea")]
-        public virtual ContentArea ContentArea { get; set; }
-    }
-```
-When adding a couple of InternalBlocks to the ContentArea the JSON response would look like this:
-```javascript
-    {
-        "heading": "This is pretty cool",
-        "thisIsSweet": true,
-        "internalBlock": {
-            "heading": "This is the Heading",
-            "greatestRapperAlive": "Eminem"
-        },
-        "contentArea": {
-                "internalBlock": [
-                {
-                    "heading": "Im in a ContentArea",
-                    "greatestRapperAlive": "Biggie"
-                },
-                {
-                    "heading": "Me too",
-                    "greatestRapperAlive": "Tupac"
-                }
-            ]
-        }
-    }
-```
-As you can see the blocks get placed in an array under the property internalBlock.
-Why is that? Well this is to support different ContentTypes in the ContentArea. What would happen if we added the BlockType
-`DifferentBlock` to our ContentArea?
-```c#
-    [ContentType(DisplayName = "DifferentBlock", GUID = "18bd1b92-9ec2-4da9-909d-1c98f9624cfe", Description = "")]
-    public class DifferentBlock : BlockData
-    {
-        [Display(Name = "Worst Rapper Alive")]
-        public virtual string WorstRapperAlive { get; set; }
-
-        [Display(Name = "Worst rapper ever?")]
-        public virtual bool WorstRapperEver { get; set; }
-    }
-```
-The JSON response would look like this if we added one `DifferentBlock` to our ContentArea:
-```javascript
-    {
-        "heading": "This is pretty cool",
-        "thisIsSweet": true,
-        "internalBlock": {
-            "heading": "This is the Heading",
-            "greatestRapperAlive": "Eminem"
-        },
-         "contentArea": {
-             "internalBlock": [
-                {
-                    "heading": "Im in a ContentArea",
-                    "greatestRapperAlive": "Biggie(will never die)"
-                },
-                {
-                    "heading": "Me too",
-                    "greatestRapperAlive": "Tupac(will never die)"
-                }
-            ],
-            "differentBlock": [
-                {
-                    "worstRapperAlive": "Drake",
-                    "worstRapperEver": false
-                },
-                {
-                    "worstRapperAlive": "Flo Rida",
-                    "worstRapperEver": true
-                }
-            ]
-        }
-    }
-```
-##### Custom JSON key
-If you want to give the Items in your ContentArea a different JSON key you could decorate your class with the JsonObject attribute like this:
-```c#
-    [ContentType(DisplayName = "DifferentBlock", GUID = "18bd1b92-9ec2-4da9-909d-1c98f9624cfe", Description = "")]
-    [JsonObject("customJsonKey")]
-    public class DifferentBlock : BlockData
-    {
-        [Display(Name = "Worst Rapper Alive")]
-        public virtual string WorstRapperAlive { get; set; }
-
-        [Display(Name = "Worst rapper ever?")]
-        public virtual bool WorstRapperEver { get; set; }
-    }
-```
-The JSON would now look like this:
-```javascript
-    {
-        "heading": "This is pretty cool",
-        "thisIsSweet": true,
-        "internalBlock": {
-            "heading": "This is the Heading",
-            "greatestRapperAlive": "Eminem"
-        },
-         "contentArea": {
-             "internalBlock": [
-                {
-                    "heading": "Im in a ContentArea",
-                    "greatestRapperAlive": "Biggie(will never die)"
-                },
-                {
-                    "heading": "Me too",
-                    "greatestRapperAlive": "Tupac(will never die)"
-                }
-            ],
-            "customJsonKey": [
-                {
-                    "worstRapperAlive": "Drake",
-                    "worstRapperEver": false
-                },
-                {
-                    "worstRapperAlive": "Flo Rida",
-                    "worstRapperEver": true
-                }
-            ]
-        }
-    }
-```
-There is, of course :), support for nested ContentAreas and Internal Blocks etc...here's an JSON example:
-```javascript
-    {
-        "heading": "This is Pretty cool",
-        "thisIsSweet": true,
-        "internalBlock": {
-            "heading": "This is the Heading",
-            "greatestRapperAlive": "Eminem",
-            "differentBlock": {
-                "one": "This is",
-                "two": "The Sound of",
-                "three": "The POLICE!!!"
-            },
-            "contentArea": {
-                "internalBlock": [
-                    {
-                        "heading": "Damn Im deep...",
-                        "greatestRapperAlive": "Biggie(will never die)"
-                    },
-                    {
-                        "heading": "Me too bro",
-                        "greatestRapperAlive": "Tupac(will never die)"
-                    }
-                ],
-                "differentBlock": [
-                    {
-                        "worstRapperAlive": "Drake",
-                        "worstRapperEver": false
-                    },
-                    {
-                        "worstRapperAlive": "Flo Rida",
-                        "worstRapperEver": true
-                    }
-                ]
-            }
-        },
-        "contentArea": {
-            "differentBlock": [
-                {
-                    "one": "Sound",
-                    "two": "of the",
-                    "three": "Police!"
-                }
-            ],
-            "sharedBlock": [
-                {
-                    "heading": "HEJ",
-                    "subHeading": "JOSEF"
-                }
-            ]
-        }
-    }
-```
-
-##### Custom JSON keys
-If you want to specify a custom JSON key to a property, simply add a ```JsonProperty```-attribute like this
-```c#
-[Display(Name = "Worst Rapper Alive")]
-[JsonProperty("myCustomJsonKey")]
-public virtual string WorstRapperAlive { get; set; }
-```
-
-##### Ignore properties
-If you have a property that you don't want to appear in the JSON, simply add a ```JsonIgnore```-attribute like this
-```c#
-[Display(Name = "Worst Rapper Alive")]
-[JsonIgnore]
-public virtual string WorstRapperAlive { get; set; }
-```
-
-##### Wrapping of items in ContentArea
-When calling ToJson on a ContentArea it's possible to NOT wrap the items.
-Example(wrapped):
-```c#
-var json = currentPage.ContentArea.ToJson();
-```
-Would produce this JSON:
-```javascript
-{
-    "youTubeBlock": [
-        {
-            "heading": "Heading",
-            "info": "This is some info text",
-            "youTubeId": "489ujksankf833"
-        }
-    ],
-    "textAndImageBlock": [
-        {
-            "text": "Some Text here",
-            "image": null
-        }
-    ],
-    "contentAreaBlock": [
-        {
-            "contentArea": {
-                "youTubeBlock": [
-                    {
-                        "heading": "Heading",
-                        "info": "Info text",
-                        "youTubeId": "8592jmklff4252"
-                    }
-                ]
-            }
-        }
-    ],
-    "overridenBlockWithInternalBlockName": [
-        {
-            "name": "Hey hey",
-            "overridenInternalBlockName": {
-                "heading": "Heading",
-                "summary": 4
-            }
-        }
-    ]
-}
-```
-
-And this is how the unwrapped JSON would look
-```c#
-var json = currentPage.ContentArea.ToJson(false);
-```
-Gives:
-```javascript
-[
-    {
-        "heading": "Heading",
-        "info": "This is some info text",
-        "youTubeId": "489ujksankf833"
-    },
-    {
-        "text": "Some Text here",
-        "image": null
-    },
-    {
-        "contentArea": {
-            "youTubeBlock": [
-                {
-                    "heading": "Heading",
-                    "info": "Info text",
-                    "youTubeId": "8592jmklff4252"
-                }
-            ]
-        }
-    },
-    {
-        "name": "Hey hey",
-        "overridenInternalBlockName": {
-            "heading": "Heading",
-            "summary": 4
-        }
-    }
-]
-```
-
-#### PropertyList
-I used the Alloy site when developing this, I added a ```IList<Contact>```-property([you can follow this guide](http://world.episerver.com/blogs/Per-Magne-Skuseth/Dates/2015/11/trying-out-propertylistt/ )) to my ```StartPage.cs``` like this:
-
-```c#
-[Display(
-    GroupName = SystemTabNames.Content,
-    Order = 300)]
-[EditorDescriptor(EditorDescriptorType = typeof(CollectionEditorDescriptor<Contact>))]
-public virtual IList<Contact> Contacts { get; set; }
-```
-
-My ```Contact.cs```-file looks like this:
-```c#
-public class Contact
-{
-    [Display(Name = "Name")]
-    public string Name { get; set; }
-
-    [Display(Name = "Age")]
-    public int Age { get; set; }
-
-    [Display(Name = "Phone number")]
-    public string PhoneNumber { get; set; }
-
-    [Display(Name = "My Page")]
-    public virtual PageReference MyPage { get; set; }
-}
-```
-
-The JSON would look like this:
-```javascript
-{
-	"contacts": [{
-		"name": "Josef Ottosson",
-		"age": 26,
-		"phoneNumber": "0500123456",
-		"myPage": "http://localhost:50198/search/"
-	}, {
-		"name": "Marshall Mathers",
-		"age": 43,
-		"phoneNumber": "1337",
-		"myPage": "http://localhost:50198/alloy-plan/"
-	}]
-}
-```
-
-#### Extension methods
-There's a bunch of extension methods you can use, here's a few:
-* **ContentArea**
- * ToJson - returns a JSON representation of the ContentArea
- * GetStructuredDictionary - returns a Dictionary representation of the ContentArea
-* **ContentData**
- * ToJson - returns a JSON representation of the ContentData
- * GetStructuredDictionary - returns a Dictionary representation of the ContentData
-* **ContentReference**
- * ToPrettyUrl - returns a pretty url to the contentreference, supports absolute and relative
-* **Url**
- * ToPrettyUrl - returns a pretty url from a Url property. Supports mailto as well.
