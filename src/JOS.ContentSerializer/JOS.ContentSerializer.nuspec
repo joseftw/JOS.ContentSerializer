@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+    <id>JOS.ContentSerializer</id>
+    <version>1.0.1</version>
+    <authors>Josef Ottosson</authors>
+    <description>Let's you serialize any ContentData object by simply calling .Serialize or .ToJson on it.</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/joseftw/JOS.ContentJson</projectUrl>
+        <releaseNotes>
+            Adds GetStructuredData method.
+        </releaseNotes>
+    </metadata>
+</package>
