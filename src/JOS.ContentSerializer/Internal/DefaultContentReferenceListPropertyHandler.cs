@@ -29,7 +29,7 @@ namespace JOS.ContentSerializer.Internal
             IEnumerable<ContentReference> contentReferences,
             ContentReferenceSettings contentReferenceSettings)
         {
-            var links = new List<string>();
+            var links = new List<object>();
 
             foreach (var contentReference in contentReferences)
             {

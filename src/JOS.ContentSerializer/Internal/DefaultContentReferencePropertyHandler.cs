@@ -12,9 +12,19 @@ namespace JOS.ContentSerializer.Internal
             _urlHelper = urlHelper;
         }
 
-        public string GetValue(
+        public object GetValue(ContentReference contentReference)
+        {
+            return Execute(contentReference, new ContentReferenceSettings());
+        }
+
+        public object GetValue(
             ContentReference contentReference,
             ContentReferenceSettings contentReferenceSettings)
+        {
+            return Execute(contentReference, contentReferenceSettings);
+        }
+
+        private object Execute(ContentReference contentReference, ContentReferenceSettings contentReferenceSettings)
         {
             var url = new Uri(this._urlHelper.ContentUrl(contentReference, contentReferenceSettings));
 

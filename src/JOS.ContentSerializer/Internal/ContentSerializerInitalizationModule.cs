@@ -17,7 +17,6 @@ namespace JOS.ContentSerializer.Internal
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
             context.Services.AddSingleton<IContentAreaPropertyHandler, DefaultContentAreaPropertyHandler>();
-            context.Services.AddSingleton<IContentDataPropertyHandler, DefaultContentDataPropertyHandler>();
             context.Services.AddSingleton<IContentSerializer, DefaultJsonContentSerializer>();
             context.Services.AddSingleton<IPropertyManager, PropertyManager>();
             context.Services.AddSingleton<IPropertyNameStrategy, DefaultPropertyNameStrategy>();

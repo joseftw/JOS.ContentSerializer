@@ -4,6 +4,7 @@ namespace JOS.ContentSerializer
 {
     public interface IUrlPropertyHandler
     {
-        string GetValue(Url url, UrlSettings urlSettings);
+        object GetValue(Url url);
+        object GetValue(Url url, UrlSettings urlSettings);
     }
 }

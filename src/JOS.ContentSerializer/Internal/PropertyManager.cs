@@ -86,7 +86,7 @@ namespace JOS.ContentSerializer.Internal
                             var items = new Dictionary<string, List<object>>();
                             foreach (var item in contentAreaItems)
                             {
-                                var result = GetStructuredData(item, settings);
+                                var result = GetStructuredData((IContentData)item, settings);
                                 var typeName = item.GetOriginalType().Name;
                                 if (items.ContainsKey(typeName))
                                 {
@@ -104,7 +104,7 @@ namespace JOS.ContentSerializer.Internal
                             var items = new List<object>();
                             foreach (var item in contentAreaItems)
                             {
-                                var result = GetStructuredData(item, settings);
+                                var result = GetStructuredData((IContentData)item, settings);
                                 items.Add(result);
                             }
                             

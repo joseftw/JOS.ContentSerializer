@@ -4,6 +4,7 @@ namespace JOS.ContentSerializer
 {
     public interface IContentReferencePropertyHandler
     {
-        string GetValue(ContentReference contentReference, ContentReferenceSettings contentReferenceSettings);
+        object GetValue(ContentReference contentReference);
+        object GetValue(ContentReference contentReference, ContentReferenceSettings contentReferenceSettings);
     }
 }

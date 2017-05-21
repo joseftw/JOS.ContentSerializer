@@ -68,14 +68,14 @@ namespace JOS.ContentSerializer.Internal
             return options;
         }
 
-        private static IEnumerable<SelectOptionDto> GetSelectOptions(string property, IEnumerable<ISelectItem> selectOptions)
+        private static IEnumerable<SelectOption> GetSelectOptions(string property, IEnumerable<ISelectItem> selectOptions)
         {
-            var items = new List<SelectOptionDto>();
+            var items = new List<SelectOption>();
             var selectedValues = property?.Split(',') ?? Enumerable.Empty<string>();
 
             foreach (var option in selectOptions)
             {
-                var item = new SelectOptionDto
+                var item = new SelectOption
                 {
                     Selected = selectedValues.Contains(option.Value.ToString()),
                     Text = option.Text,

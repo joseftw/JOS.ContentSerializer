@@ -5,7 +5,7 @@ namespace JOS.ContentSerializer
 {
     public interface IContentAreaPropertyHandler
     {
-        IEnumerable<IContentData> GetValue(ContentArea contentArea);
-        IEnumerable<IContentData> GetValue(ContentArea contentArea, ContentSerializerSettings settings);
+        IEnumerable<object> GetValue(ContentArea contentArea);
+        IEnumerable<object> GetValue(ContentArea contentArea, ContentSerializerSettings settings);
     }
 }

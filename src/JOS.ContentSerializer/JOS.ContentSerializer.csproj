@@ -153,10 +153,8 @@
     <Compile Include="IUrlHelper.cs" />
     <Compile Include="IValueTypePropertyHandler.cs" />
     <Compile Include="IContentAreaPropertyHandler.cs" />
-    <Compile Include="IContentDataPropertyHandler.cs" />
     <Compile Include="IContentSerializer.cs" />
     <Compile Include="Internal\DefaultContentAreaPropertyHandler.cs" />
-    <Compile Include="Internal\DefaultContentDataPropertyHandler.cs" />
     <Compile Include="Internal\DefaultPropertyNameStrategy.cs" />
     <Compile Include="Internal\DefaultPropertyResolver.cs" />
     <Compile Include="Internal\DefaultJsonContentSerializer.cs" />
@@ -171,7 +169,7 @@
     <Compile Include="IUrlPropertyHandler.cs" />
     <Compile Include="IXhtmlStringPropertyHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelectOptionDto.cs" />
+    <Compile Include="Internal\SelectOption.cs" />
     <Compile Include="UrlSettings.cs" />
     <Compile Include="Attributes\WrapItemsAttribute.cs" />
   </ItemGroup>

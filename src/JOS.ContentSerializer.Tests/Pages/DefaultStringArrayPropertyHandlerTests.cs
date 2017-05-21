@@ -21,7 +21,7 @@ namespace JOS.ContentSerializer.Tests.Pages
                 Strings = null
             };
 
-            var result = this._sut.GetValue(page,
+            var result = (string[])this._sut.GetValue(page,
                 page.GetType().GetProperty(nameof(DefaultStringArrayPropertyHandlerPage.Strings)));
 
             result.Length.ShouldBe(0);

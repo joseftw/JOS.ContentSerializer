@@ -1,6 +1,6 @@
-﻿namespace JOS.ContentSerializer
+﻿namespace JOS.ContentSerializer.Internal
 {
-    public class SelectOptionDto
+    public class SelectOption
     {
         public bool Selected { get; set; }
         public string Text { get; set; }

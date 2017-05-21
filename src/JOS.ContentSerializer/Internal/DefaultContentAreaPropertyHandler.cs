@@ -15,12 +15,12 @@ namespace JOS.ContentSerializer.Internal
             _contentLoader = contentLoader ?? throw new ArgumentNullException(nameof(contentLoader));
         }
 
-        public IEnumerable<IContentData> GetValue(ContentArea contentArea)
+        public IEnumerable<object> GetValue(ContentArea contentArea)
         {
             return GetValue(contentArea, new ContentSerializerSettings());
         }
 
-        public IEnumerable<IContentData> GetValue(ContentArea contentArea, ContentSerializerSettings settings)
+        public IEnumerable<object> GetValue(ContentArea contentArea, ContentSerializerSettings settings)
         {
             if (contentArea?.Items == null || !contentArea.Items.Any())
             {

@@ -11,15 +11,11 @@ namespace JOS.ContentSerializer.Tests
     {
         private readonly DefaultUrlPropertyHandler _sut;
         private readonly IUrlHelper _urlHelper;
-        private readonly ISiteDefinitionResolver _siteDefinitionResolver;
-        private readonly IRequestHostResolver _requestHostResolver;
-
+        
         public DefaultUrlPropertyHandlerTests()
         {
             this._urlHelper = Substitute.For<IUrlHelper>();
-            this._siteDefinitionResolver = Substitute.For<ISiteDefinitionResolver>();
-            this._requestHostResolver = Substitute.For<IRequestHostResolver>();
-            this._sut = new DefaultUrlPropertyHandler(this._urlHelper, this._siteDefinitionResolver, this._requestHostResolver);
+            this._sut = new DefaultUrlPropertyHandler(this._urlHelper);
         }
 
         [Fact]

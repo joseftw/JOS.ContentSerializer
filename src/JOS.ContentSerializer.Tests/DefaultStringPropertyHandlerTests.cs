@@ -41,7 +41,7 @@ namespace JOS.ContentSerializer.Tests
                 SelectOne = "option3"
             };
 
-            var result = (List<SelectOptionDto>)this._sut.GetValue(page,
+            var result = (List<SelectOption>)this._sut.GetValue(page,
                 page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)));
 
             result.ShouldContain(x => x.Selected && x.Value.Equals("option3") && x.Text.Equals("Option 3"));
@@ -58,7 +58,7 @@ namespace JOS.ContentSerializer.Tests
                 SelectOne = selectOneValue
             };
 
-            var result = (List<SelectOptionDto>)this._sut.GetValue(page,
+            var result = (List<SelectOption>)this._sut.GetValue(page,
                 page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)));
 
             result.Count(x => x.Selected).ShouldBe(0);
@@ -72,7 +72,7 @@ namespace JOS.ContentSerializer.Tests
                 SelectMany = "option3,option4,option5"
             };
 
-            var result = (List<SelectOptionDto>)this._sut.GetValue(page,
+            var result = (List<SelectOption>)this._sut.GetValue(page,
                 page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectMany)));
 
             result.ShouldContain(x => x.Selected && x.Value.Equals("option3") && x.Text.Equals("Option 3"));
@@ -91,7 +91,7 @@ namespace JOS.ContentSerializer.Tests
                 SelectMany = selectManyValue
             };
 
-            var result = (List<SelectOptionDto>)this._sut.GetValue(page,
+            var result = (List<SelectOption>)this._sut.GetValue(page,
                 page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)));
 
             result.Count(x => x.Selected).ShouldBe(0);

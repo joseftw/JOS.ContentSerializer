@@ -5,6 +5,6 @@ namespace JOS.ContentSerializer
 {
     public interface IStringArrayPropertyHandler
     {
-        string[] GetValue(IContentData contentData, PropertyInfo property);
+        object GetValue(IContentData contentData, PropertyInfo property);
     }
 }

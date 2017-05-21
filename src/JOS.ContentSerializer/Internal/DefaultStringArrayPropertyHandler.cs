@@ -1,16 +1,17 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
     public class DefaultStringArrayPropertyHandler : IStringArrayPropertyHandler
     {
-        public string[] GetValue(IContentData contentData, PropertyInfo property)
+        public object GetValue(IContentData contentData, PropertyInfo property)
         {
             var value = property.GetValue(contentData);
             if (value == null)
             {
-                return new string[0];
+                return (string[])Enumerable.Empty<string>();
             }
             return (string[]) value;
         }
