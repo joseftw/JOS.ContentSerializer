@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EPiServer;
 using EPiServer.Core;
@@ -9,6 +10,7 @@ namespace Jos.ContentJson.Extensions
 {
     public static class ContentAreaExtensions
     {
+        [Obsolete("Library is deprecated, please use JOS.ContentSerializer instead.")]
         public static string ToJson(this ContentArea contentArea, bool wrapItems = true)
         {
             var structuredData = ToSerializable(contentArea, wrapItems);
@@ -16,6 +18,7 @@ namespace Jos.ContentJson.Extensions
             return json;
         }
 
+        [Obsolete("Library is deprecated, please use JOS.ContentSerializer instead.")]
         public static object ToSerializable(this ContentArea contentArea, bool wrapItems = true)
         {
             return GetStructuredData(contentArea, wrapItems);
@@ -31,6 +34,7 @@ namespace Jos.ContentJson.Extensions
         /// If false, it will be returned as an list of objects.
         /// </param>
         /// <returns></returns>
+        [Obsolete("Library is deprecated, please use JOS.ContentSerializer instead.")]
         public static object GetStructuredData(this ContentArea contentArea, bool wrapItems = true)
         {
             if (!wrapItems)

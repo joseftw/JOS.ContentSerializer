@@ -2,16 +2,20 @@
 <package >
   <metadata>
     <id>Jos.ContentJson</id>
-    <version>2.10.0</version>
+    <version>3.0.0</version>
     <title>Jos.ContentJson</title>
     <authors>joseftw</authors>
     <owners>joseftw</owners>
-    <projectUrl>https://github.com/joseftw/EPiServer-ContentData-ToJson</projectUrl>
+    <projectUrl>https://github.com/joseftw/JOS.ContentSerializer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>By simply calling .ToJson on any ContentData object you will get a JSON representation of that object.
+    <description>NOTE! This package is deprecated. Use JOS.ContentSerializer instead. 
+    By simply calling .ToJson on any ContentData object you will get a JSON representation of that object.
 </description>
-    <releaseNotes>Adds ToSerializable method</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <releaseNotes>Adds deprecation message and advices the user to use JOS.ContentSerializer instead of this package.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
     <tags>EPiServer Json</tags>
   </metadata>
+    <files>
+        <file src="readme.txt" target="" />
+    </files>
 </package>

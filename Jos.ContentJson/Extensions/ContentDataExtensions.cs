@@ -12,6 +12,7 @@ namespace Jos.ContentJson.Extensions
     {
         private static readonly ContentJsonHelper ContentJsonHelper = new ContentJsonHelper();
 
+        [Obsolete("Library is deprecated, please use JOS.ContentSerializer instead.")]
         public static Dictionary<string, object> GetStructuredDictionary(this IContentData contentData)
         {
             var jsonProperties = contentData.GetJsonProperties();
@@ -19,6 +20,7 @@ namespace Jos.ContentJson.Extensions
             return propertyDict;
         }
 
+        [Obsolete("Library is deprecated, please use JOS.ContentSerializer instead.")]
         public static string ToJson(this IContentData contentData)
         {
             var propertiesDict = ToSerializable(contentData);
@@ -26,11 +28,13 @@ namespace Jos.ContentJson.Extensions
             return json;
         }
 
+        [Obsolete("Library is deprecated, please use JOS.ContentSerializer instead.")]
         public static object ToSerializable(this IContentData contentData)
         {
             return GetStructuredDictionary(contentData);
         }
 
+        [Obsolete("Library is deprecated, please use JOS.ContentSerializer instead.")]
         public static string GetJsonKey(this IContentData contentData)
         {
             var contentType = contentData.GetType();
@@ -52,6 +56,7 @@ namespace Jos.ContentJson.Extensions
             throw new Exception($"Missing ID on JsonObject attribute on class {contentType.Name}");
         }
 
+        [Obsolete("Library is deprecated, please use JOS.ContentSerializer instead.")]
         public static IEnumerable<PropertyInfo> GetJsonProperties(this IContentData contentData)
         {
             var properties = contentData.GetType().GetProperties();
