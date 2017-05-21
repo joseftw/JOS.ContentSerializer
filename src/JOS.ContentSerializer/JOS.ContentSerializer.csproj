@@ -126,7 +126,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\IncludeAttribute.cs" />
+    <Compile Include="Attributes\ContentSerializerIgnoreAttribute.cs" />
+    <Compile Include="Attributes\ContentSerializerIncludeAttribute.cs" />
     <Compile Include="ContentReferenceSettings.cs" />
     <Compile Include="IContentDataExtensions.cs" />
     <Compile Include="Attributes\ContentSerializerNameAttribute.cs" />

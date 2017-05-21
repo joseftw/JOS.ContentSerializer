@@ -36,7 +36,7 @@ namespace JOS.ContentSerializer.Internal
         {
             var attributes = Attribute.GetCustomAttributes(property);
 
-            var jsonIgnoreAttribute = attributes.OfType<IgnoreAttribute>().FirstOrDefault();
+            var jsonIgnoreAttribute = attributes.OfType<ContentSerializerIgnoreAttribute>().FirstOrDefault();
 
             if (jsonIgnoreAttribute != null)
             {
@@ -49,7 +49,7 @@ namespace JOS.ContentSerializer.Internal
                 return true;
             }
 
-            var jsonPropertyAttribute = attributes.OfType<IncludeAttribute>().FirstOrDefault();
+            var jsonPropertyAttribute = attributes.OfType<ContentSerializerIncludeAttribute>().FirstOrDefault();
             return jsonPropertyAttribute != null;
         }
     }

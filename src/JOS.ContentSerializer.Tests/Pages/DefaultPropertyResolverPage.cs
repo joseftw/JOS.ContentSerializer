@@ -44,7 +44,8 @@ namespace JOS.ContentSerializer.Tests.Pages
         [Display(Name = "Main Video")]
         public virtual VideoBlock MainVideo { get; set; }
 
-        [Ignore]
+        [Display(Name = "Author")]
+        [ContentSerializerIgnore]
         public virtual string Author { get; set; }
 
         public virtual string Phone
@@ -52,7 +53,7 @@ namespace JOS.ContentSerializer.Tests.Pages
             get; set;
         }
 
-        [Include]
+        [ContentSerializerInclude]
         public virtual string Include { get; set; }
     }
 }
