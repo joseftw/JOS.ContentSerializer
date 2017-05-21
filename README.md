@@ -248,10 +248,11 @@ Use it like this:
         public virtual string SelectMany { get; set; }
     }
 ```
-
 </details>
-This will return a JSON representation of the `DemoPage` type like this:
-````javascript
+<details>
+<summary>This will return a JSON representation of the `DemoPage` type like this:</summary>
+
+```javascript
 {
 	"string": "This is a string",
 	"mainContentArea": {
@@ -336,4 +337,5 @@ This will return a JSON representation of the `DemoPage` type like this:
 		"value": "31"
 	}]
 }
-````
+```
+</details>
