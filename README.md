@@ -108,6 +108,14 @@ Enables/Disables the CustomPropertiesHandler. Note, **NOT ENABLED BY DEFAULT.**
 * ThrowOnDuplicate - Default = **false**
 If the code should throw if a duplicate is added to the backing dictionary. If false, the duplicate will not be added and no exception will be thrown. When implementing your own CustomPropertiesHandler, setting this to true could be useful while developing.
 
+### Attributes
+The following attributes exists
+
+- ContentSerializerIgnoreAttribute - If added to a property, the property will not be included in the result.
+- ContentSerializerIncludeAttribute - If added to a property that doesn't have the DisplayAttribute, the property will be included in the result
+- ContentSerializerNameAttribute - Makes it possible to set a custom name of the property when serialized.
+- ContentSerializerWrapItemsAttribute - When used on a ContentArea, it's possible to override the global ```GlobalWrapContentAreaItems``` setting for that specific ContentArea.
+
 ### Examples
 
 Use it like this:
