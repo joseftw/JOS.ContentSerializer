@@ -29,7 +29,7 @@ Support for the most common built in properties:
 ### Extensible
 Need support for a custom property? Maybe a Dictionary<string, string>?
 It's easy to add support for custom properties.
-When calling .Serialize/.ToJson you can pass in some settings. If you set ```UseCustomPropertiesHandler``` to ```true``` you will activate the ```DefaultCustomPropertiesHandler```. This is just some simple code that runs returns the .GetValue representation of your property. For some this may be enough, but what if you would like to only return part of that data, or something completely different?
+When calling .Serialize/.ToJson you can pass in some settings. If you set ```UseCustomPropertiesHandler``` to ```true``` you will activate the ```DefaultCustomPropertiesHandler```. This is just some simple code that returns the .GetValue representation of your property. For some this may be enough, but what if you would like to only return part of that data, or something completely different?
 
 Easy. Just implement your own CustomPropertiesHandler!
 Implement ```ICustomPropertiesHandler``` and register it in the container and you should be good to go.
