@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using EPiServer.Core;
-using EPiServer.Shell.ObjectEditing;
 using System.Linq;
+using EPiServer.Shell.ObjectEditing;
 
 namespace JOS.ContentSerializer.Internal
 {
