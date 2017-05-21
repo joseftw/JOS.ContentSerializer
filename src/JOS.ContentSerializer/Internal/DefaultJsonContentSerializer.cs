@@ -24,6 +24,16 @@ namespace JOS.ContentSerializer.Internal
             return Execute(contentData, settings);
         }
 
+        public object GetStructuredData(IContentData contentData)
+        {
+            return this._propertyManager.GetStructuredData(contentData, new ContentSerializerSettings());
+        }
+
+        public object GetStructuredData(IContentData contentData, ContentSerializerSettings settings)
+        {
+            return this._propertyManager.GetStructuredData(contentData, settings);
+        }
+
         private string Execute(IContentData contentData, ContentSerializerSettings settings)
         {
             var result = this._propertyManager.GetStructuredData(contentData, settings);

@@ -6,5 +6,7 @@ namespace JOS.ContentSerializer
     {
         string Serialize(IContentData contentData);
         string Serialize(IContentData contentData, ContentSerializerSettings settings);
+        object GetStructuredData(IContentData contentData);
+        object GetStructuredData(IContentData contentData, ContentSerializerSettings settings);
     }
 }
