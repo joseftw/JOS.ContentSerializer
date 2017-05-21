@@ -1,3 +1,5 @@
+**This project where formely known as JOS.ContentJson. In version 3.0 I've changed the name to JOS.ContentSerializer.**
+The old documentation for version 2 can be found [README.Version2.md](here)
 # JOS.ContentSerializer
 
 ## Serialize any ContentData object to JSON(or xml, or something else)
