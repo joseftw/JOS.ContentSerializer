@@ -164,7 +164,7 @@ namespace JOS.ContentSerializer.Internal
 
         private static bool WrapItems(ContentArea contentArea, ContentSerializerSettings contentSerializerSettings)
         {
-            var wrapItemsAttribute = contentArea.GetType().GetCustomAttribute<WrapItemsAttribute>(false);
+            var wrapItemsAttribute = contentArea.GetType().GetCustomAttribute<ContentSerializerWrapItemsAttribute>(false);
             var wrapItems = wrapItemsAttribute?.WrapItems ?? contentSerializerSettings.GlobalWrapContentAreaItems;
             return wrapItems;
         }

@@ -3,9 +3,9 @@
 namespace JOS.ContentSerializer.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class WrapItemsAttribute : Attribute
+    public class ContentSerializerWrapItemsAttribute : Attribute
     {
-        public WrapItemsAttribute(bool wrapItems)
+        public ContentSerializerWrapItemsAttribute(bool wrapItems)
         {
             WrapItems = wrapItems;
         }

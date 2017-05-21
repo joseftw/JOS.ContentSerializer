@@ -172,7 +172,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\SelectOption.cs" />
     <Compile Include="UrlSettings.cs" />
-    <Compile Include="Attributes\WrapItemsAttribute.cs" />
+    <Compile Include="Attributes\ContentSerializerWrapItemsAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="JOS.ContentSerializer.nuspec" />

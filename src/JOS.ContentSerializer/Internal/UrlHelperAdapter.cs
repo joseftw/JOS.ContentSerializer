@@ -59,7 +59,7 @@ namespace JOS.ContentSerializer.Internal
             var prettyUrl = this._urlHelper.ContentUrl(contentReference);
             if (contentReferenceSettings.UseAbsoluteUrls)
             {
-                return CreateAbsoluteUrl(prettyUrl, true);
+                return CreateAbsoluteUrl(prettyUrl, contentReferenceSettings.FallbackToWildcard);
             }
 
             return prettyUrl;
