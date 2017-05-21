@@ -134,6 +134,7 @@ Use it like this:
 
 <details>
     <summary>DemoPage</summary>
+
 ```c#
     [ContentType(DisplayName = "DemoPage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d")]
     public class DemoPage : PageData
@@ -247,6 +248,7 @@ Use it like this:
         public virtual string SelectMany { get; set; }
     }
 ```
+
 </details>
 This will return a JSON representation of the `DemoPage` type like this:
 ````javascript
