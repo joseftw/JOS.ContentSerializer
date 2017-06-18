@@ -1,4 +1,4 @@
-**This project were formely known as JOS.ContentJson. I've changed the name to JOS.ContentSerializer and released it as an own Nuget package.**
+**This project were formerly known as JOS.ContentJson. I've changed the name to JOS.ContentSerializer and released it as an own Nuget package.**
 The old documentation for version 2 can be found [here](README.Version2.md)
 # JOS.ContentSerializer
 
