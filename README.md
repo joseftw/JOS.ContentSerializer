@@ -128,8 +128,7 @@ Use it like this:
     {
         public string Index(DemoPage currentPage)
         {
-            var json = currentPage.ToJson();
-            return json;
+            return currentPage.ToJson();
         }
     }
 ```
