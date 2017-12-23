@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using EPiServer.Core;
+using EPiServer.ServiceLocation;
 
 namespace JOS.ContentSerializer.Internal
 {
@@ -8,14 +11,17 @@ namespace JOS.ContentSerializer.Internal
     {
         private readonly IPropertyResolver _propertyResolver;
         private readonly IPropertyNameStrategy _propertyNameStrategy;
+        private readonly IPropertyHandlerService _propertyHandlerService;
 
         public PropertyManager(
             IPropertyNameStrategy propertyNameStrategy,
-            IPropertyResolver propertyResolver
+            IPropertyResolver propertyResolver,
+            IPropertyHandlerService propertyHandlerService
         )
         {
             _propertyNameStrategy = propertyNameStrategy ?? throw new ArgumentNullException(nameof(propertyNameStrategy));
             _propertyResolver = propertyResolver ?? throw new ArgumentNullException(nameof(propertyResolver));
+            _propertyHandlerService = propertyHandlerService;
         }
 
         public Dictionary<string, object> GetStructuredData(
@@ -24,18 +30,29 @@ namespace JOS.ContentSerializer.Internal
         {
             var properties = this._propertyResolver.GetProperties(contentData);
             var structuredData = new Dictionary<string, object>();
+
             foreach (var property in properties)
             {
                 var key = this._propertyNameStrategy.GetPropertyName(property);
                 var value = property.GetValue(contentData);
 
-                switch (value)
+                if (value is BlockData b)
                 {
-                    case BlockData b:
-                        var blockDataResult = GetStructuredData(b, settings);
-                        AddItem(key, blockDataResult, structuredData, settings.ThrowOnDuplicate);
-                        break;
+                    var blockDataResult = GetStructuredData(b, settings);
+                    AddItem(key, blockDataResult, structuredData, settings.ThrowOnDuplicate);
+                    continue;
                 }
+
+                var propertyHandler = this._propertyHandlerService.GetPropertyHandler(property.PropertyType);
+                if (propertyHandler == null)
+                {
+                    continue;
+                }
+                var method = propertyHandler.GetType().GetMethod("Handle");
+                var result = method.Invoke(propertyHandler, new[] {value, property, contentData});
+
+                AddItem(key, result, structuredData, false);
+
             }
             return structuredData;
         }

@@ -8,11 +8,11 @@ namespace JOS.ContentSerializer.Tests
 {
     public class IntPropertyHandlerTests
     {
-        private readonly IntPropertyHandler _sut;
+        private readonly DefaultIntPropertyHandler _sut;
 
         public IntPropertyHandlerTests()
         {
-            this._sut = new IntPropertyHandler();
+            this._sut = new DefaultIntPropertyHandler();
         }
 
         [Fact]

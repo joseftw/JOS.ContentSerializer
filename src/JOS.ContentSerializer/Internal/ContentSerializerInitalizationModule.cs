@@ -21,6 +21,8 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyResolver, DefaultPropertyResolver>();
             context.Services.AddSingleton<IUrlHelper, UrlHelperAdapter>();
             context.Services.AddSingleton<IContentJsonSerializer, DefaultJsonContentSerializer>();
+            context.Services.AddSingleton<IPropertyHandlerService, DefaultPropertyHandlerService>();
+            context.Services.AddSingleton<IPropertyHandler<string>, DefaultStringPropertyHandler>();
         }
 
         public void Initialize(InitializationEngine context)

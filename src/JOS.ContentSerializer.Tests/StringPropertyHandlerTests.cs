@@ -9,11 +9,11 @@ namespace JOS.ContentSerializer.Tests
 {
     public class StringPropertyHandlerTests
     {
-        private readonly StringPropertyHandler _sut;
+        private readonly DefaultStringPropertyHandler _sut;
 
         public StringPropertyHandlerTests()
         {
-            this._sut = new StringPropertyHandler();
+            this._sut = new DefaultStringPropertyHandler();
         }
 
         [Theory]

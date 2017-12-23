@@ -7,7 +7,7 @@ using EPiServer.Shell.ObjectEditing;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class StringPropertyHandler : IPropertyHandler<string>
+    public class DefaultStringPropertyHandler : IPropertyHandler<string>
     {
         public object Handle(string stringValue, PropertyInfo property, IContentData contentData)
         {
@@ -29,8 +29,7 @@ namespace JOS.ContentSerializer.Internal
                 return valueAsDictionary;
             }
 
-            var propertyValue = property.GetValue(stringValue);
-            return propertyValue;
+            return stringValue;
         }
 
         private static bool HasSelectAttribute(PropertyInfo property)

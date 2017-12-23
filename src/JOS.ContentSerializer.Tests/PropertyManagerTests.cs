@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
+using EPiServer.ServiceLocation;
 using EPiServer.Web;
 using JOS.ContentSerializer.Internal;
 using JOS.ContentSerializer.Tests.Pages;
@@ -22,7 +24,8 @@ namespace JOS.ContentSerializer.Tests
             SetupContentLoader(contentLoader);
             this._sut = new PropertyManager(
                 new DefaultPropertyNameStrategy(),
-                new DefaultPropertyResolver()
+                new DefaultPropertyResolver(),
+                new DefaultPropertyHandlerService()
             );
             this._page = new StandardPageBuilder().Build();
         }
@@ -30,6 +33,10 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenStringProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            serviceLocator.GetInstance(typeof(IPropertyHandler<string>)).Returns(new DefaultStringPropertyHandler());
+            ServiceLocator.SetLocator(serviceLocator);
+
             var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Heading)) && x.Value.Equals(_page.Heading));
@@ -38,6 +45,10 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenIntProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            serviceLocator.GetInstance(typeof(IPropertyHandler<int>)).Returns(new DefaultIntPropertyHandler());
+            ServiceLocator.SetLocator(serviceLocator);
+
             var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Age)) && x.Value.Equals(_page.Age));
@@ -46,6 +57,10 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenDoubleProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            serviceLocator.GetInstance(typeof(IPropertyHandler<double>)).Returns(new DefaultDoublePropertyHandler());
+            ServiceLocator.SetLocator(serviceLocator);
+
             var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Degrees)) && x.Value.Equals(_page.Degrees));
@@ -54,17 +69,28 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenBoolProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
-            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            serviceLocator.GetInstance(typeof(IPropertyHandler<bool>)).Returns(new DefaultBoolPropertyHandler());
+            ServiceLocator.SetLocator(serviceLocator);
+            var page = new StandardPageBuilder().WithPrivate(true).Build();
 
-            result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Private)) && x.Value.Equals(_page.Private));
+            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+
+            result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Private)) && x.Value.Equals(page.Private));
         }
 
         [Fact]
         public void GivenDateTimeProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
-            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            serviceLocator.GetInstance(typeof(IPropertyHandler<DateTime>)).Returns(new DefaultDateTimePropertyHandler());
+            ServiceLocator.SetLocator(serviceLocator);
+            var expectedStartingDate = new DateTime(3000, 1,1);
+            var page = new StandardPageBuilder().WithStarting(expectedStartingDate).Build();
 
-            result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Starting)) && x.Value.Equals(_page.Starting));
+            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+
+            result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Starting)) && x.Value.Equals(page.Starting));
         }
 
         [Fact]
