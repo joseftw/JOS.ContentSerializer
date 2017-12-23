@@ -163,7 +163,6 @@
     <Compile Include="Internal\ContentSerializerInitalizationModule.cs" />
     <Compile Include="Internal\DefaultContentReferenceListPropertyHandler.cs" />
     <Compile Include="Internal\DefaultContentReferencePropertyHandler.cs" />
-    <Compile Include="Internal\DefaultCustomPropertiesHandler.cs" />
     <Compile Include="Internal\DefaultLinkItemCollectionPropertyHandler.cs" />
     <Compile Include="Internal\DefaultPageTypePropertyHandler.cs" />
     <Compile Include="Internal\DefaultStringArrayPropertyHandler.cs" />
@@ -182,7 +181,7 @@
     <Compile Include="Internal\DefaultPropertyResolver.cs" />
     <Compile Include="Internal\DefaultJsonContentSerializer.cs" />
     <Compile Include="Internal\DefaultUrlPropertyHandler.cs" />
-    <Compile Include="Internal\DefaultValueTypePropertyHandler.cs" />
+    <Compile Include="Internal\IntPropertyHandler.cs" />
     <Compile Include="Internal\PropertyManager.cs" />
     <Compile Include="IPropertyManager.cs" />
     <Compile Include="IPropertyNameStrategy.cs" />

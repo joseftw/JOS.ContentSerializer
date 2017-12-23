@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultContentReferenceListPropertyHandler : IContentReferenceListPropertyHandler
+    public class DefaultContentReferenceListPropertyHandler : PropertyHandler<IEnumerable<ContentReference>>
     {
         private readonly IContentReferencePropertyHandler _contentReferencePropertyHandler;
 
@@ -13,16 +14,10 @@ namespace JOS.ContentSerializer.Internal
             _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
         }
 
-        public IEnumerable<object> GetValue(IEnumerable<ContentReference> contentReferences)
+        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            return Execute(contentReferences, new ContentReferenceSettings());
-        }
-
-        public IEnumerable<object> GetValue(
-            IEnumerable<ContentReference> contentReferences,
-            ContentReferenceSettings contentReferenceSettings)
-        {
-            return Execute(contentReferences, contentReferenceSettings);
+            var contentReferences = (IEnumerable<ContentReference>)value;
+            return Execute(contentReferences, new ContentReferenceSettings()); // TODO Allow injection of settings
         }
 
         private IEnumerable<object> Execute(

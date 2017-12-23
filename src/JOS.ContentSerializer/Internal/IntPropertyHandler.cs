@@ -3,9 +3,9 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultValueTypePropertyHandler : IValueTypePropertyHandler
+    public class IntPropertyHandler : PropertyHandler<int>
     {
-        public object GetValue(IContentData contentData, PropertyInfo property)
+        public override object Handle(object value, PropertyInfo property, IContentData contentData)
         {
             return property.GetValue(contentData);
         }

@@ -33,7 +33,7 @@ namespace JOS.ContentSerializer.Tests
             this._urlHelper.ContentUrl(Arg.Any<ContentReference>(), Arg.Any<ContentReferenceSettings>())
                 .Returns($"{baseUrl}{prettyPath}");
 
-            var result = this._sut.GetValue(contentReference, new ContentReferenceSettings());
+            var result = this._sut.Handle(contentReference, null, null);
 
             result.ShouldBe($"{baseUrl}{prettyPath}");
         }
@@ -49,7 +49,7 @@ namespace JOS.ContentSerializer.Tests
             this._urlHelper.ContentUrl(Arg.Any<ContentReference>(), Arg.Any<ContentReferenceSettings>())
                 .Returns($"{baseUrl}{prettyPath}");
 
-            var result = this._sut.GetValue(contentReference, new ContentReferenceSettings { UseAbsoluteUrls = false });
+            var result = this._sut.Handle(contentReference, null, null);
 
             result.ShouldBe(prettyPath);
         }

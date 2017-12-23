@@ -28,7 +28,8 @@ namespace JOS.ContentSerializer.Tests
             };
 
             var result = this._sut.Handle(page,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.Heading)));
+                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.Heading)),
+                page);
   
             ((string)result).ShouldBe(heading);
         }
@@ -42,7 +43,8 @@ namespace JOS.ContentSerializer.Tests
             };
 
             var result = (List<SelectOption>)this._sut.Handle(page,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)));
+                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)),
+                page);
 
             result.ShouldContain(x => x.Selected && x.Value.Equals("option3") && x.Text.Equals("Option 3"));
             result.Count(x => x.Selected).ShouldBe(1);
@@ -59,7 +61,8 @@ namespace JOS.ContentSerializer.Tests
             };
 
             var result = (List<SelectOption>)this._sut.Handle(page,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)));
+                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)),
+                page);
 
             result.Count(x => x.Selected).ShouldBe(0);
         }
@@ -73,7 +76,8 @@ namespace JOS.ContentSerializer.Tests
             };
 
             var result = (List<SelectOption>)this._sut.Handle(page,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectMany)));
+                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectMany)),
+                page);
 
             result.ShouldContain(x => x.Selected && x.Value.Equals("option3") && x.Text.Equals("Option 3"));
             result.ShouldContain(x => x.Selected && x.Value.Equals("option4") && x.Text.Equals("Option 4"));
@@ -92,7 +96,8 @@ namespace JOS.ContentSerializer.Tests
             };
 
             var result = (List<SelectOption>)this._sut.Handle(page,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)));
+                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)),
+                page);
 
             result.Count(x => x.Selected).ShouldBe(0);
         }

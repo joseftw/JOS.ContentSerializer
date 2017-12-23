@@ -9,8 +9,9 @@ namespace JOS.ContentSerializer.Internal
 {
     public class StringPropertyHandler : PropertyHandler<string>
     {
-        public override object Handle(IContentData contentData, PropertyInfo property)
+        public override object Handle(object value, PropertyInfo property, IContentData contentData)
         {
+            var stringValue = (string)value;
             if (HasSelectAttribute(property))
             {
                 var selectOneAttribute = GetSelectOneAttribute(property);
@@ -25,12 +26,12 @@ namespace JOS.ContentSerializer.Internal
                     selectionFactoryType = selectManyAttribute.SelectionFactoryType;
                 }
 
-                var valueAsDictionary = GetStructuredData(property, contentData, selectionFactoryType);
+                var valueAsDictionary = GetStructuredData(property, (IContentData)value, selectionFactoryType); // TODO fix contentdata
                 return valueAsDictionary;
             }
 
-            var value = property.GetValue(contentData);
-            return value;
+            var propertyValue = property.GetValue(stringValue);
+            return propertyValue;
         }
 
         private static bool HasSelectAttribute(PropertyInfo property)

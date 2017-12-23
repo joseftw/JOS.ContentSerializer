@@ -45,7 +45,7 @@
     <Compile Include="DefaultPropertyResolverTests.cs" />
     <Compile Include="StringPropertyHandlerTests.cs" />
     <Compile Include="DefaultUrlPropertyHandlerTests.cs" />
-    <Compile Include="DefaultValueTypePropertyHandlerTests.cs" />
+    <Compile Include="IntPropertyHandlerTests.cs" />
     <Compile Include="Pages\DefaultPropertyNameStrategyPage.cs" />
     <Compile Include="Pages\DefaultPropertyResolverPage.cs" />
     <Compile Include="Pages\DefaultStringArrayPropertyHandlerPage.cs" />

@@ -4,16 +4,16 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultStringArrayPropertyHandler : IStringArrayPropertyHandler
+    public class DefaultStringArrayPropertyHandler : PropertyHandler<string[]>
     {
-        public object GetValue(IContentData contentData, PropertyInfo property)
+        public override object Handle(object value, PropertyInfo property, IContentData contentData)
         {
-            var value = property.GetValue(contentData);
-            if (value == null)
+            var propertyValue = property.GetValue(contentData);
+            if (propertyValue == null)
             {
                 return (string[])Enumerable.Empty<string>();
             }
-            return (string[]) value;
+            return (string[])propertyValue;
         }
     }
 }

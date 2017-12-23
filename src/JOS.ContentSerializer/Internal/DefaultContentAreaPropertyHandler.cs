@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using EPiServer;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultContentAreaPropertyHandler : IContentAreaPropertyHandler
+    public class DefaultContentAreaPropertyHandler : PropertyHandler<ContentArea>
     {
         private readonly IContentLoader _contentLoader;
 
@@ -15,13 +16,39 @@ namespace JOS.ContentSerializer.Internal
             _contentLoader = contentLoader ?? throw new ArgumentNullException(nameof(contentLoader));
         }
 
-        public IEnumerable<object> GetValue(ContentArea contentArea)
+        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            return GetValue(contentArea, new ContentSerializerSettings());
-        }
+            var contentArea = (ContentArea)value;
+            //var contentAreaItems = this._contentAreaPropertyHandler.GetValue(c, settings);
+            //if (WrapItems(c, settings))
+            //{
+            //    var items = new Dictionary<string, List<object>>();
+            //    foreach (var item in contentAreaItems)
+            //    {
+            //        var result = GetStructuredData((IContentData)item, settings);
+            //        var typeName = item.GetOriginalType().Name;
+            //        if (items.ContainsKey(typeName))
+            //        {
+            //            items[typeName].Add(result);
+            //        }
+            //        else
+            //        {
+            //            items[typeName] = new List<object> { result };
+            //        }
+            //    }
+            //    AddItem(key, items, structuredData, settings.ThrowOnDuplicate);
+            //}
+            //else
+            //{
+            //    var items = new List<object>();
+            //    foreach (var item in contentAreaItems)
+            //    {
+            //        var result = GetStructuredData((IContentData)item, settings);
+            //        items.Add(result);
+            //    }
 
-        public IEnumerable<object> GetValue(ContentArea contentArea, ContentSerializerSettings settings)
-        {
+            //    AddItem(key, items, structuredData, settings.ThrowOnDuplicate);
+            //}
             if (contentArea?.Items == null || !contentArea.Items.Any())
             {
                 return Enumerable.Empty<IContentData>();
@@ -39,5 +66,12 @@ namespace JOS.ContentSerializer.Internal
 
             return content;
         }
+
+        //private static bool WrapItems(ContentArea contentArea, ContentSerializerSettings contentSerializerSettings)
+        //{
+        //    var wrapItemsAttribute = contentArea.GetType().GetCustomAttribute<ContentSerializerWrapItemsAttribute>(false);
+        //    var wrapItems = wrapItemsAttribute?.WrapItems ?? contentSerializerSettings.GlobalWrapContentAreaItems;
+        //    return wrapItems;
+        //}
     }
 }

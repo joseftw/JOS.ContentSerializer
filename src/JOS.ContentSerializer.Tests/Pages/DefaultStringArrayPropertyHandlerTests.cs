@@ -21,8 +21,10 @@ namespace JOS.ContentSerializer.Tests.Pages
                 Strings = null
             };
 
-            var result = (string[])this._sut.GetValue(page,
-                page.GetType().GetProperty(nameof(DefaultStringArrayPropertyHandlerPage.Strings)));
+            var result = (string[])this._sut.Handle(
+                null,
+                page.GetType().GetProperty(nameof(DefaultStringArrayPropertyHandlerPage.Strings)),
+                page);
 
             result.Length.ShouldBe(0);
         }
@@ -36,8 +38,10 @@ namespace JOS.ContentSerializer.Tests.Pages
                 Strings = expected
             };
 
-            var result = this._sut.GetValue(page,
-                page.GetType().GetProperty(nameof(DefaultStringArrayPropertyHandlerPage.Strings)));
+            var result = this._sut.Handle(
+                null,
+                page.GetType().GetProperty(nameof(DefaultStringArrayPropertyHandlerPage.Strings)),
+                page);
 
             result.ShouldBe(expected);
         }

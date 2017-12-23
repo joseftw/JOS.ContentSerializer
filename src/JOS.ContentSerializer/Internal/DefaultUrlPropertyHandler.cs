@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Reflection;
 using EPiServer;
+using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultUrlPropertyHandler : IUrlPropertyHandler
+    public class DefaultUrlPropertyHandler : PropertyHandler<Url>
     {
         private readonly IUrlHelper _urlHelper;
 
@@ -12,14 +14,10 @@ namespace JOS.ContentSerializer.Internal
             _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
         }
 
-        public object GetValue(Url url)
+        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            return Execute(url, new UrlSettings());
-        }
-
-        public object GetValue(Url url, UrlSettings urlSettings)
-        {
-            return Execute(url, urlSettings);
+            var url = (Url)value;
+            return Execute(url, new UrlSettings()); // TODO Allow injection of settings
         }
         
         private string Execute(Url url, UrlSettings urlSettings)

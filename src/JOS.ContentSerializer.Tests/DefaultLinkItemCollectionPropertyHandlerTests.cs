@@ -34,7 +34,7 @@ namespace JOS.ContentSerializer.Tests
                 Title = "any title"
             });
 
-            var result = ((IEnumerable<LinkItem>)this._sut.GetValue(linkItemCollection, new UrlSettings())).ToList();
+            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null)).ToList();
 
             result.Count.ShouldBe(1);
             result.ShouldContain(x => x.Href == value);
@@ -55,7 +55,7 @@ namespace JOS.ContentSerializer.Tests
                 Target = "_blank"
             });
 
-            var result = ((IEnumerable<LinkItem>)this._sut.GetValue(linkItemCollection, new UrlSettings())).ToList();
+            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null)).ToList();
 
             result.Count.ShouldBe(1);
             result.ShouldContain(x => x.Href == value);
@@ -83,7 +83,7 @@ namespace JOS.ContentSerializer.Tests
             });
             linkItemCollection.Add(linkItem);
 
-            var result = ((IEnumerable<LinkItem>)this._sut.GetValue(linkItemCollection, new UrlSettings())).ToList();
+            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null)).ToList();
 
             result.Count.ShouldBe(1);
             result.ShouldContain(x => x.Href == expected);
@@ -112,7 +112,7 @@ namespace JOS.ContentSerializer.Tests
             });
             linkItemCollection.Add(linkItem);
 
-            var result = ((IEnumerable<LinkItem>)this._sut.GetValue(linkItemCollection, settings)).ToList();
+            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null)).ToList();
 
             result.Count.ShouldBe(1);
             result.ShouldContain(x => x.Href == expected);

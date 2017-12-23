@@ -6,13 +6,13 @@ using Xunit;
 
 namespace JOS.ContentSerializer.Tests
 {
-    public class DefaultValueTypePropertyHandlerTests
+    public class IntPropertyHandlerTests
     {
-        private readonly DefaultValueTypePropertyHandler _sut;
+        private readonly IntPropertyHandler _sut;
 
-        public DefaultValueTypePropertyHandlerTests()
+        public IntPropertyHandlerTests()
         {
-            this._sut = new DefaultValueTypePropertyHandler();
+            this._sut = new IntPropertyHandler();
         }
 
         [Fact]
@@ -23,8 +23,10 @@ namespace JOS.ContentSerializer.Tests
                 Integer = 1000
             };
 
-            var result = (int)this._sut.GetValue(page,
-                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.Integer)));
+            var result = (int)this._sut.Handle(
+                null,
+                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.Integer)),
+                page);
 
             result.ShouldBe(1000);
         }
@@ -37,8 +39,10 @@ namespace JOS.ContentSerializer.Tests
                 Double = 10.50
             };
 
-            var result = (double)this._sut.GetValue(page,
-                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.Double)));
+            var result = (double)this._sut.Handle(
+                null,
+                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.Double)),
+                page);
 
             result.ShouldBe(10.50);
         }
@@ -51,8 +55,10 @@ namespace JOS.ContentSerializer.Tests
                 Bool = true
             };
 
-            var result = (bool)this._sut.GetValue(page,
-                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.Bool)));
+            var result = (bool)this._sut.Handle(
+                null,
+                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.Bool)),
+                page);
 
             result.ShouldBeTrue();
         }
@@ -66,8 +72,10 @@ namespace JOS.ContentSerializer.Tests
                 DateTime = expected
             };
 
-            var result = (DateTime)this._sut.GetValue(page,
-                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.DateTime)));
+            var result = (DateTime)this._sut.Handle(
+                null,
+                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.DateTime)),
+                page);
 
             result.ShouldBe(expected);
         }

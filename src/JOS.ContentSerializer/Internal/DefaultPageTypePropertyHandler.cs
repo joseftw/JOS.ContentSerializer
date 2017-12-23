@@ -1,11 +1,14 @@
-﻿using EPiServer.DataAbstraction;
+﻿using System.Reflection;
+using EPiServer.Core;
+using EPiServer.DataAbstraction;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultPageTypePropertyHandler : IPageTypePropertyHandler
+    public class DefaultPageTypePropertyHandler : PropertyHandler<PageType>
     {
-        public object GetValue(PageType pageType)
+        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
         {
+            var pageType = (PageType)value;
             return pageType.Name;
         }
     }

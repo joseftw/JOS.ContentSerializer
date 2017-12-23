@@ -5,6 +5,6 @@ namespace JOS.ContentSerializer
 {
     public abstract class PropertyHandler<T>
     {
-        public abstract object Handle(IContentData contentData, PropertyInfo propertyInfo);
+        public abstract object Handle(object value, PropertyInfo property, IContentData contentData);
     }
 }

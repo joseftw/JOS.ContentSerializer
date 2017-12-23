@@ -1,5 +1,4 @@
 ﻿using EPiServer;
-using EPiServer.Web;
 using JOS.ContentSerializer.Internal;
 using NSubstitute;
 using Shouldly;
@@ -24,7 +23,7 @@ namespace JOS.ContentSerializer.Tests
             var value = "mailto:mail@example.com";
             var url = new Url(value);
 
-            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = true });
+            var result = this._sut.Handle(url, null, null);
 
             result.ShouldBe(value);
         }
@@ -35,7 +34,7 @@ namespace JOS.ContentSerializer.Tests
             var value = "https://josef.guru/example/page?anyQueryString=true&anyOtherQuery";
             var url = new Url(value);
 
-            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = true });
+            var result = this._sut.Handle(url, null, null);
 
             result.ShouldBe(value);
         }
@@ -46,7 +45,7 @@ namespace JOS.ContentSerializer.Tests
             var value = "https://josef.guru/example/page?anyQueryString=true&anyOtherQuery";
             var url = new Url(value);
 
-            var result = this._sut.GetValue(url, new UrlSettings { UseAbsoluteUrls = false });
+            var result = this._sut.Handle(url, null, null);
 
             result.ShouldBe(url.PathAndQuery);
         }
@@ -61,7 +60,7 @@ namespace JOS.ContentSerializer.Tests
             var settings = new UrlSettings();
             this._urlHelper.ContentUrl(Arg.Any<Url>(), settings).Returns($"{siteUrl}{prettyPath}");
          
-            var result = this._sut.GetValue(url, settings);
+            var result = this._sut.Handle(url, null, null);
 
             result.ShouldBe($"{siteUrl}{prettyPath}");
         }
@@ -75,7 +74,7 @@ namespace JOS.ContentSerializer.Tests
             var settings = new UrlSettings {UseAbsoluteUrls = false};
             this._urlHelper.ContentUrl(Arg.Any<Url>(), settings).Returns(prettyPath);
 
-            var result = this._sut.GetValue(url, settings);
+            var result = this._sut.Handle(url, null, null);
 
             result.ShouldBe(prettyPath);
         }

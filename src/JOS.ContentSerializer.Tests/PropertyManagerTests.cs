@@ -21,19 +21,8 @@ namespace JOS.ContentSerializer.Tests
             var contentLoader = Substitute.For<IContentLoader>();
             SetupContentLoader(contentLoader);
             this._sut = new PropertyManager(
-                new DefaultValueTypePropertyHandler(),
                 new DefaultPropertyNameStrategy(),
-                new DefaultPropertyResolver(),
-                new DefaultContentAreaPropertyHandler(contentLoader),
-                new DefaultUrlPropertyHandler(
-                    Substitute.For<IUrlHelper>()),
-                new DefaultStringArrayPropertyHandler(),
-                new DefaultContentReferencePropertyHandler(Substitute.For<IUrlHelper>()),
-                new DefaultPageTypePropertyHandler(),
-                new DefaultContentReferenceListPropertyHandler(new DefaultContentReferencePropertyHandler(Substitute.For<IUrlHelper>())),
-                new DefaultXhtmlStringPropertyHandler(),
-                new DefaultLinkItemCollectionPropertyHandler(Substitute.For<IUrlHelper>()),
-                new DefaultCustomPropertiesHandler()
+                new DefaultPropertyResolver()
             );
             this._page = new StandardPageBuilder().Build();
         }

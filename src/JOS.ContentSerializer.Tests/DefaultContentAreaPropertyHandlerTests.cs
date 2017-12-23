@@ -19,6 +19,8 @@ namespace JOS.ContentSerializer.Tests
             this._sut = new DefaultContentAreaPropertyHandler(contentLoader);
         }
 
+        // TODO TESTS
+
         private static void SetupContentLoader(IContentLoader contentLoader)
         {
             contentLoader.Get<ContentData>(new ContentReference(1000))
