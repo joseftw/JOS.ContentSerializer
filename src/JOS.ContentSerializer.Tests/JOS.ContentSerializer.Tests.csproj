@@ -43,7 +43,7 @@
     <Compile Include="DefaultLinkItemCollectionPropertyHandlerTests.cs" />
     <Compile Include="DefaultPropertyNameStrategyTests.cs" />
     <Compile Include="DefaultPropertyResolverTests.cs" />
-    <Compile Include="DefaultStringPropertyHandlerTests.cs" />
+    <Compile Include="StringPropertyHandlerTests.cs" />
     <Compile Include="DefaultUrlPropertyHandlerTests.cs" />
     <Compile Include="DefaultValueTypePropertyHandlerTests.cs" />
     <Compile Include="Pages\DefaultPropertyNameStrategyPage.cs" />

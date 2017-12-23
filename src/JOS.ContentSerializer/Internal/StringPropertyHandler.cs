@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using EPiServer.Core;
-using System.Linq;
 using EPiServer.Shell.ObjectEditing;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultStringPropertyHandler : IStringPropertyHandler
+    public class StringPropertyHandler : PropertyHandler<string>
     {
-        public object GetValue(IContentData contentData, PropertyInfo property)
+        public override object Handle(IContentData contentData, PropertyInfo property)
         {
             if (HasSelectAttribute(property))
             {

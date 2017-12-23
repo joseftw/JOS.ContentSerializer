@@ -169,6 +169,7 @@
     <Compile Include="Internal\DefaultStringArrayPropertyHandler.cs" />
     <Compile Include="Internal\DefaultXhtmlStringPropertyHandler.cs" />
     <Compile Include="Internal\LinkItem.cs" />
+    <Compile Include="Internal\StringPropertyHandler.cs" />
     <Compile Include="Internal\UrlHelperAdapter.cs" />
     <Compile Include="IPageTypePropertyHandler.cs" />
     <Compile Include="IStringArrayPropertyHandler.cs" />
@@ -180,7 +181,6 @@
     <Compile Include="Internal\DefaultPropertyNameStrategy.cs" />
     <Compile Include="Internal\DefaultPropertyResolver.cs" />
     <Compile Include="Internal\DefaultJsonContentSerializer.cs" />
-    <Compile Include="Internal\DefaultStringPropertyHandler.cs" />
     <Compile Include="Internal\DefaultUrlPropertyHandler.cs" />
     <Compile Include="Internal\DefaultValueTypePropertyHandler.cs" />
     <Compile Include="Internal\PropertyManager.cs" />
@@ -192,6 +192,7 @@
     <Compile Include="IXhtmlStringPropertyHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\SelectOption.cs" />
+    <Compile Include="PropertyHandler.cs" />
     <Compile Include="UrlSettings.cs" />
     <Compile Include="Attributes\ContentSerializerWrapItemsAttribute.cs" />
   </ItemGroup>

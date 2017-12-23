@@ -22,7 +22,6 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyNameStrategy, DefaultPropertyNameStrategy>();
             context.Services.AddSingleton<IPropertyResolver, DefaultPropertyResolver>();
             context.Services.AddSingleton<IStringArrayPropertyHandler, DefaultStringArrayPropertyHandler>();
-            context.Services.AddSingleton<IStringPropertyHandler, DefaultStringPropertyHandler>();
             context.Services.AddSingleton<IUrlHelper, UrlHelperAdapter>();
             context.Services.AddSingleton<IUrlPropertyHandler, DefaultUrlPropertyHandler>();
             context.Services.AddSingleton<IValueTypePropertyHandler, DefaultValueTypePropertyHandler>();

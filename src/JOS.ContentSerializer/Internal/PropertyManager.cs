@@ -22,14 +22,12 @@ namespace JOS.ContentSerializer.Internal
         private readonly IUrlPropertyHandler _urlPropertyHandler;
         private readonly IPropertyResolver _propertyResolver;
         private readonly IContentAreaPropertyHandler _contentAreaPropertyHandler;
-        private readonly IStringPropertyHandler _stringPropertyHandler;
         private readonly IPropertyNameStrategy _propertyNameStrategy;
 
         public PropertyManager(
             IValueTypePropertyHandler valueTypePropertyHandler,
             IPropertyNameStrategy propertyNameStrategy,
             IPropertyResolver propertyResolver,
-            IStringPropertyHandler stringPropertyHandler,
             IContentAreaPropertyHandler contentAreaPropertyHandler,
             IUrlPropertyHandler urlPropertyHandler,
             IStringArrayPropertyHandler stringArrayPropertyHandler,
@@ -44,7 +42,6 @@ namespace JOS.ContentSerializer.Internal
             _valueTypePropertyHandler = valueTypePropertyHandler ?? throw new ArgumentNullException(nameof(valueTypePropertyHandler));
             _propertyNameStrategy = propertyNameStrategy ?? throw new ArgumentNullException(nameof(propertyNameStrategy));
             _propertyResolver = propertyResolver ?? throw new ArgumentNullException(nameof(propertyResolver));
-            _stringPropertyHandler = stringPropertyHandler ?? throw new ArgumentNullException(nameof(stringPropertyHandler));
             _contentAreaPropertyHandler = contentAreaPropertyHandler ?? throw new ArgumentNullException(nameof(contentAreaPropertyHandler));
             _urlPropertyHandler = urlPropertyHandler ?? throw new ArgumentNullException(nameof(urlPropertyHandler));
             _stringArrayPropertyHandler = stringArrayPropertyHandler ?? throw new ArgumentNullException(nameof(stringArrayPropertyHandler));
@@ -75,10 +72,6 @@ namespace JOS.ContentSerializer.Internal
 
                 switch (value)
                 {
-                    case string _:
-                        var stringValue = this._stringPropertyHandler.GetValue(contentData, property);
-                        AddItem(key, stringValue, structuredData, settings.ThrowOnDuplicate);
-                        break;
                     case ContentArea c:
                         var contentAreaItems = this._contentAreaPropertyHandler.GetValue(c, settings);
                         if (WrapItems(c, settings))

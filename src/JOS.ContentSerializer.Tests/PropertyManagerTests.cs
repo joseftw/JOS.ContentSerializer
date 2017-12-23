@@ -24,7 +24,6 @@ namespace JOS.ContentSerializer.Tests
                 new DefaultValueTypePropertyHandler(),
                 new DefaultPropertyNameStrategy(),
                 new DefaultPropertyResolver(),
-                new DefaultStringPropertyHandler(),
                 new DefaultContentAreaPropertyHandler(contentLoader),
                 new DefaultUrlPropertyHandler(
                     Substitute.For<IUrlHelper>()),
