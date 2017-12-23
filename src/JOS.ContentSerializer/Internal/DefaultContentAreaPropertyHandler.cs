@@ -7,7 +7,7 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultContentAreaPropertyHandler : PropertyHandler<ContentArea>
+    public class DefaultContentAreaPropertyHandler : IPropertyHandler<ContentArea>
     {
         private readonly IContentLoader _contentLoader;
 
@@ -16,9 +16,8 @@ namespace JOS.ContentSerializer.Internal
             _contentLoader = contentLoader ?? throw new ArgumentNullException(nameof(contentLoader));
         }
 
-        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(ContentArea contentArea, PropertyInfo propertyInfo, IContentData contentData)
         {
-            var contentArea = (ContentArea)value;
             //var contentAreaItems = this._contentAreaPropertyHandler.GetValue(c, settings);
             //if (WrapItems(c, settings))
             //{

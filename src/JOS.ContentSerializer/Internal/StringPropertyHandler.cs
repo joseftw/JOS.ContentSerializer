@@ -7,11 +7,10 @@ using EPiServer.Shell.ObjectEditing;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class StringPropertyHandler : PropertyHandler<string>
+    public class StringPropertyHandler : IPropertyHandler<string>
     {
-        public override object Handle(object value, PropertyInfo property, IContentData contentData)
+        public object Handle(string stringValue, PropertyInfo property, IContentData contentData)
         {
-            var stringValue = (string)value;
             if (HasSelectAttribute(property))
             {
                 var selectOneAttribute = GetSelectOneAttribute(property);
@@ -26,7 +25,7 @@ namespace JOS.ContentSerializer.Internal
                     selectionFactoryType = selectManyAttribute.SelectionFactoryType;
                 }
 
-                var valueAsDictionary = GetStructuredData(property, (IContentData)value, selectionFactoryType); // TODO fix contentdata
+                var valueAsDictionary = GetStructuredData(property, contentData, selectionFactoryType); // TODO fix contentdata
                 return valueAsDictionary;
             }
 

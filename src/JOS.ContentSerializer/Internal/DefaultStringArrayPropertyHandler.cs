@@ -4,9 +4,9 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultStringArrayPropertyHandler : PropertyHandler<string[]>
+    public class DefaultStringArrayPropertyHandler : IPropertyHandler<string[]>
     {
-        public override object Handle(object value, PropertyInfo property, IContentData contentData)
+        public object Handle(string[] value, PropertyInfo property, IContentData contentData)
         {
             var propertyValue = property.GetValue(contentData);
             if (propertyValue == null)

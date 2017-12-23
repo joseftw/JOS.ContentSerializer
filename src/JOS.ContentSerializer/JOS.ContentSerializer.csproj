@@ -156,10 +156,6 @@
     <Compile Include="ContentSerializerSettings.cs" />
     <Compile Include="ContentSerializer.cs" />
     <Compile Include="IContentJsonSerializer.cs" />
-    <Compile Include="IContentReferenceListPropertyHandler.cs" />
-    <Compile Include="IContentReferencePropertyHandler.cs" />
-    <Compile Include="ICustomPropertiesHandler.cs" />
-    <Compile Include="ILinkItemCollectionPropertyHandler.cs" />
     <Compile Include="Internal\ContentSerializerInitalizationModule.cs" />
     <Compile Include="Internal\DefaultContentReferenceListPropertyHandler.cs" />
     <Compile Include="Internal\DefaultContentReferencePropertyHandler.cs" />
@@ -170,11 +166,7 @@
     <Compile Include="Internal\LinkItem.cs" />
     <Compile Include="Internal\StringPropertyHandler.cs" />
     <Compile Include="Internal\UrlHelperAdapter.cs" />
-    <Compile Include="IPageTypePropertyHandler.cs" />
-    <Compile Include="IStringArrayPropertyHandler.cs" />
     <Compile Include="IUrlHelper.cs" />
-    <Compile Include="IValueTypePropertyHandler.cs" />
-    <Compile Include="IContentAreaPropertyHandler.cs" />
     <Compile Include="IContentSerializer.cs" />
     <Compile Include="Internal\DefaultContentAreaPropertyHandler.cs" />
     <Compile Include="Internal\DefaultPropertyNameStrategy.cs" />
@@ -186,9 +178,6 @@
     <Compile Include="IPropertyManager.cs" />
     <Compile Include="IPropertyNameStrategy.cs" />
     <Compile Include="IPropertyResolver.cs" />
-    <Compile Include="IStringPropertyHandler.cs" />
-    <Compile Include="IUrlPropertyHandler.cs" />
-    <Compile Include="IXhtmlStringPropertyHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\SelectOption.cs" />
     <Compile Include="PropertyHandler.cs" />

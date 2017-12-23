@@ -3,8 +3,8 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer
 {
-    public abstract class PropertyHandler<T>
+    public interface IPropertyHandler<in T>
     {
-        public abstract object Handle(object value, PropertyInfo property, IContentData contentData);
+        object Handle(T value, PropertyInfo property, IContentData contentData);
     }
 }

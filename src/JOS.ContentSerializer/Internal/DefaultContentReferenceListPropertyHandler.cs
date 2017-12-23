@@ -5,30 +5,36 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultContentReferenceListPropertyHandler : PropertyHandler<IEnumerable<ContentReference>>
+    public class DefaultContentReferenceListPropertyHandler : IPropertyHandler<IEnumerable<ContentReference>>
     {
-        private readonly IContentReferencePropertyHandler _contentReferencePropertyHandler;
+        private readonly DefaultContentReferencePropertyHandler _defaultContentReferencePropertyHandler;
+        //private readonly IContentReferencePropertyHandler _contentReferencePropertyHandler;
 
-        public DefaultContentReferenceListPropertyHandler(IContentReferencePropertyHandler contentReferencePropertyHandler)
+        //public DefaultContentReferenceListPropertyHandler(IContentReferencePropertyHandler contentReferencePropertyHandler)
+        //{
+        //    _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
+        //}
+
+        public DefaultContentReferenceListPropertyHandler(DefaultContentReferencePropertyHandler defaultContentReferencePropertyHandler)
         {
-            _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
+            _defaultContentReferencePropertyHandler = defaultContentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(defaultContentReferencePropertyHandler));
         }
 
-        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(IEnumerable<ContentReference> value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            var contentReferences = (IEnumerable<ContentReference>)value;
-            return Execute(contentReferences, new ContentReferenceSettings()); // TODO Allow injection of settings
+            return Execute(value, propertyInfo, contentData); // TODO Allow injection of settings
         }
 
         private IEnumerable<object> Execute(
             IEnumerable<ContentReference> contentReferences,
-            ContentReferenceSettings contentReferenceSettings)
+            PropertyInfo property,
+            IContentData contentData)
         {
             var links = new List<object>();
 
             foreach (var contentReference in contentReferences)
             {
-                var result = this._contentReferencePropertyHandler.GetValue(contentReference, contentReferenceSettings);
+                var result = this._defaultContentReferencePropertyHandler.Handle(contentReference, property, contentData);
                 links.Add(result);
             }
 

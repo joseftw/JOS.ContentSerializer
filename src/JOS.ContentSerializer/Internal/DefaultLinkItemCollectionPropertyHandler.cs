@@ -8,7 +8,7 @@ using EPiServer.SpecializedProperties;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultLinkItemCollectionPropertyHandler : PropertyHandler<LinkItemCollection>
+    public class DefaultLinkItemCollectionPropertyHandler : IPropertyHandler<LinkItemCollection>
     {
         private readonly IUrlHelper _urlHelper;
 
@@ -17,10 +17,9 @@ namespace JOS.ContentSerializer.Internal
             _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
         }
 
-        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(LinkItemCollection value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            var linkItemCollection = (LinkItemCollection)value;
-            return Execute(linkItemCollection, new UrlSettings()); // TODO allow injection of UrlSettings
+            return Execute(value, new UrlSettings()); // TODO allow injection of UrlSettings
         }
 
         private IEnumerable<object> Execute(LinkItemCollection linkItemCollection, UrlSettings urlSettings)

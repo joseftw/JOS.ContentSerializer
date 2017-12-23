@@ -27,7 +27,7 @@ namespace JOS.ContentSerializer.Tests
                 Heading = heading
             };
 
-            var result = this._sut.Handle(page,
+            var result = this._sut.Handle(page.Heading,
                 page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.Heading)),
                 page);
   
@@ -42,7 +42,7 @@ namespace JOS.ContentSerializer.Tests
                 SelectOne = "option3"
             };
 
-            var result = (List<SelectOption>)this._sut.Handle(page,
+            var result = (List<SelectOption>)this._sut.Handle(page.SelectOne,
                 page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)),
                 page);
 
@@ -60,7 +60,7 @@ namespace JOS.ContentSerializer.Tests
                 SelectOne = selectOneValue
             };
 
-            var result = (List<SelectOption>)this._sut.Handle(page,
+            var result = (List<SelectOption>)this._sut.Handle(page.SelectOne,
                 page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)),
                 page);
 
@@ -75,7 +75,7 @@ namespace JOS.ContentSerializer.Tests
                 SelectMany = "option3,option4,option5"
             };
 
-            var result = (List<SelectOption>)this._sut.Handle(page,
+            var result = (List<SelectOption>)this._sut.Handle(page.SelectMany,
                 page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectMany)),
                 page);
 
@@ -95,7 +95,7 @@ namespace JOS.ContentSerializer.Tests
                 SelectMany = selectManyValue
             };
 
-            var result = (List<SelectOption>)this._sut.Handle(page,
+            var result = (List<SelectOption>)this._sut.Handle(page.SelectMany,
                 page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)),
                 page);
 

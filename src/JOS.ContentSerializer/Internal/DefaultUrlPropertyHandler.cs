@@ -5,7 +5,7 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultUrlPropertyHandler : PropertyHandler<Url>
+    public class DefaultUrlPropertyHandler : IPropertyHandler<Url>
     {
         private readonly IUrlHelper _urlHelper;
 
@@ -14,10 +14,9 @@ namespace JOS.ContentSerializer.Internal
             _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
         }
 
-        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(Url value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            var url = (Url)value;
-            return Execute(url, new UrlSettings()); // TODO Allow injection of settings
+            return Execute(value, new UrlSettings()); // TODO Allow injection of settings
         }
         
         private string Execute(Url url, UrlSettings urlSettings)

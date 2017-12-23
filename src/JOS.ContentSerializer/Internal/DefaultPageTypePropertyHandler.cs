@@ -4,12 +4,11 @@ using EPiServer.DataAbstraction;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultPageTypePropertyHandler : PropertyHandler<PageType>
+    public class DefaultPageTypePropertyHandler : IPropertyHandler<PageType>
     {
-        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(PageType value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            var pageType = (PageType)value;
-            return pageType.Name;
+            return value.Name;
         }
     }
 }

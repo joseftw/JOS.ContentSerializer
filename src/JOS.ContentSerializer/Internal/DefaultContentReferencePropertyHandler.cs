@@ -4,7 +4,7 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultContentReferencePropertyHandler : PropertyHandler<ContentReference>
+    public class DefaultContentReferencePropertyHandler : IPropertyHandler<ContentReference>
     {
         private readonly IUrlHelper _urlHelper;
 
@@ -13,10 +13,9 @@ namespace JOS.ContentSerializer.Internal
             _urlHelper = urlHelper;
         }
 
-        public override object Handle(object value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(ContentReference value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            var contentReference = (ContentReference)value;
-            return Execute(contentReference, new ContentReferenceSettings()); // TODO Allow injection of settings
+            return Execute(value, new ContentReferenceSettings()); // TODO Allow injection of settings
         }
 
         private object Execute(ContentReference contentReference, ContentReferenceSettings contentReferenceSettings)
