@@ -16,7 +16,8 @@ namespace JOS.ContentSerializer.Tests
         {
             var contentLoader = Substitute.For<IContentLoader>();
             SetupContentLoader(contentLoader);
-            this._sut = new DefaultContentAreaPropertyHandler(contentLoader);
+            var propertyManager = Substitute.For<IPropertyManager>();
+            this._sut = new DefaultContentAreaPropertyHandler(contentLoader, propertyManager);
         }
 
         // TODO TESTS

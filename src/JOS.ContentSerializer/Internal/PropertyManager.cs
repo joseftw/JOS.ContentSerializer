@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using EPiServer.Core;
-using EPiServer.ServiceLocation;
 
 namespace JOS.ContentSerializer.Internal
 {
@@ -35,20 +32,12 @@ namespace JOS.ContentSerializer.Internal
             {
                 var key = this._propertyNameStrategy.GetPropertyName(property);
                 var value = property.GetValue(contentData);
-
-                if (value is BlockData b)
-                {
-                    var blockDataResult = GetStructuredData(b, settings);
-                    AddItem(key, blockDataResult, structuredData, settings.ThrowOnDuplicate);
-                    continue;
-                }
-
                 var propertyHandler = this._propertyHandlerService.GetPropertyHandler(property.PropertyType);
                 if (propertyHandler == null)
                 {
                     continue;
                 }
-                var method = propertyHandler.GetType().GetMethod("Handle");
+                var method = propertyHandler.GetType().GetMethod("Handle"); // TODO abstract away and get name from interface(nameof)
                 var result = method.Invoke(propertyHandler, new[] {value, property, contentData});
 
                 AddItem(key, result, structuredData, false);
@@ -56,8 +45,6 @@ namespace JOS.ContentSerializer.Internal
             }
             return structuredData;
         }
-
-
 
         private void AddItem(string key, object value, Dictionary<string, object> target, bool throwOnDuplicate)
         {

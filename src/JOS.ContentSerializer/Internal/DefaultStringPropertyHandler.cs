@@ -25,7 +25,7 @@ namespace JOS.ContentSerializer.Internal
                     selectionFactoryType = selectManyAttribute.SelectionFactoryType;
                 }
 
-                var valueAsDictionary = GetStructuredData(property, contentData, selectionFactoryType); // TODO fix contentdata
+                var valueAsDictionary = GetStructuredData(property, contentData, selectionFactoryType);
                 return valueAsDictionary;
             }
 

@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using EPiServer.Core;
-using EPiServer.DataAnnotations;
 using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Internal
@@ -27,7 +26,7 @@ namespace JOS.ContentSerializer.Internal
                 return _cachedContentTypes[type];
             }
 
-            var properties = type.GetProperties().Where(ShouldBeIncluded);
+            var properties = type.GetProperties().Where(ShouldBeIncluded).ToList();
             _cachedContentTypes[type] = properties;
             return properties;
         }

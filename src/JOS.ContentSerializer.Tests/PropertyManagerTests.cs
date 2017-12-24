@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
-using EPiServer.Web;
 using JOS.ContentSerializer.Internal;
 using JOS.ContentSerializer.Tests.Pages;
 using NSubstitute;
@@ -25,7 +23,7 @@ namespace JOS.ContentSerializer.Tests
             this._sut = new PropertyManager(
                 new DefaultPropertyNameStrategy(),
                 new DefaultPropertyResolver(),
-                new DefaultPropertyHandlerService()
+                new DefaultPropertyHandlerService(new DefaultPropertyHandlerScanner())
             );
             this._page = new StandardPageBuilder().Build();
         }
@@ -91,6 +89,18 @@ namespace JOS.ContentSerializer.Tests
             var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Starting)) && x.Value.Equals(page.Starting));
+        }
+
+        [Fact]
+        public void GivenContentReferenceProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
+        {
+            // TODO test
+        }
+
+        [Fact]
+        public void GivenPageReferenceProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
+        {
+            // TODO test
         }
 
         [Fact]
