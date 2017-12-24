@@ -38,6 +38,7 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyHandler<DateTime>, DefaultDateTimePropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<ContentArea>, DefaultContentAreaPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<ContentReference>, DefaultContentReferencePropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<PageReference>, DefaultPageReferencePropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<IEnumerable<ContentReference>>, DefaultContentReferenceListPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<LinkItemCollection>, DefaultLinkItemCollectionPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<PageType>, DefaultPageTypePropertyHandler>();

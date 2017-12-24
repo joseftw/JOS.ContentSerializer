@@ -17,7 +17,9 @@ namespace JOS.ContentSerializer.Internal
         {
             var propertyHandlers = this._propertyHandlerScanner.GetAllPropertyHandlers();
             var propertyHandlerType = propertyHandlers.FirstOrDefault(x => x.GetGenericArguments()[0] == type);
-            return ServiceLocator.Current.GetInstance(propertyHandlerType);
+            return propertyHandlerType == null
+                ? null
+                : ServiceLocator.Current.GetInstance(propertyHandlerType);
         }
     }
 }

@@ -164,6 +164,7 @@
     <Compile Include="Internal\DefaultDateTimePropertyHandler.cs" />
     <Compile Include="Internal\DefaultDoublePropertyHandler.cs" />
     <Compile Include="Internal\DefaultLinkItemCollectionPropertyHandler.cs" />
+    <Compile Include="Internal\DefaultPageReferencePropertyHandler.cs" />
     <Compile Include="Internal\DefaultPageTypePropertyHandler.cs" />
     <Compile Include="Internal\DefaultPropertyHandlerScanner.cs" />
     <Compile Include="Internal\DefaultPropertyHandlerService.cs" />
@@ -188,7 +189,7 @@
     <Compile Include="IPropertyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\SelectOption.cs" />
-    <Compile Include="PropertyHandler.cs" />
+    <Compile Include="IPropertyHandler.cs" />
     <Compile Include="UrlSettings.cs" />
     <Compile Include="Attributes\ContentSerializerWrapItemsAttribute.cs" />
   </ItemGroup>

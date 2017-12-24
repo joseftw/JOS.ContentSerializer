@@ -8,12 +8,12 @@ namespace JOS.ContentSerializer.Internal
     {
         public object Handle(string[] value, PropertyInfo property, IContentData contentData)
         {
-            var propertyValue = property.GetValue(contentData);
-            if (propertyValue == null)
+            if (value == null)
             {
                 return (string[])Enumerable.Empty<string>();
             }
-            return (string[])propertyValue;
+
+            return value;
         }
     }
 }

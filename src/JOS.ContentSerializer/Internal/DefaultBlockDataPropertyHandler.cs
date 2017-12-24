@@ -15,7 +15,7 @@ namespace JOS.ContentSerializer.Internal
 
         public object Handle(BlockData value, PropertyInfo property, IContentData contentData)
         {
-            return this._propertyManager.GetStructuredData(contentData, new ContentSerializerSettings()); // TODO allow injection of settings.
+            return this._propertyManager.GetStructuredData(value, new ContentSerializerSettings()); // TODO allow injection of settings.
         }
     }
 }
