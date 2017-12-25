@@ -8,8 +8,9 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
-using JOS.ContentSerializer.Internal.ValueListPropertyHandlers;
-using JOS.ContentSerializer.Internal.ValueTypePropertyHandlers;
+using JOS.ContentSerializer.Internal.Default;
+using JOS.ContentSerializer.Internal.Default.ValueListPropertyHandlers;
+using JOS.ContentSerializer.Internal.Default.ValueTypePropertyHandlers;
 
 namespace JOS.ContentSerializer.Internal
 {
@@ -26,14 +27,14 @@ namespace JOS.ContentSerializer.Internal
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            context.Services.AddSingleton<IContentSerializer, DefaultJsonContentSerializer>();
+            context.Services.AddSingleton<IContentSerializer, JsonContentSerializer>();
             context.Services.AddSingleton<IPropertyManager, PropertyManager>();
-            context.Services.AddSingleton<IPropertyNameStrategy, DefaultPropertyNameStrategy>();
-            context.Services.AddSingleton<IPropertyResolver, DefaultPropertyResolver>();
+            context.Services.AddSingleton<IPropertyNameStrategy, PropertyNameStrategy>();
+            context.Services.AddSingleton<IPropertyResolver, PropertyResolver>();
             context.Services.AddSingleton<IUrlHelper, UrlHelperAdapter>();
-            context.Services.AddSingleton<IContentJsonSerializer, DefaultJsonContentSerializer>();
-            context.Services.AddSingleton<IPropertyHandlerService, DefaultPropertyHandlerService>();
-            var defaultPropertyHandlerScanner = new DefaultPropertyHandlerScanner();
+            context.Services.AddSingleton<IContentJsonSerializer, JsonContentSerializer>();
+            context.Services.AddSingleton<IPropertyHandlerService, PropertyHandlerService>();
+            var defaultPropertyHandlerScanner = new PropertyHandlerScanner();
             defaultPropertyHandlerScanner.Scan();
             context.Services.AddSingleton<IPropertyHandlerScanner>(defaultPropertyHandlerScanner);
 

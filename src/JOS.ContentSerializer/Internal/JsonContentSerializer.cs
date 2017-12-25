@@ -5,11 +5,11 @@ using Newtonsoft.Json.Serialization;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultJsonContentSerializer : IContentJsonSerializer
+    public class JsonContentSerializer : IContentJsonSerializer
     {
         private readonly IPropertyManager _propertyManager;
 
-        public DefaultJsonContentSerializer(IPropertyManager propertyManager)
+        public JsonContentSerializer(IPropertyManager propertyManager)
         {
             _propertyManager = propertyManager ?? throw new ArgumentNullException(nameof(propertyManager));
         }

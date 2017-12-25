@@ -4,6 +4,7 @@ using System.Linq;
 using EPiServer;
 using EPiServer.SpecializedProperties;
 using JOS.ContentSerializer.Internal;
+using JOS.ContentSerializer.Internal.Default;
 using NSubstitute;
 using Shouldly;
 using Xunit;

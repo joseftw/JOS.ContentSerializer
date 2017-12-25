@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultPropertyHandlerScanner : IPropertyHandlerScanner
+    public class PropertyHandlerScanner : IPropertyHandlerScanner
     {
         private static IEnumerable<Type> _propertyHandlers;
 

@@ -7,11 +7,11 @@ namespace JOS.ContentSerializer.Tests
 {
     public class DefaultPropertyNameStrategyTests
     {
-        private readonly DefaultPropertyNameStrategy _sut;
+        private readonly PropertyNameStrategy _sut;
 
         public DefaultPropertyNameStrategyTests()
         {
-            this._sut = new DefaultPropertyNameStrategy();
+            this._sut = new PropertyNameStrategy();
         }
 
         [Fact]

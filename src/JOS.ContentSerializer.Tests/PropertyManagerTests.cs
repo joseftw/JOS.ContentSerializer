@@ -4,7 +4,8 @@ using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using JOS.ContentSerializer.Internal;
-using JOS.ContentSerializer.Internal.ValueTypePropertyHandlers;
+using JOS.ContentSerializer.Internal.Default;
+using JOS.ContentSerializer.Internal.Default.ValueTypePropertyHandlers;
 using JOS.ContentSerializer.Tests.Pages;
 using NSubstitute;
 using Shouldly;
@@ -21,12 +22,12 @@ namespace JOS.ContentSerializer.Tests
         {
             var contentLoader = Substitute.For<IContentLoader>();
             SetupContentLoader(contentLoader);
-            var scanner = new DefaultPropertyHandlerScanner();
+            var scanner = new PropertyHandlerScanner();
             scanner.Scan();
             this._sut = new PropertyManager(
-                new DefaultPropertyNameStrategy(),
-                new DefaultPropertyResolver(),
-                new DefaultPropertyHandlerService(scanner)
+                new PropertyNameStrategy(),
+                new PropertyResolver(),
+                new PropertyHandlerService(scanner)
             );
             this._page = new StandardPageBuilder().Build();
         }

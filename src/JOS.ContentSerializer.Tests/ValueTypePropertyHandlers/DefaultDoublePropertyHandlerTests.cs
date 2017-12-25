@@ -1,4 +1,4 @@
-﻿using JOS.ContentSerializer.Internal.ValueTypePropertyHandlers;
+﻿using JOS.ContentSerializer.Internal.Default.ValueTypePropertyHandlers;
 using JOS.ContentSerializer.Tests.Pages;
 using Shouldly;
 using Xunit;

@@ -3,7 +3,7 @@ using System.Reflection;
 using EPiServer;
 using EPiServer.Core;
 
-namespace JOS.ContentSerializer.Internal
+namespace JOS.ContentSerializer.Internal.Default
 {
     public class UrlPropertyHandler : IPropertyHandler<Url>
     {

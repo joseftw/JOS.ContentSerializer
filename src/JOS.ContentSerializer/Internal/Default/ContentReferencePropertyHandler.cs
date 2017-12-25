@@ -2,7 +2,7 @@
 using System.Reflection;
 using EPiServer.Core;
 
-namespace JOS.ContentSerializer.Internal
+namespace JOS.ContentSerializer.Internal.Default
 {
     public class ContentReferencePropertyHandler : IPropertyHandler<ContentReference>
     {

@@ -2,7 +2,7 @@
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 
-namespace JOS.ContentSerializer.Internal
+namespace JOS.ContentSerializer.Internal.Default
 {
     public class PageTypePropertyHandler : IPropertyHandler<PageType>
     {

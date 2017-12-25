@@ -9,11 +9,11 @@ namespace JOS.ContentSerializer.Tests
 {
     public class DefaultPropertyResolverTests
     {
-        private readonly DefaultPropertyResolver _sut;
+        private readonly PropertyResolver _sut;
 
         public DefaultPropertyResolverTests()
         {
-            this._sut = new DefaultPropertyResolver();
+            this._sut = new PropertyResolver();
         }
 
         [Fact]

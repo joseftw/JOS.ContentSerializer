@@ -6,7 +6,7 @@ using EPiServer;
 using EPiServer.Core;
 using EPiServer.SpecializedProperties;
 
-namespace JOS.ContentSerializer.Internal
+namespace JOS.ContentSerializer.Internal.Default
 {
     public class LinkItemCollectionPropertyHandler : IPropertyHandler<LinkItemCollection>
     {

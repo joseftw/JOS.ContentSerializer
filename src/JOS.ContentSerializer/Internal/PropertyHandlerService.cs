@@ -4,11 +4,11 @@ using EPiServer.ServiceLocation;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultPropertyHandlerService : IPropertyHandlerService
+    public class PropertyHandlerService : IPropertyHandlerService
     {
         private readonly IPropertyHandlerScanner _propertyHandlerScanner;
 
-        public DefaultPropertyHandlerService(IPropertyHandlerScanner propertyHandlerScanner)
+        public PropertyHandlerService(IPropertyHandlerScanner propertyHandlerScanner)
         {
             _propertyHandlerScanner = propertyHandlerScanner ?? throw new ArgumentNullException(nameof(propertyHandlerScanner));
         }

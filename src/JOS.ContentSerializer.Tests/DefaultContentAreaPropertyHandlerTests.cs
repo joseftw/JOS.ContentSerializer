@@ -3,6 +3,7 @@ using System.Linq;
 using EPiServer;
 using EPiServer.Core;
 using JOS.ContentSerializer.Internal;
+using JOS.ContentSerializer.Internal.Default;
 using JOS.ContentSerializer.Tests.Pages;
 using NSubstitute;
 

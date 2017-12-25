@@ -7,7 +7,7 @@ using EPiServer;
 using EPiServer.Core;
 using JOS.ContentSerializer.Attributes;
 
-namespace JOS.ContentSerializer.Internal
+namespace JOS.ContentSerializer.Internal.Default
 {
     public class ContentAreaPropertyHandler : IPropertyHandler<ContentArea>
     {

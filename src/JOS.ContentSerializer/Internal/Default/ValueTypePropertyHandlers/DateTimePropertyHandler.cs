@@ -2,7 +2,7 @@
 using System.Reflection;
 using EPiServer.Core;
 
-namespace JOS.ContentSerializer.Internal.ValueTypePropertyHandlers
+namespace JOS.ContentSerializer.Internal.Default.ValueTypePropertyHandlers
 {
     public class DateTimePropertyHandler : IPropertyHandler<DateTime>
     {

@@ -1,5 +1,6 @@
 ﻿using EPiServer;
 using JOS.ContentSerializer.Internal;
+using JOS.ContentSerializer.Internal.Default;
 using NSubstitute;
 using Shouldly;
 using Xunit;

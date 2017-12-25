@@ -10,11 +10,11 @@ using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultPropertyResolver : IPropertyResolver
+    public class PropertyResolver : IPropertyResolver
     {
         private static ConcurrentDictionary<Type, IEnumerable<PropertyInfo>> _cachedContentTypes;
 
-        public DefaultPropertyResolver()
+        public PropertyResolver()
         {
             _cachedContentTypes = new ConcurrentDictionary<Type, IEnumerable<PropertyInfo>>();
         }

@@ -1,4 +1,5 @@
 ﻿using JOS.ContentSerializer.Internal;
+using JOS.ContentSerializer.Internal.Default;
 using JOS.ContentSerializer.Tests.Pages;
 using Shouldly;
 using Xunit;
