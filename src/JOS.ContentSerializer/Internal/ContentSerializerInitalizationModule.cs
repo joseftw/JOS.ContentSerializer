@@ -8,6 +8,7 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
+using JOS.ContentSerializer.Internal.ValueListPropertyHandlers;
 
 namespace JOS.ContentSerializer.Internal
 {
@@ -50,6 +51,20 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyHandler<Url>, DefaultUrlPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<XhtmlString>, DefaultXhtmlStringPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<BlockData>, DefaultBlockDataPropertyHandler>();
+
+            context.Services.AddSingleton<IPropertyHandler<IEnumerable<string>>, DefaultStringListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<ICollection<string>>, DefaultStringListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<IList<string>>, DefaultStringListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<IEnumerable<int>>, DefaultIntListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<ICollection<int>>, DefaultIntListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<IList<int>>, DefaultIntListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<IEnumerable<DateTime>>, DefaultDateTimeListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<ICollection<DateTime>>, DefaultDateTimeListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<IList<DateTime>>, DefaultDateTimeListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<IEnumerable<double>>, DefaultDoubleListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<ICollection<double>>, DefaultDoubleListPropertyHandler>();
+            context.Services.AddSingleton<IPropertyHandler<IList<double>>, DefaultDoubleListPropertyHandler>();
+
 
             stopwatch.Stop();
             Trace.WriteLine($"{nameof(ContentSerializerInitalizationModule)} took {stopwatch.ElapsedMilliseconds}ms");

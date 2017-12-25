@@ -163,12 +163,16 @@
     <Compile Include="Internal\DefaultContentReferencePropertyHandler.cs" />
     <Compile Include="Internal\DefaultDateTimePropertyHandler.cs" />
     <Compile Include="Internal\DefaultDoublePropertyHandler.cs" />
+    <Compile Include="Internal\ValueListPropertyHandlers\DefaultDateTimeListPropertyHandler.cs" />
+    <Compile Include="Internal\ValueListPropertyHandlers\DefaultDoubleListPropertyHandler.cs" />
+    <Compile Include="Internal\ValueListPropertyHandlers\DefaultIntListPropertyHandler.cs" />
     <Compile Include="Internal\DefaultLinkItemCollectionPropertyHandler.cs" />
     <Compile Include="Internal\DefaultPageReferencePropertyHandler.cs" />
     <Compile Include="Internal\DefaultPageTypePropertyHandler.cs" />
     <Compile Include="Internal\DefaultPropertyHandlerScanner.cs" />
     <Compile Include="Internal\DefaultPropertyHandlerService.cs" />
     <Compile Include="Internal\DefaultStringArrayPropertyHandler.cs" />
+    <Compile Include="Internal\ValueListPropertyHandlers\DefaultStringListPropertyHandler.cs" />
     <Compile Include="Internal\DefaultXhtmlStringPropertyHandler.cs" />
     <Compile Include="Internal\LinkItem.cs" />
     <Compile Include="Internal\DefaultStringPropertyHandler.cs" />
