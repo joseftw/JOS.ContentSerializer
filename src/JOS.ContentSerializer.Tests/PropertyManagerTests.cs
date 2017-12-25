@@ -4,6 +4,7 @@ using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using JOS.ContentSerializer.Internal;
+using JOS.ContentSerializer.Internal.ValueTypePropertyHandlers;
 using JOS.ContentSerializer.Tests.Pages;
 using NSubstitute;
 using Shouldly;

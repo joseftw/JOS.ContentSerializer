@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JOS.ContentSerializer.Internal;
+using JOS.ContentSerializer.Internal.ValueTypePropertyHandlers;
 using JOS.ContentSerializer.Tests.Pages;
 using Shouldly;
 using Xunit;
 
-namespace JOS.ContentSerializer.Tests
+namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 {
-    public class StringPropertyHandlerTests
+    public class DefaultStringPropertyHandlerTests
     {
         private readonly DefaultStringPropertyHandler _sut;
 
-        public StringPropertyHandlerTests()
+        public DefaultStringPropertyHandlerTests()
         {
             this._sut = new DefaultStringPropertyHandler();
         }

@@ -9,6 +9,7 @@ using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
 using JOS.ContentSerializer.Internal.ValueListPropertyHandlers;
+using JOS.ContentSerializer.Internal.ValueTypePropertyHandlers;
 
 namespace JOS.ContentSerializer.Internal
 {

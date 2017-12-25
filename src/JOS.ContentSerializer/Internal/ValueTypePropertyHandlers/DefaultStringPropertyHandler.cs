@@ -5,7 +5,7 @@ using System.Reflection;
 using EPiServer.Core;
 using EPiServer.Shell.ObjectEditing;
 
-namespace JOS.ContentSerializer.Internal
+namespace JOS.ContentSerializer.Internal.ValueTypePropertyHandlers
 {
     public class DefaultStringPropertyHandler : IPropertyHandler<string>
     {

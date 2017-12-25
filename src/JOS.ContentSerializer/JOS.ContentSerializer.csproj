@@ -161,8 +161,8 @@
     <Compile Include="Internal\DefaultBoolPropertyHandler.cs" />
     <Compile Include="Internal\DefaultContentReferenceListPropertyHandler.cs" />
     <Compile Include="Internal\DefaultContentReferencePropertyHandler.cs" />
-    <Compile Include="Internal\DefaultDateTimePropertyHandler.cs" />
-    <Compile Include="Internal\DefaultDoublePropertyHandler.cs" />
+    <Compile Include="Internal\ValueTypePropertyHandlers\DefaultDateTimePropertyHandler.cs" />
+    <Compile Include="Internal\ValueTypePropertyHandlers\DefaultDoublePropertyHandler.cs" />
     <Compile Include="Internal\ValueListPropertyHandlers\DefaultDateTimeListPropertyHandler.cs" />
     <Compile Include="Internal\ValueListPropertyHandlers\DefaultDoubleListPropertyHandler.cs" />
     <Compile Include="Internal\ValueListPropertyHandlers\DefaultIntListPropertyHandler.cs" />
@@ -175,7 +175,7 @@
     <Compile Include="Internal\ValueListPropertyHandlers\DefaultStringListPropertyHandler.cs" />
     <Compile Include="Internal\DefaultXhtmlStringPropertyHandler.cs" />
     <Compile Include="Internal\LinkItem.cs" />
-    <Compile Include="Internal\DefaultStringPropertyHandler.cs" />
+    <Compile Include="Internal\ValueTypePropertyHandlers\DefaultStringPropertyHandler.cs" />
     <Compile Include="Internal\UrlHelperAdapter.cs" />
     <Compile Include="IPropertyHandlerScanner.cs" />
     <Compile Include="IPropertyHandlerService.cs" />
@@ -186,7 +186,7 @@
     <Compile Include="Internal\DefaultPropertyResolver.cs" />
     <Compile Include="Internal\DefaultJsonContentSerializer.cs" />
     <Compile Include="Internal\DefaultUrlPropertyHandler.cs" />
-    <Compile Include="Internal\DefaultIntPropertyHandler.cs" />
+    <Compile Include="Internal\ValueTypePropertyHandlers\DefaultIntPropertyHandler.cs" />
     <Compile Include="Internal\PropertyManager.cs" />
     <Compile Include="IPropertyManager.cs" />
     <Compile Include="IPropertyNameStrategy.cs" />

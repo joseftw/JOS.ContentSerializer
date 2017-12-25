@@ -40,12 +40,15 @@
   <ItemGroup>
     <Compile Include="DefaultContentAreaPropertyHandlerTests.cs" />
     <Compile Include="DefaultContentReferencePropertyHandlerTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\DefaultBoolPropertyHandlerTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\DefaultDateTimePropertyHandlerTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\DefaultDoublePropertyHandlerTests.cs" />
     <Compile Include="DefaultLinkItemCollectionPropertyHandlerTests.cs" />
     <Compile Include="DefaultPropertyNameStrategyTests.cs" />
     <Compile Include="DefaultPropertyResolverTests.cs" />
-    <Compile Include="StringPropertyHandlerTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\DefaultStringPropertyHandlerTests.cs" />
     <Compile Include="DefaultUrlPropertyHandlerTests.cs" />
-    <Compile Include="IntPropertyHandlerTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\DefaultIntPropertyHandlerTests.cs" />
     <Compile Include="Pages\DefaultPropertyNameStrategyPage.cs" />
     <Compile Include="Pages\DefaultPropertyResolverPage.cs" />
     <Compile Include="Pages\DefaultStringArrayPropertyHandlerPage.cs" />
