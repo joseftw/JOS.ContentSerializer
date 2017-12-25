@@ -3,7 +3,7 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultXhtmlStringPropertyHandler : IPropertyHandler<XhtmlString>
+    public class XhtmlStringPropertyHandler : IPropertyHandler<XhtmlString>
     {
         public object Handle(XhtmlString value, PropertyInfo property, IContentData contentData)
         {

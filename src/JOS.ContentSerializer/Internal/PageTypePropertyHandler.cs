@@ -4,7 +4,7 @@ using EPiServer.DataAbstraction;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultPageTypePropertyHandler : IPropertyHandler<PageType>
+    public class PageTypePropertyHandler : IPropertyHandler<PageType>
     {
         public object Handle(PageType value, PropertyInfo propertyInfo, IContentData contentData)
         {

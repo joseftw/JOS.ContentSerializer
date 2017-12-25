@@ -10,14 +10,14 @@ namespace JOS.ContentSerializer.Tests
 {
     public class DefaultContentAreaPropertyHandlerTests
     {
-        private readonly DefaultContentAreaPropertyHandler _sut;
+        private readonly ContentAreaPropertyHandler _sut;
 
         public DefaultContentAreaPropertyHandlerTests()
         {
             var contentLoader = Substitute.For<IContentLoader>();
             SetupContentLoader(contentLoader);
             var propertyManager = Substitute.For<IPropertyManager>();
-            this._sut = new DefaultContentAreaPropertyHandler(contentLoader, propertyManager);
+            this._sut = new ContentAreaPropertyHandler(contentLoader, propertyManager);
         }
 
         // TODO TESTS

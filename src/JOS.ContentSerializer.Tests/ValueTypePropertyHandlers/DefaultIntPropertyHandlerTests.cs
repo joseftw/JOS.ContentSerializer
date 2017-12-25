@@ -7,11 +7,11 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 {
     public class DefaultIntPropertyHandlerTests
     {
-        private readonly DefaultIntPropertyHandler _sut;
+        private readonly IntPropertyHandler _sut;
 
         public DefaultIntPropertyHandlerTests()
         {
-            this._sut = new DefaultIntPropertyHandler();
+            this._sut = new IntPropertyHandler();
         }
 
         [Fact]

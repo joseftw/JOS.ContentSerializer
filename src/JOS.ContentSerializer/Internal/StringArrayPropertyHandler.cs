@@ -4,7 +4,7 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultStringArrayPropertyHandler : IPropertyHandler<string[]>
+    public class StringArrayPropertyHandler : IPropertyHandler<string[]>
     {
         public object Handle(string[] value, PropertyInfo property, IContentData contentData)
         {

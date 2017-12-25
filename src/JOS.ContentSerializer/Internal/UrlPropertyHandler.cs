@@ -5,11 +5,11 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultUrlPropertyHandler : IPropertyHandler<Url>
+    public class UrlPropertyHandler : IPropertyHandler<Url>
     {
         private readonly IUrlHelper _urlHelper;
 
-        public DefaultUrlPropertyHandler(IUrlHelper urlHelper)
+        public UrlPropertyHandler(IUrlHelper urlHelper)
         {
             _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
         }

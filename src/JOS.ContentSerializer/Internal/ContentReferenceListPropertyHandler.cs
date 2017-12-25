@@ -5,11 +5,11 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultContentReferenceListPropertyHandler : IPropertyHandler<IEnumerable<ContentReference>>
+    public class ContentReferenceListPropertyHandler : IPropertyHandler<IEnumerable<ContentReference>>
     {
         private readonly IPropertyHandler<ContentReference> _contentReferencePropertyHandler;
 
-        public DefaultContentReferenceListPropertyHandler(IPropertyHandler<ContentReference> contentReferencePropertyHandler)
+        public ContentReferenceListPropertyHandler(IPropertyHandler<ContentReference> contentReferencePropertyHandler)
         {
             _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
         }

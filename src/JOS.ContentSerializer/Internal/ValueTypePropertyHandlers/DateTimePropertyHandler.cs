@@ -4,7 +4,7 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal.ValueTypePropertyHandlers
 {
-    public class DefaultDateTimePropertyHandler : IPropertyHandler<DateTime>
+    public class DateTimePropertyHandler : IPropertyHandler<DateTime>
     {
         public object Handle(DateTime value, PropertyInfo property, IContentData contentData)
         {

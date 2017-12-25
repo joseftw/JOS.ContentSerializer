@@ -13,13 +13,13 @@ namespace JOS.ContentSerializer.Tests
 {
     public class DefaultLinkItemCollectionPropertyHandlerTests
     {
-        private readonly DefaultLinkItemCollectionPropertyHandler _sut;
+        private readonly LinkItemCollectionPropertyHandler _sut;
         private readonly IUrlHelper _urlHelper;
 
         public DefaultLinkItemCollectionPropertyHandlerTests()
         {
             this._urlHelper = Substitute.For<IUrlHelper>();
-            this._sut = new DefaultLinkItemCollectionPropertyHandler(this._urlHelper);
+            this._sut = new LinkItemCollectionPropertyHandler(this._urlHelper);
         }
 
         [Fact]

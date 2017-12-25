@@ -4,11 +4,11 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultContentReferencePropertyHandler : IPropertyHandler<ContentReference>
+    public class ContentReferencePropertyHandler : IPropertyHandler<ContentReference>
     {
         private readonly IUrlHelper _urlHelper;
 
-        public DefaultContentReferencePropertyHandler(IUrlHelper urlHelper)
+        public ContentReferencePropertyHandler(IUrlHelper urlHelper)
         {
             _urlHelper = urlHelper;
         }

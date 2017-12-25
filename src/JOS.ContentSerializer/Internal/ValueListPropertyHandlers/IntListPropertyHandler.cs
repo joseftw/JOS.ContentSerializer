@@ -4,9 +4,9 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal.ValueListPropertyHandlers
 {
-    public class DefaultDoubleListPropertyHandler : IPropertyHandler<IEnumerable<double>>
+    public class IntListPropertyHandler : IPropertyHandler<IEnumerable<int>>
     {
-        public object Handle(IEnumerable<double> value, PropertyInfo property, IContentData contentData)
+        public object Handle(IEnumerable<int> value, PropertyInfo property, IContentData contentData)
         {
             return value;
         }

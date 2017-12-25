@@ -7,10 +7,10 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 {
     public class DefaultBoolPropertyHandlerTests
     {
-        private readonly DefaultBoolPropertyHandler _sut;
+        private readonly BoolPropertyHandler _sut;
         public DefaultBoolPropertyHandlerTests()
         {
-            this._sut = new DefaultBoolPropertyHandler();
+            this._sut = new BoolPropertyHandler();
         }
 
         [Fact]

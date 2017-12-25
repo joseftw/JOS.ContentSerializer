@@ -8,11 +8,11 @@ using EPiServer.SpecializedProperties;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultLinkItemCollectionPropertyHandler : IPropertyHandler<LinkItemCollection>
+    public class LinkItemCollectionPropertyHandler : IPropertyHandler<LinkItemCollection>
     {
         private readonly IUrlHelper _urlHelper;
 
-        public DefaultLinkItemCollectionPropertyHandler(IUrlHelper urlHelper)
+        public LinkItemCollectionPropertyHandler(IUrlHelper urlHelper)
         {
             _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
         }

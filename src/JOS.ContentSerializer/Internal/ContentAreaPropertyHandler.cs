@@ -9,13 +9,13 @@ using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultContentAreaPropertyHandler : IPropertyHandler<ContentArea>
+    public class ContentAreaPropertyHandler : IPropertyHandler<ContentArea>
     {
         private readonly IContentLoader _contentLoader;
         private readonly IPropertyManager _propertyManager;
         private static readonly int MaxDegreeOfParallelism = Environment.ProcessorCount / 2;
 
-        public DefaultContentAreaPropertyHandler(IContentLoader contentLoader, IPropertyManager propertyManager)
+        public ContentAreaPropertyHandler(IContentLoader contentLoader, IPropertyManager propertyManager)
         {
             _contentLoader = contentLoader ?? throw new ArgumentNullException(nameof(contentLoader));
             _propertyManager = propertyManager ?? throw new ArgumentNullException(nameof(propertyManager));

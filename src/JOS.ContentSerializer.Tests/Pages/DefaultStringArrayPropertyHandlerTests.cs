@@ -6,11 +6,11 @@ namespace JOS.ContentSerializer.Tests.Pages
 {
     public class DefaultStringArrayPropertyHandlerTests
     {
-        private readonly DefaultStringArrayPropertyHandler _sut;
+        private readonly StringArrayPropertyHandler _sut;
 
         public DefaultStringArrayPropertyHandlerTests()
         {
-            this._sut = new DefaultStringArrayPropertyHandler();
+            this._sut = new StringArrayPropertyHandler();
         }
 
         [Fact]

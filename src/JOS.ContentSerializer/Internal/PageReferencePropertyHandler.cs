@@ -4,11 +4,11 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultPageReferencePropertyHandler : IPropertyHandler<PageReference>
+    public class PageReferencePropertyHandler : IPropertyHandler<PageReference>
     {
         private readonly IPropertyHandler<ContentReference> _contentReferencePropertyHandler;
 
-        public DefaultPageReferencePropertyHandler(IPropertyHandler<ContentReference> contentReferencePropertyHandler)
+        public PageReferencePropertyHandler(IPropertyHandler<ContentReference> contentReferencePropertyHandler)
         {
             _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
         }

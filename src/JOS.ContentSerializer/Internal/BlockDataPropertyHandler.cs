@@ -4,11 +4,11 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
-    public class DefaultBlockDataPropertyHandler : IPropertyHandler<BlockData>
+    public class BlockDataPropertyHandler : IPropertyHandler<BlockData>
     {
         private readonly IPropertyManager _propertyManager;
 
-        public DefaultBlockDataPropertyHandler(IPropertyManager propertyManager)
+        public BlockDataPropertyHandler(IPropertyManager propertyManager)
         {
             _propertyManager = propertyManager ?? throw new ArgumentNullException(nameof(propertyManager));
         }

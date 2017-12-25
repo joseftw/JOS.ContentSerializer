@@ -8,13 +8,13 @@ namespace JOS.ContentSerializer.Tests
 {
     public class DefaultContentReferencePropertyHandlerTests
     {
-        private readonly DefaultContentReferencePropertyHandler _sut;
+        private readonly ContentReferencePropertyHandler _sut;
         private readonly IUrlHelper _urlHelper;
 
         public DefaultContentReferencePropertyHandlerTests()
         {
             this._urlHelper = Substitute.For<IUrlHelper>();
-            this._sut = new DefaultContentReferencePropertyHandler(this._urlHelper);
+            this._sut = new ContentReferencePropertyHandler(this._urlHelper);
         }
 
         [Fact]

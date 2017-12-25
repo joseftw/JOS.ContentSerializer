@@ -8,10 +8,10 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 {
     public class DefaultDateTimePropertyHandlerTests
     {
-        private readonly DefaultDateTimePropertyHandler _sut;
+        private readonly DateTimePropertyHandler _sut;
         public DefaultDateTimePropertyHandlerTests()
         {
-            this._sut = new DefaultDateTimePropertyHandler();
+            this._sut = new DateTimePropertyHandler();
         }
 
         [Fact]
