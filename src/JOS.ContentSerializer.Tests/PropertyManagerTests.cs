@@ -20,10 +20,12 @@ namespace JOS.ContentSerializer.Tests
         {
             var contentLoader = Substitute.For<IContentLoader>();
             SetupContentLoader(contentLoader);
+            var scanner = new DefaultPropertyHandlerScanner();
+            scanner.Scan();
             this._sut = new PropertyManager(
                 new DefaultPropertyNameStrategy(),
                 new DefaultPropertyResolver(),
-                new DefaultPropertyHandlerService(new DefaultPropertyHandlerScanner())
+                new DefaultPropertyHandlerService(scanner)
             );
             this._page = new StandardPageBuilder().Build();
         }
@@ -94,13 +96,36 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenContentReferenceProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
-            // TODO test
+            var contentReference = new ContentReference(2000);
+            var page = new StandardPageBuilder().WithContentReference(contentReference).Build();
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            var urlHelper = Substitute.For<IUrlHelper>();
+            var contentReferencePageUrl = "https://josefottosson.se/";
+            urlHelper.ContentUrl(contentReference, Arg.Any<ContentReferenceSettings>()).Returns(contentReferencePageUrl);
+            serviceLocator.GetInstance(typeof(IPropertyHandler<ContentReference>)).Returns(new DefaultContentReferencePropertyHandler(urlHelper));
+            ServiceLocator.SetLocator(serviceLocator);
+
+            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+
+            result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.ContentReference)) && x.Value.Equals(contentReferencePageUrl));
         }
 
         [Fact]
         public void GivenPageReferenceProperty_WhenGetStructuredData_ThenReturnsCorrectValue()
         {
-            // TODO test
+            var pageReference = new PageReference(3000);
+            var page = new StandardPageBuilder().WithPageReference(pageReference).Build();
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            var urlHelper = Substitute.For<IUrlHelper>();
+            var pageReferenceUrl = "https://josefottosson.se/";
+            var contentReferencePropertyHandler = new DefaultContentReferencePropertyHandler(urlHelper);
+            urlHelper.ContentUrl(pageReference, Arg.Any<ContentReferenceSettings>()).Returns(pageReferenceUrl);
+            serviceLocator.GetInstance(typeof(IPropertyHandler<PageReference>)).Returns(new DefaultPageReferencePropertyHandler(contentReferencePropertyHandler));
+            ServiceLocator.SetLocator(serviceLocator);
+
+            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+
+            result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.PageReference)) && x.Value.Equals(pageReferenceUrl));
         }
 
         [Fact]

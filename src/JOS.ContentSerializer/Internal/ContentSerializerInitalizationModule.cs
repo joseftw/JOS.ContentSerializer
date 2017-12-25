@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
@@ -21,6 +22,8 @@ namespace JOS.ContentSerializer.Internal
 
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             context.Services.AddSingleton<IContentSerializer, DefaultJsonContentSerializer>();
             context.Services.AddSingleton<IPropertyManager, PropertyManager>();
             context.Services.AddSingleton<IPropertyNameStrategy, DefaultPropertyNameStrategy>();
@@ -47,6 +50,9 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyHandler<Url>, DefaultUrlPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<XhtmlString>, DefaultXhtmlStringPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<BlockData>, DefaultBlockDataPropertyHandler>();
+
+            stopwatch.Stop();
+            Trace.WriteLine($"{nameof(ContentSerializerInitalizationModule)} took {stopwatch.ElapsedMilliseconds}ms");
         }
 
         public void Initialize(InitializationEngine context)

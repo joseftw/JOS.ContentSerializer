@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
@@ -35,18 +37,21 @@ namespace JOS.ContentSerializer.Internal
                 var propertyHandler = this._propertyHandlerService.GetPropertyHandler(property.PropertyType);
                 if (propertyHandler == null)
                 {
+                    Trace.WriteLine($"No PropertyHandler was found for type '{property.PropertyType}'");
                     continue;
                 }
-                var method = propertyHandler.GetType().GetMethod("Handle"); // TODO abstract away and get name from interface(nameof)
-                var result = method.Invoke(propertyHandler, new[] {value, property, contentData});
 
-                AddItem(key, result, structuredData, false);
-
+                var method = propertyHandler.GetType().GetMethod(nameof(IPropertyHandler<object>.Handle));
+                if (method != null)
+                {
+                    var result = method.Invoke(propertyHandler, new[] { value, property, contentData });
+                    AddItem(key, result, structuredData, false);
+                }
             }
             return structuredData;
         }
 
-        private void AddItem(string key, object value, Dictionary<string, object> target, bool throwOnDuplicate)
+        private static void AddItem(string key, object value, Dictionary<string, object> target, bool throwOnDuplicate)
         {
             if (!target.ContainsKey(key))
             {

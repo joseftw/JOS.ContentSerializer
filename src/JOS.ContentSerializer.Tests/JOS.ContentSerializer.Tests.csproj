@@ -58,6 +58,7 @@
     <Compile Include="PropertyManagerTests.cs" />
     <Compile Include="SelectionFactory.cs" />
     <Compile Include="StandardPageBuilder.cs" />
+    <Compile Include="UrlHelperAdapterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

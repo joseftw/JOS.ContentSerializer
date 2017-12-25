@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using EPiServer;
 using EPiServer.Core;
 using JOS.ContentSerializer.Attributes;
@@ -12,6 +13,7 @@ namespace JOS.ContentSerializer.Internal
     {
         private readonly IContentLoader _contentLoader;
         private readonly IPropertyManager _propertyManager;
+        private static readonly int MaxDegreeOfParallelism = Environment.ProcessorCount / 2;
 
         public DefaultContentAreaPropertyHandler(IContentLoader contentLoader, IPropertyManager propertyManager)
         {
@@ -64,14 +66,22 @@ namespace JOS.ContentSerializer.Internal
             }
 
             var content = new List<IContentData>();
-            foreach (var contentAreaItem in contentArea.Items)
+            Parallel.ForEach(contentArea.FilteredItems, new ParallelOptions{MaxDegreeOfParallelism = MaxDegreeOfParallelism }, item =>
             {
-                var loadedContent = this._contentLoader.Get<ContentData>(contentAreaItem.ContentLink);
+                var loadedContent = this._contentLoader.Get<ContentData>(item.ContentLink);
                 if (loadedContent != null)
                 {
                     content.Add(loadedContent);
                 }
-            }
+            });
+            //foreach (var contentAreaItem in contentArea.Items)
+            //{
+            //    var loadedContent = this._contentLoader.Get<ContentData>(contentAreaItem.ContentLink);
+            //    if (loadedContent != null)
+            //    {
+            //        content.Add(loadedContent);
+            //    }
+            //}
 
             return content;
         }

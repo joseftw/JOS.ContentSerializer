@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
+using EPiServer;
 using EPiServer.Core;
 using JOS.ContentSerializer.Attributes;
 
@@ -20,7 +21,7 @@ namespace JOS.ContentSerializer.Internal
 
         public IEnumerable<PropertyInfo> GetProperties(IContentData contentData)
         {
-            var type = contentData.GetType();
+            var type = contentData.GetOriginalType();
             if (_cachedContentTypes.ContainsKey(type))
             {
                 return _cachedContentTypes[type];
@@ -35,9 +36,9 @@ namespace JOS.ContentSerializer.Internal
         {
             var attributes = Attribute.GetCustomAttributes(property);
 
-            var jsonIgnoreAttribute = attributes.OfType<ContentSerializerIgnoreAttribute>().FirstOrDefault();
+            var ignoreAttribute = attributes.OfType<ContentSerializerIgnoreAttribute>().FirstOrDefault();
 
-            if (jsonIgnoreAttribute != null)
+            if (ignoreAttribute != null)
             {
                 return false;
             }
@@ -48,8 +49,8 @@ namespace JOS.ContentSerializer.Internal
                 return true;
             }
 
-            var jsonPropertyAttribute = attributes.OfType<ContentSerializerIncludeAttribute>().FirstOrDefault();
-            return jsonPropertyAttribute != null;
+            var includeAttribute = attributes.OfType<ContentSerializerIncludeAttribute>().FirstOrDefault();
+            return includeAttribute != null;
         }
     }
 }

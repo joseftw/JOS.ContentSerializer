@@ -45,6 +45,12 @@ namespace JOS.ContentSerializer.Tests.Pages
         [Display(Name = "Main Video")]
         public virtual VideoBlock MainVideo { get; set; }
 
+        [Display(Name = "ContentReference")]
+        public virtual ContentReference ContentReference { get; set; }
+
+        [Display(Name = "PageReference")]
+        public virtual PageReference PageReference { get; set; }
+
         [JsonIgnore]
         public virtual string Author { get; set; }
 

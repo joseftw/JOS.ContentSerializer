@@ -16,6 +16,8 @@ namespace JOS.ContentSerializer.Tests
         private XhtmlString _mainBody = new XhtmlString("<h1>This is <b>HTML</b> </h1>");
         private ContentArea _mainContentArea = new ContentArea(); // TODO USE BUILDER HERE
         private VideoBlock _mainVideo = new VideoBlock(); // TODO USE BUILDER HERE.
+        private ContentReference _contentReference = new ContentReference(1000);
+        private PageReference _pageReference = new PageReference(2000);
 
         public StandardPageBuilder WithHeading(string h)
         {
@@ -83,6 +85,18 @@ namespace JOS.ContentSerializer.Tests
             return this;
         }
 
+        public StandardPageBuilder WithContentReference(ContentReference c)
+        {
+            this._contentReference = c;
+            return this;
+        }
+
+        public StandardPageBuilder WithPageReference(PageReference c)
+        {
+            this._pageReference = c;
+            return this;
+        }
+
         public StandardPage Build()
         {
             return new StandardPage
@@ -95,7 +109,9 @@ namespace JOS.ContentSerializer.Tests
                 Starting = _starting,
                 MainBody = _mainBody,
                 MainContentArea = _mainContentArea,
-                MainVideo = _mainVideo
+                MainVideo = _mainVideo,
+                ContentReference =  _contentReference,
+                PageReference = _pageReference
             };
         }
     }
