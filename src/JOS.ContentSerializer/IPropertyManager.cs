@@ -3,7 +3,7 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer
 {
-    public interface IPropertyManager // TODO Do we really need this?
+    public interface IPropertyManager
     {
         Dictionary<string, object> GetStructuredData(
             IContentData contentData,

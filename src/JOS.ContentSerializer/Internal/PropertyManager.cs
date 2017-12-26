@@ -32,9 +32,7 @@ namespace JOS.ContentSerializer.Internal
 
             foreach (var property in properties)
             {
-                var key = this._propertyNameStrategy.GetPropertyName(property);
-                var value = property.GetValue(contentData);
-                var propertyHandler = this._propertyHandlerService.GetPropertyHandler(property.PropertyType);
+                var propertyHandler = this._propertyHandlerService.GetPropertyHandler(property);
                 if (propertyHandler == null)
                 {
                     Trace.WriteLine($"No PropertyHandler was found for type '{property.PropertyType}'");
@@ -44,25 +42,13 @@ namespace JOS.ContentSerializer.Internal
                 var method = propertyHandler.GetType().GetMethod(nameof(IPropertyHandler<object>.Handle));
                 if (method != null)
                 {
+                    var key = this._propertyNameStrategy.GetPropertyName(property);
+                    var value = property.GetValue(contentData);
                     var result = method.Invoke(propertyHandler, new[] { value, property, contentData });
-                    AddItem(key, result, structuredData, false);
+                    structuredData.Add(key, result);
                 }
             }
             return structuredData;
-        }
-
-        private static void AddItem(string key, object value, Dictionary<string, object> target, bool throwOnDuplicate)
-        {
-            if (!target.ContainsKey(key))
-            {
-                target.Add(key, value);
-                return;
-            }
-
-            if (throwOnDuplicate)
-            {
-                throw new ArgumentException("An item with the same key has already been added.");
-            }
         }
     }
 }

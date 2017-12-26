@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Reflection;
 
 namespace JOS.ContentSerializer
 {
     public interface IPropertyHandlerService
     {
-        object GetPropertyHandler(Type type);
+        object GetPropertyHandler(PropertyInfo property);
     }
 }

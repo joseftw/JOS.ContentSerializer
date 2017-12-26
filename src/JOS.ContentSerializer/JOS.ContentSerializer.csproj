@@ -150,12 +150,13 @@
   <ItemGroup>
     <Compile Include="Attributes\ContentSerializerIgnoreAttribute.cs" />
     <Compile Include="Attributes\ContentSerializerIncludeAttribute.cs" />
-    <Compile Include="ContentReferenceSettings.cs" />
+    <Compile Include="Attributes\ContentSerializerPropertyHandlerAttribute.cs" />
     <Compile Include="IContentDataExtensions.cs" />
     <Compile Include="Attributes\ContentSerializerNameAttribute.cs" />
     <Compile Include="ContentSerializerSettings.cs" />
     <Compile Include="ContentSerializer.cs" />
     <Compile Include="IContentJsonSerializer.cs" />
+    <Compile Include="IContentSerializerSettings.cs" />
     <Compile Include="Internal\ContentSerializerInitalizationModule.cs" />
     <Compile Include="Internal\Default\BlockDataPropertyHandler.cs" />
     <Compile Include="Internal\Default\BoolPropertyHandler.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="IPropertyManager.cs" />
     <Compile Include="IPropertyNameStrategy.cs" />
     <Compile Include="IPropertyResolver.cs" />
+    <Compile Include="IUrlSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\SelectOption.cs" />
     <Compile Include="IPropertyHandler.cs" />

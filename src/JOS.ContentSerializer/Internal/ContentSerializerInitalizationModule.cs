@@ -37,6 +37,7 @@ namespace JOS.ContentSerializer.Internal
             var defaultPropertyHandlerScanner = new PropertyHandlerScanner();
             defaultPropertyHandlerScanner.Scan();
             context.Services.AddSingleton<IPropertyHandlerScanner>(defaultPropertyHandlerScanner);
+            context.Services.AddSingleton<IContentSerializerSettings, ContentSerializerSettings>();
 
             context.Services.AddSingleton<IPropertyHandler<int>, IntPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<bool>, BoolPropertyHandler>();
@@ -54,19 +55,22 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyHandler<XhtmlString>, XhtmlStringPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<BlockData>, BlockDataPropertyHandler>();
 
-            context.Services.AddSingleton<IPropertyHandler<IEnumerable<string>>, StringListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<ICollection<string>>, StringListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<IList<string>>, StringListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<IEnumerable<int>>, IntListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<ICollection<int>>, IntListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<IList<int>>, IntListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<IEnumerable<DateTime>>, DateTimeListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<ICollection<DateTime>>, DateTimeListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<IList<DateTime>>, DateTimeListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<IEnumerable<double>>, DoubleListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<ICollection<double>>, DoubleListPropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<IList<double>>, DoubleListPropertyHandler>();
-
+            var stringListPropertyHandler = new StringListPropertyHandler();
+            context.Services.AddSingleton<IPropertyHandler<IEnumerable<string>>>(stringListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<ICollection<string>>>(stringListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<IList<string>>>(stringListPropertyHandler);
+            var intListPropertyHandler = new IntListPropertyHandler();
+            context.Services.AddSingleton<IPropertyHandler<IEnumerable<int>>>(intListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<ICollection<int>>>(intListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<IList<int>>>(intListPropertyHandler);
+            var dateTimeListPropertyHandler = new DateTimeListPropertyHandler();
+            context.Services.AddSingleton<IPropertyHandler<IEnumerable<DateTime>>>(dateTimeListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<ICollection<DateTime>>>(dateTimeListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<IList<DateTime>>>(dateTimeListPropertyHandler);
+            var doubleListPropertyHandler = new DoubleListPropertyHandler();
+            context.Services.AddSingleton<IPropertyHandler<IEnumerable<double>>>(doubleListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<ICollection<double>>>(doubleListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<IList<double>>>(doubleListPropertyHandler);
 
             stopwatch.Stop();
             Trace.WriteLine($"{nameof(ContentSerializerInitalizationModule)} took {stopwatch.ElapsedMilliseconds}ms");

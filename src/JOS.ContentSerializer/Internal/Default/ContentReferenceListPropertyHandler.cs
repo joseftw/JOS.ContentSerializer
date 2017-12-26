@@ -16,7 +16,7 @@ namespace JOS.ContentSerializer.Internal.Default
 
         public object Handle(IEnumerable<ContentReference> value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            return Execute(value, propertyInfo, contentData); // TODO Allow injection of settings
+            return Execute(value, propertyInfo, contentData);
         }
 
         private IEnumerable<object> Execute(

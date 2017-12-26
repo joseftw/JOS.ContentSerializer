@@ -1,13 +1,9 @@
 ﻿namespace JOS.ContentSerializer
 {
-    public class ContentSerializerSettings
+    public class ContentSerializerSettings : IContentSerializerSettings
     {
-        public bool GlobalWrapContentAreaItems { get; set; } = true;
-
-        public UrlSettings UrlSettings { get; set; } = new UrlSettings();
-
-        public ContentReferenceSettings ContentReferenceSettings { get; set; } = new ContentReferenceSettings();
-        public bool UseCustomPropertiesHandler { get; set; } = false;
-        public bool ThrowOnDuplicate { get; set; }
+        public bool WrapContentAreaItems { get; set; } = true;
+        public IUrlSettings UrlSettings { get; set; } = new UrlSettings();
+        public string BlockTypePropertyName { get; set; } = "__type__";
     }
 }
