@@ -145,15 +145,6 @@ Decides if items in a contentarea should be grouped by their ContentType or not.
     Decides if the urls returned should be absolute or relative.
     * FallbackToWildcard - Default = **true**.
     If set to true, the site matched with wildcard (if any) is returned if no mapping could be found for the current hostname when using the GetByHostname method.
-* ContentReferenceSettings
-    * UseAbsoluteUrls - Default = **true**.
-    Same as for UrlSettings.
-    * FallbackToWildcard - Default = **true**.
-    Sames as for UrlSettings.
-* UseCustomPropertiesHandler - Default = **false**.
-Enables/Disables the CustomPropertiesHandler. Note, **NOT ENABLED BY DEFAULT.**
-* ThrowOnDuplicate - Default = **false**.
-If the code should throw if a duplicate is added to the backing dictionary. If false, the duplicate will not be added and no exception will be thrown. When implementing your own CustomPropertiesHandler, setting this to true could be useful while developing.
 
 ### Attributes
 The following attributes exists
