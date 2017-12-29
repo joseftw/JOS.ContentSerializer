@@ -12,66 +12,109 @@ Just check out the desired branch and add the Jos.ContentSerializer project to y
 ### Features
 
 Support for the most common built in properties:
--  String
--  bool
--  XhtmlString
--  ContentArea(*different ContentTypes as well!*)
--  InternalBlock
--  Double
--  Int
--  DateTime
--  SelectOne
--  SelectMany
--  PageReference
--  ContentReference
--  LinkItemCollection
--  Url
--  ContentReferenceList
+* ```BlockData```
+* ```bool```
+* ```double```
+* ```ContentArea```
+* ```ContentReference```
+* ```DateTime```
+* ```IEnumerable<ContentReference>```
+* ```IEnumerable<string>``` *ICollection/IList works as well*
+* ```IEnumerable<int>``` *ICollection/IList works as well*
+* ```IEnumerable<double>``` *ICollection/IList works as well*
+* ```IEnumerable<DateTime>``` *ICollection/IList works as well*
+* ```int```
+* ```LinkItemCollection```
+* ```PageReference```
+* ```PageType```
+* ```string[]```
+* ```string``` *SelectOne/SelectMany* support as well.*
+* ```Url```
+* ```XhtmlString```
 
 Nested ContentAreas are supported as well. When the code finds a ContentArea, it will load all items recursively so you can have multiple levels of "nesting".
 
-### Extensible
-Need support for a custom property? Maybe a Dictionary<string, string>?
-It's easy to add support for custom properties.
-When calling .Serialize/.ToJson you can pass in some settings. If you set ```UseCustomPropertiesHandler``` to ```true``` you will activate the ```DefaultCustomPropertiesHandler```. This is just some simple code that returns the .GetValue representation of your property. For some this may be enough, but what if you would like to only return part of that data, or something completely different?
+### Extensible, really easy to add support for custom properties
+Example:
+You're using the property [Jos.PropertyKeyValueList](https://github.com/joseftw/JOS.PropertyKeyValueList) on your StartPage like this.
 
-Easy. Just implement your own CustomPropertiesHandler!
-Implement ```ICustomPropertiesHandler``` and register it in the container and you should be good to go.
-A custom implementation that supports ```Dictionary<string, string>``` might look like this
-
-```
-public class MyCustomPropertiesHandler : ICustomPropertiesHandler
+```csharp
+public class StartPage : PageData
 {
-    public object GetValue(object propertyValue)
+    ...
+    public virtual string Heading { get; set; }
+    public virtual IEnumerable<KeyValueItem> KeyValueItems{ get; set; }
+    ...
+}
+```
+Now, if you call .ToJson on a StartPage instance you would only get the Heading property in the json output since ```IEnumerable<KeyValyeItem>``` isn't handled out of the box.
+```javascript
+{
+    "heading" : "Where is my KeyValueItems??"
+}
+```
+
+To add support for it, first create a new class that implements the ```IPropertyHandler<>``` interface
+
+```csharp
+public class KeyValueItemListPropertyHandler : IPropertyHandler<IEnumerable<KeyValueItem>>
+{
+    public object Handle(IEnumerable<KeyValueItem> value, PropertyInfo property, IContentData contentData)
     {
-        switch (propertyValue)
-        {
-            case Dictionary<string, string> dictionary:
-                // Do something here and return it!
-                break;
-        }
-        return propertyValue;
+        // Do whatever you want with the property here.
+        return value;
     }
 }
-
 ```
-My goal when designing this library was that it should be easy to customize the result. All PropertyHandlers implements their own interfaces so if you want to change something, just make your own implementation of the interface and register it in the container.
+Then register your class in your DI container.
+**Example**
+```csharp
+[InitializableModule]
+[ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
+public class MyConfigurationModule : IConfigurableModule
+{
+    public void ConfigureContainer(ServiceConfigurationContext context)
+    { 
+    context.Services.AddSingleton<IPropertyHandler<IEnumerable<KeyValueItem>>, KeyValueItemListPropertyHandler>();
+    }
+}
+```
+Now, if you would call .ToJson again on your StartPage instance, you would see the following output.
 
-The following interfaces exists
+```javascript
+{
+    "heading": "Where is my KeyValueItems??",
+    "keyValueItems": [
+        {
+            "key": "Some key",
+            "value": "Hello there"
+        },
+        {
+            "key": "Another key",
+            "value": "Another value!"
+        }
+    ]
+}
+```
 
-#### PropertyHandlers
+### Extend/Replace built in PropertyHandlers
+Say that you, for some reason, want all strings to return "JOSEF OTTOSSON!!" instead of their actual value.
 
--  IContentAreaPropertyHandler
--  IContentReferenceListPropertyHandler
--  IContentReferencePropertyHandler
--  ICustomPropertiesHandler
--  ILinkItemCollectionPropertyHandler
--  IPageTypePropertyHandler
--  IStringArrayPropertyHandler
--  IStringPropertyHandler
--  IUrlPropertyHandler
--  IValueTypePropertyHandler
--  IXhtmlStringPropertyHandler
+Just create a new propertyhandler for strings like this.
+```csharp
+public class JosefStringPropertyHandler : IPropertyHandler<string>
+{
+    public object Handle(string value, PropertyInfo property, IContentData contentData)
+    {
+        return "JOSEF OTTOSSON!!";
+    }
+}
+```
+
+Then swap out the default ```StringPropertyHandler``` in the DI container like this:
+```csharp
+context.Services.AddSingleton<IPropertyHandler<string>, JosefStringPropertyHandler>();
+```
 
 #### Other interfaces
 
@@ -102,15 +145,6 @@ Decides if items in a contentarea should be grouped by their ContentType or not.
     Decides if the urls returned should be absolute or relative.
     * FallbackToWildcard - Default = **true**.
     If set to true, the site matched with wildcard (if any) is returned if no mapping could be found for the current hostname when using the GetByHostname method.
-* ContentReferenceSettings
-    * UseAbsoluteUrls - Default = **true**.
-    Same as for UrlSettings.
-    * FallbackToWildcard - Default = **true**.
-    Sames as for UrlSettings.
-* UseCustomPropertiesHandler - Default = **false**.
-Enables/Disables the CustomPropertiesHandler. Note, **NOT ENABLED BY DEFAULT.**
-* ThrowOnDuplicate - Default = **false**.
-If the code should throw if a duplicate is added to the backing dictionary. If false, the duplicate will not be added and no exception will be thrown. When implementing your own CustomPropertiesHandler, setting this to true could be useful while developing.
 
 ### Attributes
 The following attributes exists
@@ -119,135 +153,136 @@ The following attributes exists
 - ContentSerializerIncludeAttribute - If added to a property that doesn't have the DisplayAttribute, the property will be included in the result
 - ContentSerializerNameAttribute - Makes it possible to set a custom name of the property when serialized.
 - ContentSerializerWrapItemsAttribute - When used on a ContentArea, it's possible to override the global ```GlobalWrapContentAreaItems``` setting for that specific ContentArea.
+- ContentSerializerPropertyHandlerAttribute - Makes it possible to specify a custom PropertyHandler for a specific property.
 
 ### Examples
 
 Use it like this:
 ```c#
-    public class DemoPageController : PageController<Demopage>
+public class DemoPageController : PageController<Demopage>
+{
+    public string Index(DemoPage currentPage)
     {
-        public string Index(DemoPage currentPage)
-        {
-            return currentPage.ToJson();
-        }
+        return currentPage.ToJson();
     }
+}
 ```
 
 <details>
     <summary>DemoPage</summary>
 
 ```c#
-    [ContentType(DisplayName = "DemoPage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d")]
-    public class DemoPage : PageData
-    {
-        [CultureSpecific]
-        [Display(
-            Name = "String",
-            GroupName = SystemTabNames.Content,
-            Order = 100)]
-        public virtual string String { get; set; }
+[ContentType(DisplayName = "DemoPage", GUID = "a6762bfb-973b-41c1-acf8-7d26567cd71d")]
+public class DemoPage : PageData
+{
+    [CultureSpecific]
+    [Display(
+        Name = "String",
+        GroupName = SystemTabNames.Content,
+        Order = 100)]
+    public virtual string String { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "ContentArea",
-            GroupName = SystemTabNames.Content,
-            Order = 200)]
-        public virtual ContentArea MainContentArea { get; set; }
+    [CultureSpecific]
+    [Display(
+        Name = "ContentArea",
+        GroupName = SystemTabNames.Content,
+        Order = 200)]
+    public virtual ContentArea MainContentArea { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "Degrees",
-            GroupName = SystemTabNames.Content,
-            Order = 300)]
-        public virtual double Degrees { get; set; }
+    [CultureSpecific]
+    [Display(
+        Name = "Degrees",
+        GroupName = SystemTabNames.Content,
+        Order = 300)]
+    public virtual double Degrees { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "Int",
-            GroupName = SystemTabNames.Content,
-            Order = 400)]
-        public virtual int Int { get; set; }
+    [CultureSpecific]
+    [Display(
+        Name = "Int",
+        GroupName = SystemTabNames.Content,
+        Order = 400)]
+    public virtual int Int { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "Date",
-            GroupName = SystemTabNames.Content,
-            Order = 500)]
-        public virtual DateTime DateTime { get; set; }
+    [CultureSpecific]
+    [Display(
+        Name = "Date",
+        GroupName = SystemTabNames.Content,
+        Order = 500)]
+    public virtual DateTime DateTime { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "Bool",
-            GroupName = SystemTabNames.Content,
-            Order = 600)]
-        public virtual bool Bool { get; set; }
+    [CultureSpecific]
+    [Display(
+        Name = "Bool",
+        GroupName = SystemTabNames.Content,
+        Order = 600)]
+    public virtual bool Bool { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "PageType",
-            GroupName = SystemTabNames.Content,
-            Order = 700)]
-        public virtual PageType PageType { get; set; }
+    [CultureSpecific]
+    [Display(
+        Name = "PageType",
+        GroupName = SystemTabNames.Content,
+        Order = 700)]
+    public virtual PageType PageType { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "ContentReference",
-            GroupName = SystemTabNames.Content,
-            Order = 800)]
-        public virtual ContentReference ContentReference { get; set; }
+    [CultureSpecific]
+    [Display(
+        Name = "ContentReference",
+        GroupName = SystemTabNames.Content,
+        Order = 800)]
+    public virtual ContentReference ContentReference { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "PageReference",
-            GroupName = SystemTabNames.Content,
-            Order = 900)]
-        public virtual PageReference PageReference { get; set; }
+    [CultureSpecific]
+    [Display(
+        Name = "PageReference",
+        GroupName = SystemTabNames.Content,
+        Order = 900)]
+    public virtual PageReference PageReference { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "Url",
-            GroupName = SystemTabNames.Content,
-            Order = 1000)]
-        public virtual Url Url { get; set; }
+    [CultureSpecific]
+    [Display(
+        Name = "Url",
+        GroupName = SystemTabNames.Content,
+        Order = 1000)]
+    public virtual Url Url { get; set; }
 
-        [Display(
-            Name = "InternalBlock",
-            GroupName = SystemTabNames.Content,
-            Order = 1100)]
-        public virtual VimeoVideoBlock InternalBlock { get; set; }
+    [Display(
+        Name = "InternalBlock",
+        GroupName = SystemTabNames.Content,
+        Order = 1100)]
+    public virtual VimeoVideoBlock InternalBlock { get; set; }
 
-        [Display(
-            Name = "ContentReferenceList",
-            GroupName = SystemTabNames.Content,
-            Order = 1200)]
-        public virtual IList<ContentReference> ContentReferenceList { get; set; }
+    [Display(
+        Name = "ContentReferenceList",
+        GroupName = SystemTabNames.Content,
+        Order = 1200)]
+    public virtual IList<ContentReference> ContentReferenceList { get; set; }
 
-        [Display(
-            Name = "XhtmlString",
-            GroupName = SystemTabNames.Content,
-            Order = 1300)]
-        public virtual XhtmlString XhtmlString { get; set; }
+    [Display(
+        Name = "XhtmlString",
+        GroupName = SystemTabNames.Content,
+        Order = 1300)]
+    public virtual XhtmlString XhtmlString { get; set; }
 
-        [Display(
-            Name = "LinkItemCollection",
-            GroupName = SystemTabNames.Content,
-            Order = 1400)]
-        public virtual LinkItemCollection LinkItemCollection { get; set; }
+    [Display(
+        Name = "LinkItemCollection",
+        GroupName = SystemTabNames.Content,
+        Order = 1400)]
+    public virtual LinkItemCollection LinkItemCollection { get; set; }
 
-        [Display(
-            Name = "SelectOne",
-            GroupName = SystemTabNames.Content,
-            Order = 1500)]
-        [SelectOne(SelectionFactoryType = typeof(ContactPageSelectionFactory))]
-        public virtual string SelectOne { get; set; }
+    [Display(
+        Name = "SelectOne",
+        GroupName = SystemTabNames.Content,
+        Order = 1500)]
+    [SelectOne(SelectionFactoryType = typeof(ContactPageSelectionFactory))]
+    public virtual string SelectOne { get; set; }
 
-        [Display(
-            Name = "SelectMany",
-            GroupName = SystemTabNames.Content,
-            Order = 1600)]
-        [SelectMany(SelectionFactoryType = typeof(ContactPageSelectionFactory))]
-        public virtual string SelectMany { get; set; }
-    }
+    [Display(
+        Name = "SelectMany",
+        GroupName = SystemTabNames.Content,
+        Order = 1600)]
+    [SelectMany(SelectionFactoryType = typeof(ContactPageSelectionFactory))]
+    public virtual string SelectMany { get; set; }
+}
 ```
 </details>
 <details>

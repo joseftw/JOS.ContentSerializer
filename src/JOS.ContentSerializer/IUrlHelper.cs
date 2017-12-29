@@ -6,8 +6,8 @@ namespace JOS.ContentSerializer
     public interface IUrlHelper
     {
         string ContentUrl(Url url);
-        string ContentUrl(Url url, UrlSettings urlSettings);
+        string ContentUrl(Url url, IUrlSettings urlSettings);
         string ContentUrl(ContentReference contentReference);
-        string ContentUrl(ContentReference contentReference, ContentReferenceSettings contentReferenceSettings);
+        string ContentUrl(ContentReference contentReference, IUrlSettings contentReferenceSettings);
     }
 }
