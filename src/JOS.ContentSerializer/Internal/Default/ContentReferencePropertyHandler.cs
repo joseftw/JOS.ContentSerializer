@@ -7,16 +7,12 @@ namespace JOS.ContentSerializer.Internal.Default
     public class ContentReferencePropertyHandler : IPropertyHandler<ContentReference>
     {
         private readonly IUrlHelper _urlHelper;
-        private readonly ContentSerializerSettings _contentSerializerSettings;
+        private readonly IContentSerializerSettings _contentSerializerSettings;
 
-        public ContentReferencePropertyHandler(IUrlHelper urlHelper) : this(urlHelper, null)
-        {
-        }
-
-        public ContentReferencePropertyHandler(IUrlHelper urlHelper, ContentSerializerSettings contentSerializerSettings)
+        public ContentReferencePropertyHandler(IUrlHelper urlHelper, IContentSerializerSettings contentSerializerSettings)
         {
             _urlHelper = urlHelper;
-            _contentSerializerSettings = contentSerializerSettings;
+            _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
         }
 
         public object Handle(ContentReference value, PropertyInfo propertyInfo, IContentData contentData)

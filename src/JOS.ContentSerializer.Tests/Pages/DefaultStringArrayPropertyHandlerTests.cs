@@ -40,7 +40,7 @@ namespace JOS.ContentSerializer.Tests.Pages
             };
 
             var result = this._sut.Handle(
-                null,
+                page.Strings,
                 page.GetType().GetProperty(nameof(DefaultStringArrayPropertyHandlerPage.Strings)),
                 page);
 

@@ -170,7 +170,6 @@
     <Compile Include="Internal\Default\LinkItemCollectionPropertyHandler.cs" />
     <Compile Include="Internal\Default\PageReferencePropertyHandler.cs" />
     <Compile Include="Internal\Default\PageTypePropertyHandler.cs" />
-    <Compile Include="Internal\PropertyHandlerScanner.cs" />
     <Compile Include="Internal\PropertyHandlerService.cs" />
     <Compile Include="Internal\Default\StringArrayPropertyHandler.cs" />
     <Compile Include="Internal\Default\ValueListPropertyHandlers\StringListPropertyHandler.cs" />
@@ -178,7 +177,6 @@
     <Compile Include="Internal\LinkItem.cs" />
     <Compile Include="Internal\Default\ValueTypePropertyHandlers\StringPropertyHandler.cs" />
     <Compile Include="Internal\UrlHelperAdapter.cs" />
-    <Compile Include="IPropertyHandlerScanner.cs" />
     <Compile Include="IPropertyHandlerService.cs" />
     <Compile Include="IUrlHelper.cs" />
     <Compile Include="IContentSerializer.cs" />

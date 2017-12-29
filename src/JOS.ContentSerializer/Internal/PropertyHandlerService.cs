@@ -8,12 +8,7 @@ namespace JOS.ContentSerializer.Internal
 {
     public class PropertyHandlerService : IPropertyHandlerService
     {
-        private readonly IPropertyHandlerScanner _propertyHandlerScanner;
-
-        public PropertyHandlerService(IPropertyHandlerScanner propertyHandlerScanner)
-        {
-            _propertyHandlerScanner = propertyHandlerScanner ?? throw new ArgumentNullException(nameof(propertyHandlerScanner));
-        }
+        private readonly Type _propertyHandlerType = typeof(IPropertyHandler<>);
 
         public object GetPropertyHandler(PropertyInfo property)
         {
@@ -22,11 +17,10 @@ namespace JOS.ContentSerializer.Internal
             {
                 return ServiceLocator.Current.GetInstance(customPropertyHandlerAttribute.PropertyHandler);
             }
-            var propertyHandlers = this._propertyHandlerScanner.GetAllPropertyHandlers();
-            var propertyHandlerType = propertyHandlers.FirstOrDefault(x => x.GetGenericArguments()[0] == property.PropertyType);
-            return propertyHandlerType == null
-                ? null
-                : ServiceLocator.Current.GetInstance(propertyHandlerType);
+
+            var propertyHandlerType = this._propertyHandlerType.MakeGenericType(property.PropertyType);
+
+            return ServiceLocator.Current.GetInstance(propertyHandlerType);
         }
     }
 }

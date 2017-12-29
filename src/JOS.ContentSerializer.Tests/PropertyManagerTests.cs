@@ -22,12 +22,10 @@ namespace JOS.ContentSerializer.Tests
         {
             var contentLoader = Substitute.For<IContentLoader>();
             SetupContentLoader(contentLoader);
-            var scanner = new PropertyHandlerScanner();
-            scanner.Scan();
             this._sut = new PropertyManager(
                 new PropertyNameStrategy(),
                 new PropertyResolver(),
-                new PropertyHandlerService(scanner)
+                new PropertyHandlerService()
             );
             this._page = new StandardPageBuilder().Build();
         }
@@ -103,8 +101,8 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             var urlHelper = Substitute.For<IUrlHelper>();
             var contentReferencePageUrl = "https://josefottosson.se/";
-            urlHelper.ContentUrl(contentReference, Arg.Any<ContentReferenceSettings>()).Returns(contentReferencePageUrl);
-            serviceLocator.GetInstance(typeof(IPropertyHandler<ContentReference>)).Returns(new ContentReferencePropertyHandler(urlHelper));
+            urlHelper.ContentUrl(contentReference, Arg.Any<IUrlSettings>()).Returns(contentReferencePageUrl);
+            serviceLocator.GetInstance(typeof(IPropertyHandler<ContentReference>)).Returns(new ContentReferencePropertyHandler(urlHelper, new ContentSerializerSettings()));
             ServiceLocator.SetLocator(serviceLocator);
 
             var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
@@ -120,8 +118,8 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             var urlHelper = Substitute.For<IUrlHelper>();
             var pageReferenceUrl = "https://josefottosson.se/";
-            var contentReferencePropertyHandler = new ContentReferencePropertyHandler(urlHelper);
-            urlHelper.ContentUrl(pageReference, Arg.Any<ContentReferenceSettings>()).Returns(pageReferenceUrl);
+            var contentReferencePropertyHandler = new ContentReferencePropertyHandler(urlHelper, new ContentSerializerSettings());
+            urlHelper.ContentUrl(pageReference, Arg.Any<IUrlSettings>()).Returns(pageReferenceUrl);
             serviceLocator.GetInstance(typeof(IPropertyHandler<PageReference>)).Returns(new PageReferencePropertyHandler(contentReferencePropertyHandler));
             ServiceLocator.SetLocator(serviceLocator);
 

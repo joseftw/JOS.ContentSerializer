@@ -34,9 +34,6 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IUrlHelper, UrlHelperAdapter>();
             context.Services.AddSingleton<IContentJsonSerializer, JsonContentSerializer>();
             context.Services.AddSingleton<IPropertyHandlerService, PropertyHandlerService>();
-            var defaultPropertyHandlerScanner = new PropertyHandlerScanner();
-            defaultPropertyHandlerScanner.Scan();
-            context.Services.AddSingleton<IPropertyHandlerScanner>(defaultPropertyHandlerScanner);
             context.Services.AddSingleton<IContentSerializerSettings, ContentSerializerSettings>();
 
             context.Services.AddSingleton<IPropertyHandler<int>, IntPropertyHandler>();

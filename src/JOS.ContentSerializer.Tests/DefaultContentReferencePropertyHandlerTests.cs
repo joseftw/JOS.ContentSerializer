@@ -1,5 +1,4 @@
 ﻿using EPiServer.Core;
-using JOS.ContentSerializer.Internal;
 using JOS.ContentSerializer.Internal.Default;
 using NSubstitute;
 using Shouldly;
@@ -11,11 +10,14 @@ namespace JOS.ContentSerializer.Tests
     {
         private readonly ContentReferencePropertyHandler _sut;
         private readonly IUrlHelper _urlHelper;
+        private IContentSerializerSettings _contentSerializerSettings;
 
         public DefaultContentReferencePropertyHandlerTests()
         {
+            this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
+            this._contentSerializerSettings.UrlSettings = new UrlSettings();
             this._urlHelper = Substitute.For<IUrlHelper>();
-            this._sut = new ContentReferencePropertyHandler(this._urlHelper);
+            this._sut = new ContentReferencePropertyHandler(this._urlHelper, this._contentSerializerSettings);
         }
 
         [Fact]
@@ -26,7 +28,7 @@ namespace JOS.ContentSerializer.Tests
             var baseUrl = $"{scheme}{host}";
             var prettyPath = "/any-path/to/page/?anyQueryParam=value&anotherQuery";
             var contentReference = new ContentReference(1000);
-            this._urlHelper.ContentUrl(Arg.Any<ContentReference>(), Arg.Any<ContentReferenceSettings>())
+            this._urlHelper.ContentUrl(contentReference, this._contentSerializerSettings.UrlSettings)
                 .Returns($"{baseUrl}{prettyPath}");
 
             var result = this._sut.Handle(contentReference, null, null);
@@ -42,7 +44,8 @@ namespace JOS.ContentSerializer.Tests
             var baseUrl = $"{scheme}{host}";
             var prettyPath = "/any-path/to/page/?anyQueryParam=value&anotherQuery";
             var contentReference = new ContentReference(1000);
-            this._urlHelper.ContentUrl(Arg.Any<ContentReference>(), Arg.Any<ContentReferenceSettings>())
+            this._contentSerializerSettings.UrlSettings.Returns(new UrlSettings { UseAbsoluteUrls = false });
+            this._urlHelper.ContentUrl(Arg.Any<ContentReference>(), this._contentSerializerSettings.UrlSettings)
                 .Returns($"{baseUrl}{prettyPath}");
 
             var result = this._sut.Handle(contentReference, null, null);

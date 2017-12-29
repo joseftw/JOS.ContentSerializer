@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using EPiServer;
 using EPiServer.SpecializedProperties;
-using JOS.ContentSerializer.Internal;
 using JOS.ContentSerializer.Internal.Default;
 using NSubstitute;
 using Shouldly;
@@ -16,11 +15,14 @@ namespace JOS.ContentSerializer.Tests
     {
         private readonly LinkItemCollectionPropertyHandler _sut;
         private readonly IUrlHelper _urlHelper;
+        private IContentSerializerSettings _contentSerializerSettings;
 
         public DefaultLinkItemCollectionPropertyHandlerTests()
         {
+            this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
+            this._contentSerializerSettings.UrlSettings = new UrlSettings();
             this._urlHelper = Substitute.For<IUrlHelper>();
-            this._sut = new LinkItemCollectionPropertyHandler(this._urlHelper);
+            this._sut = new LinkItemCollectionPropertyHandler(this._urlHelper, this._contentSerializerSettings);
         }
 
         [Fact]
@@ -99,9 +101,8 @@ namespace JOS.ContentSerializer.Tests
             var value = "random-internallink";
             var linkItemCollection = new LinkItemCollection();
             var expected = "/my-pretty-url/?anyQuery=hej";
-            var settings = new UrlSettings {UseAbsoluteUrls = false};
-            this._urlHelper.ContentUrl(Arg.Any<Url>(), settings)
-                .Returns(expected);
+            this._contentSerializerSettings.UrlSettings.Returns(new UrlSettings { UseAbsoluteUrls = false });
+            this._urlHelper.ContentUrl(Arg.Any<Url>(), this._contentSerializerSettings.UrlSettings).Returns(expected);
             var linkItem = Substitute.For<EPiServer.SpecializedProperties.LinkItem>();
             linkItem.Href.Returns(value);
             linkItem.Text.Returns("any text");
