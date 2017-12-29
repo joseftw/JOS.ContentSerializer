@@ -12,12 +12,12 @@ namespace JOS.ContentSerializer.Internal.Default
     {
         private readonly IContentLoader _contentLoader;
         private readonly IPropertyManager _propertyManager;
-        private readonly ContentSerializerSettings _contentSerializerSettings;
+        private readonly IContentSerializerSettings _contentSerializerSettings;
 
         public ContentAreaPropertyHandler(
             IContentLoader contentLoader,
             IPropertyManager propertyManager,
-            ContentSerializerSettings contentSerializerSettings)
+            IContentSerializerSettings contentSerializerSettings)
         {
             _contentLoader = contentLoader ?? throw new ArgumentNullException(nameof(contentLoader));
             _propertyManager = propertyManager ?? throw new ArgumentNullException(nameof(propertyManager));
@@ -82,7 +82,7 @@ namespace JOS.ContentSerializer.Internal.Default
             return content;
         }
 
-        private static bool WrapItems(ContentArea contentArea, ContentSerializerSettings contentSerializerSettings)
+        private static bool WrapItems(ContentArea contentArea, IContentSerializerSettings contentSerializerSettings)
         {
             var wrapItemsAttribute = contentArea.GetType().GetCustomAttribute<ContentSerializerWrapItemsAttribute>();
             var wrapItems = wrapItemsAttribute?.WrapItems ?? contentSerializerSettings.WrapContentAreaItems;

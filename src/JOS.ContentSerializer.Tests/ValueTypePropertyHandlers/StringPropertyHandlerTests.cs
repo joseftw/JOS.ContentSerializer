@@ -8,11 +8,11 @@ using Xunit;
 
 namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 {
-    public class DefaultStringPropertyHandlerTests
+    public class StringPropertyHandlerTests
     {
         private readonly StringPropertyHandler _sut;
 
-        public DefaultStringPropertyHandlerTests()
+        public StringPropertyHandlerTests()
         {
             this._sut = new StringPropertyHandler();
         }
@@ -23,13 +23,13 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         [InlineData(null)]
         public void GivenStringProperty_WhenGetValue_ThenReturnsCorrectValue(string heading)
         {
-            var page = new DefaultStringPropertyHandlerPage
+            var page = new StringPropertyHandlerPage
             {
                 Heading = heading
             };
 
             var result = this._sut.Handle(page.Heading,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.Heading)),
+                page.GetType().GetProperty(nameof(StringPropertyHandlerPage.Heading)),
                 page);
   
             ((string)result).ShouldBe(heading);
@@ -38,13 +38,13 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         [Fact]
         public void GivenStringPropertyWithSelectOneAttribute_WhenGetValue_ThenReturnsCorrectValue()
         {
-            var page = new DefaultStringPropertyHandlerPage
+            var page = new StringPropertyHandlerPage
             {
                 SelectOne = "option3"
             };
 
             var result = (List<SelectOption>)this._sut.Handle(page.SelectOne,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)),
+                page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectOne)),
                 page);
 
             result.ShouldContain(x => x.Selected && x.Value.Equals("option3") && x.Text.Equals("Option 3"));
@@ -56,13 +56,13 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         [InlineData("")]
         public void GivenNullOrEmptyStringWithSelectOneAttribute_WhenGet_ThenReturnsCorrectValue(string selectOneValue)
         {
-            var page = new DefaultStringPropertyHandlerPage
+            var page = new StringPropertyHandlerPage
             {
                 SelectOne = selectOneValue
             };
 
             var result = (List<SelectOption>)this._sut.Handle(page.SelectOne,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)),
+                page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectOne)),
                 page);
 
             result.Count(x => x.Selected).ShouldBe(0);
@@ -71,13 +71,13 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         [Fact]
         public void GivenStringPropertyWithSelectManyAttribute_WhenGetValue_ThenReturnsCorrectValue()
         {
-            var page = new DefaultStringPropertyHandlerPage
+            var page = new StringPropertyHandlerPage
             {
                 SelectMany = "option3,option4,option5"
             };
 
             var result = (List<SelectOption>)this._sut.Handle(page.SelectMany,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectMany)),
+                page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectMany)),
                 page);
 
             result.ShouldContain(x => x.Selected && x.Value.Equals("option3") && x.Text.Equals("Option 3"));
@@ -91,13 +91,13 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         [InlineData("")]
         public void GivenNullOrEmptyStringWithSelectManyAttribute_WhenGet_ThenReturnsCorrectValue(string selectManyValue)
         {
-            var page = new DefaultStringPropertyHandlerPage
+            var page = new StringPropertyHandlerPage
             {
                 SelectMany = selectManyValue
             };
 
             var result = (List<SelectOption>)this._sut.Handle(page.SelectMany,
-                page.GetType().GetProperty(nameof(DefaultStringPropertyHandlerPage.SelectOne)),
+                page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectOne)),
                 page);
 
             result.Count(x => x.Selected).ShouldBe(0);

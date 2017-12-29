@@ -17,11 +17,14 @@ namespace JOS.ContentSerializer.Tests
     {
         private readonly PropertyManager _sut;
         private readonly StandardPage _page;
-
+        private IContentSerializerSettings _contentSerializerSettings;
+        private readonly IContentLoader _contentLoader;
         public PropertyManagerTests()
         {
-            var contentLoader = Substitute.For<IContentLoader>();
-            SetupContentLoader(contentLoader);
+            this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
+            this._contentSerializerSettings.UrlSettings = new UrlSettings();
+            this._contentLoader = Substitute.For<IContentLoader>();
+            SetupContentLoader(this._contentLoader);
             this._sut = new PropertyManager(
                 new PropertyNameStrategy(),
                 new PropertyResolver(),
@@ -37,7 +40,7 @@ namespace JOS.ContentSerializer.Tests
             serviceLocator.GetInstance(typeof(IPropertyHandler<string>)).Returns(new StringPropertyHandler());
             ServiceLocator.SetLocator(serviceLocator);
 
-            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(_page, this._contentSerializerSettings);
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Heading)) && x.Value.Equals(_page.Heading));
         }
@@ -49,7 +52,7 @@ namespace JOS.ContentSerializer.Tests
             serviceLocator.GetInstance(typeof(IPropertyHandler<int>)).Returns(new IntPropertyHandler());
             ServiceLocator.SetLocator(serviceLocator);
 
-            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(_page, this._contentSerializerSettings);
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Age)) && x.Value.Equals(_page.Age));
         }
@@ -61,7 +64,7 @@ namespace JOS.ContentSerializer.Tests
             serviceLocator.GetInstance(typeof(IPropertyHandler<double>)).Returns(new DoublePropertyHandler());
             ServiceLocator.SetLocator(serviceLocator);
 
-            var result = this._sut.GetStructuredData(_page, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(_page, this._contentSerializerSettings);
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Degrees)) && x.Value.Equals(_page.Degrees));
         }
@@ -74,7 +77,7 @@ namespace JOS.ContentSerializer.Tests
             ServiceLocator.SetLocator(serviceLocator);
             var page = new StandardPageBuilder().WithPrivate(true).Build();
 
-            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(page, this._contentSerializerSettings);
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Private)) && x.Value.Equals(page.Private));
         }
@@ -88,7 +91,7 @@ namespace JOS.ContentSerializer.Tests
             var expectedStartingDate = new DateTime(3000, 1,1);
             var page = new StandardPageBuilder().WithStarting(expectedStartingDate).Build();
 
-            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(page, this._contentSerializerSettings);
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.Starting)) && x.Value.Equals(page.Starting));
         }
@@ -102,10 +105,10 @@ namespace JOS.ContentSerializer.Tests
             var urlHelper = Substitute.For<IUrlHelper>();
             var contentReferencePageUrl = "https://josefottosson.se/";
             urlHelper.ContentUrl(contentReference, Arg.Any<IUrlSettings>()).Returns(contentReferencePageUrl);
-            serviceLocator.GetInstance(typeof(IPropertyHandler<ContentReference>)).Returns(new ContentReferencePropertyHandler(urlHelper, new ContentSerializerSettings()));
+            serviceLocator.GetInstance(typeof(IPropertyHandler<ContentReference>)).Returns(new ContentReferencePropertyHandler(urlHelper, this._contentSerializerSettings));
             ServiceLocator.SetLocator(serviceLocator);
 
-            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(page, this._contentSerializerSettings);
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.ContentReference)) && x.Value.Equals(contentReferencePageUrl));
         }
@@ -118,12 +121,12 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             var urlHelper = Substitute.For<IUrlHelper>();
             var pageReferenceUrl = "https://josefottosson.se/";
-            var contentReferencePropertyHandler = new ContentReferencePropertyHandler(urlHelper, new ContentSerializerSettings());
+            var contentReferencePropertyHandler = new ContentReferencePropertyHandler(urlHelper, this._contentSerializerSettings);
             urlHelper.ContentUrl(pageReference, Arg.Any<IUrlSettings>()).Returns(pageReferenceUrl);
             serviceLocator.GetInstance(typeof(IPropertyHandler<PageReference>)).Returns(new PageReferencePropertyHandler(contentReferencePropertyHandler));
             ServiceLocator.SetLocator(serviceLocator);
 
-            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(page, this._contentSerializerSettings);
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.PageReference)) && x.Value.Equals(pageReferenceUrl));
         }
@@ -133,8 +136,12 @@ namespace JOS.ContentSerializer.Tests
         {
             var contentArea = CreateContentArea();
             var page = new StandardPageBuilder().WithMainContentArea(contentArea).Build();
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            serviceLocator.GetInstance(typeof(IPropertyHandler<ContentArea>)).Returns(new ContentAreaPropertyHandler(this._contentLoader, this._sut, this._contentSerializerSettings));
+            serviceLocator.GetInstance(typeof(IPropertyHandler<string>)).Returns(new StringPropertyHandler());
+            ServiceLocator.SetLocator(serviceLocator);
 
-            var result = this._sut.GetStructuredData(page, new ContentSerializerSettings());
+            var result = this._sut.GetStructuredData(page, this._contentSerializerSettings);
 
             result.ShouldContainKey(nameof(StandardPage.MainContentArea));
         }
@@ -160,7 +167,7 @@ namespace JOS.ContentSerializer.Tests
                 }
             };
             contentArea.Count.Returns(items.Count);
-            contentArea.Items.Returns(items);
+            contentArea.FilteredItems.Returns(items);
             
             return contentArea;
         }

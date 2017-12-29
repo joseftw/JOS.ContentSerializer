@@ -6,13 +6,13 @@ using Xunit;
 
 namespace JOS.ContentSerializer.Tests
 {
-    public class DefaultContentReferencePropertyHandlerTests
+    public class ContentReferencePropertyHandlerTests
     {
         private readonly ContentReferencePropertyHandler _sut;
         private readonly IUrlHelper _urlHelper;
         private IContentSerializerSettings _contentSerializerSettings;
 
-        public DefaultContentReferencePropertyHandlerTests()
+        public ContentReferencePropertyHandlerTests()
         {
             this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
             this._contentSerializerSettings.UrlSettings = new UrlSettings();

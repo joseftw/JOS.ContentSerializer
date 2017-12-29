@@ -5,11 +5,11 @@ using Xunit;
 
 namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 {
-    public class DefaultIntPropertyHandlerTests
+    public class IntPropertyHandlerTests
     {
         private readonly IntPropertyHandler _sut;
 
-        public DefaultIntPropertyHandlerTests()
+        public IntPropertyHandlerTests()
         {
             this._sut = new IntPropertyHandler();
         }
@@ -17,14 +17,14 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         [Fact]
         public void GivenIntProperty_WhenGetValue_ThenReturnsCorrectValue()
         {
-            var page = new DefaultValueTypePropertyHandlerPage
+            var page = new ValueTypePropertyHandlerPage
             {
                 Integer = 1000
             };
 
             var result = (int)this._sut.Handle(
                 page.Integer,
-                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.Integer)),
+                page.GetType().GetProperty(nameof(ValueTypePropertyHandlerPage.Integer)),
                 page);
 
             result.ShouldBe(1000);

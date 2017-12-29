@@ -6,7 +6,7 @@ using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Tests.Pages
 {
-    public class DefaultPropertyResolverPage : PageData
+    public class PropertyResolverPage : PageData
     {
         [CultureSpecific]
         [Display(

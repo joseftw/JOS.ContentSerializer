@@ -3,7 +3,7 @@ using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Tests.Pages
 {
-    public class DefaultPropertyNameStrategyPage : PageData
+    public class PropertyNameStrategyPage : PageData
     {
         public virtual string Heading { get; set; }
 

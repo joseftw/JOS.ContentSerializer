@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
@@ -25,7 +24,7 @@ namespace JOS.ContentSerializer.Internal
 
         public Dictionary<string, object> GetStructuredData(
             IContentData contentData,
-            ContentSerializerSettings settings)
+            IContentSerializerSettings settings)
         {
             var properties = this._propertyResolver.GetProperties(contentData);
             var structuredData = new Dictionary<string, object>();

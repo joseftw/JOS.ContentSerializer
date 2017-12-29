@@ -5,8 +5,8 @@ using EPiServer.DataAnnotations;
 
 namespace JOS.ContentSerializer.Tests.Pages
 {
-    [ContentType(DisplayName = "DefaultStringArrayPropertyHandlerPage", GUID = "414a734c-0fdf-49a5-9fc4-04d10538baa5", Description = "")]
-    public class DefaultStringArrayPropertyHandlerPage : PageData
+    [ContentType(DisplayName = "StringArrayPropertyHandlerPage", GUID = "414a734c-0fdf-49a5-9fc4-04d10538baa5", Description = "")]
+    public class StringArrayPropertyHandlerPage : PageData
     {
 
         [CultureSpecific]

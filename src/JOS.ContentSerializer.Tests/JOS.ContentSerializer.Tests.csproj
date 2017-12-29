@@ -38,23 +38,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DefaultContentAreaPropertyHandlerTests.cs" />
-    <Compile Include="DefaultContentReferencePropertyHandlerTests.cs" />
-    <Compile Include="ValueTypePropertyHandlers\DefaultBoolPropertyHandlerTests.cs" />
-    <Compile Include="ValueTypePropertyHandlers\DefaultDateTimePropertyHandlerTests.cs" />
-    <Compile Include="ValueTypePropertyHandlers\DefaultDoublePropertyHandlerTests.cs" />
-    <Compile Include="DefaultLinkItemCollectionPropertyHandlerTests.cs" />
-    <Compile Include="DefaultPropertyNameStrategyTests.cs" />
-    <Compile Include="DefaultPropertyResolverTests.cs" />
-    <Compile Include="ValueTypePropertyHandlers\DefaultStringPropertyHandlerTests.cs" />
-    <Compile Include="DefaultUrlPropertyHandlerTests.cs" />
-    <Compile Include="ValueTypePropertyHandlers\DefaultIntPropertyHandlerTests.cs" />
-    <Compile Include="Pages\DefaultPropertyNameStrategyPage.cs" />
-    <Compile Include="Pages\DefaultPropertyResolverPage.cs" />
-    <Compile Include="Pages\DefaultStringArrayPropertyHandlerPage.cs" />
-    <Compile Include="Pages\DefaultStringArrayPropertyHandlerTests.cs" />
-    <Compile Include="Pages\DefaultStringPropertyHandlerPage.cs" />
-    <Compile Include="Pages\DefaultValueTypePropertyHandlerPage.cs" />
+    <Compile Include="ContentAreaPropertyHandlerTests.cs" />
+    <Compile Include="ContentReferencePropertyHandlerTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\BoolPropertyHandlerTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\DateTimePropertyHandlerTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\DoublePropertyHandlerTests.cs" />
+    <Compile Include="LinkItemCollectionPropertyHandlerTests.cs" />
+    <Compile Include="PropertyNameStrategyTests.cs" />
+    <Compile Include="PropertyResolverTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\StringPropertyHandlerTests.cs" />
+    <Compile Include="UrlPropertyHandlerTests.cs" />
+    <Compile Include="ValueTypePropertyHandlers\IntPropertyHandlerTests.cs" />
+    <Compile Include="Pages\PropertyNameStrategyPage.cs" />
+    <Compile Include="Pages\PropertyResolverPage.cs" />
+    <Compile Include="Pages\StringArrayPropertyHandlerPage.cs" />
+    <Compile Include="ValueTypeListPropertyHandlers\StringArrayPropertyHandlerTests.cs" />
+    <Compile Include="Pages\StringPropertyHandlerPage.cs" />
+    <Compile Include="Pages\ValueTypePropertyHandlerPage.cs" />
     <Compile Include="Pages\StandardPage.cs" />
     <Compile Include="Pages\VideoBlock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -226,9 +226,7 @@
       <Name>JOS.ContentSerializer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ValueTypeListPropertyHandlers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

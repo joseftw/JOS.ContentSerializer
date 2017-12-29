@@ -2,18 +2,17 @@
 using System.Linq;
 using EPiServer;
 using EPiServer.Core;
-using JOS.ContentSerializer.Internal;
 using JOS.ContentSerializer.Internal.Default;
 using JOS.ContentSerializer.Tests.Pages;
 using NSubstitute;
 
 namespace JOS.ContentSerializer.Tests
 {
-    public class DefaultContentAreaPropertyHandlerTests
+    public class ContentAreaPropertyHandlerTests
     {
         private readonly ContentAreaPropertyHandler _sut;
 
-        public DefaultContentAreaPropertyHandlerTests()
+        public ContentAreaPropertyHandlerTests()
         {
             var contentLoader = Substitute.For<IContentLoader>();
             SetupContentLoader(contentLoader);

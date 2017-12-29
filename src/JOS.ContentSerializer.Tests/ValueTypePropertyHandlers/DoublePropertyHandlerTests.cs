@@ -5,10 +5,10 @@ using Xunit;
 
 namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 {
-    public class DefaultDoublePropertyHandlerTests
+    public class DoublePropertyHandlerTests
     {
         private readonly DoublePropertyHandler _sut;
-        public DefaultDoublePropertyHandlerTests()
+        public DoublePropertyHandlerTests()
         {
             this._sut = new DoublePropertyHandler();
         }
@@ -16,14 +16,14 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         [Fact]
         public void GivenDoubleProperty_WhenGetValue_ThenReturnsCorrectValue()
         {
-            var page = new DefaultValueTypePropertyHandlerPage
+            var page = new ValueTypePropertyHandlerPage
             {
                 Double = 10.50
             };
 
             var result = (double)this._sut.Handle(
                 page.Double,
-                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.Double)),
+                page.GetType().GetProperty(nameof(ValueTypePropertyHandlerPage.Double)),
                 page);
 
             result.ShouldBe(10.50);

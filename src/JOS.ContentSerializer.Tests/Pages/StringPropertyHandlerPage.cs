@@ -6,8 +6,8 @@ using EPiServer.Shell.ObjectEditing;
 
 namespace JOS.ContentSerializer.Tests.Pages
 {
-    [ContentType(DisplayName = "DefaultStringPropertyHandlerPage", GUID = "e3a74971-d641-4081-95e0-b0200284d8cd", Description = "")]
-    public class DefaultStringPropertyHandlerPage : PageData
+    [ContentType(DisplayName = "StringPropertyHandlerPage", GUID = "e3a74971-d641-4081-95e0-b0200284d8cd", Description = "")]
+    public class StringPropertyHandlerPage : PageData
     {
 
         [CultureSpecific]

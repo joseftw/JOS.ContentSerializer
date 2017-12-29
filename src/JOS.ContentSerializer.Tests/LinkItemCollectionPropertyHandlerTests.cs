@@ -11,13 +11,13 @@ using LinkItem = JOS.ContentSerializer.Internal.LinkItem;
 
 namespace JOS.ContentSerializer.Tests
 {
-    public class DefaultLinkItemCollectionPropertyHandlerTests
+    public class LinkItemCollectionPropertyHandlerTests
     {
         private readonly LinkItemCollectionPropertyHandler _sut;
         private readonly IUrlHelper _urlHelper;
         private IContentSerializerSettings _contentSerializerSettings;
 
-        public DefaultLinkItemCollectionPropertyHandlerTests()
+        public LinkItemCollectionPropertyHandlerTests()
         {
             this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
             this._contentSerializerSettings.UrlSettings = new UrlSettings();

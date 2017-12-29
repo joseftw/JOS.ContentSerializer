@@ -6,10 +6,10 @@ using Xunit;
 
 namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 {
-    public class DefaultDateTimePropertyHandlerTests
+    public class DateTimePropertyHandlerTests
     {
         private readonly DateTimePropertyHandler _sut;
-        public DefaultDateTimePropertyHandlerTests()
+        public DateTimePropertyHandlerTests()
         {
             this._sut = new DateTimePropertyHandler();
         }
@@ -18,14 +18,14 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         public void GivenDateTimeProperty_WhenGetValue_ThenReturnsCorrectValue()
         {
             var expected = new DateTime(2000, 01, 01, 12, 00, 30);
-            var page = new DefaultValueTypePropertyHandlerPage
+            var page = new ValueTypePropertyHandlerPage
             {
                 DateTime = expected
             };
 
             var result = (DateTime)this._sut.Handle(
                 page.DateTime,
-                page.GetType().GetProperty(nameof(DefaultValueTypePropertyHandlerPage.DateTime)),
+                page.GetType().GetProperty(nameof(ValueTypePropertyHandlerPage.DateTime)),
                 page);
 
             result.ShouldBe(expected);

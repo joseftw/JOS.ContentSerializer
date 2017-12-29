@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using EPiServer.ServiceLocation;
 using JOS.ContentSerializer.Attributes;

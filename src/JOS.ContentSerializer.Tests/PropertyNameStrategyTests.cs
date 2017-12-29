@@ -5,11 +5,11 @@ using Xunit;
 
 namespace JOS.ContentSerializer.Tests
 {
-    public class DefaultPropertyNameStrategyTests
+    public class PropertyNameStrategyTests
     {
         private readonly PropertyNameStrategy _sut;
 
-        public DefaultPropertyNameStrategyTests()
+        public PropertyNameStrategyTests()
         {
             this._sut = new PropertyNameStrategy();
         }
@@ -17,9 +17,9 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenNoContentSerializerNameAttribute_WhenGetPropertyName_ThenReturnsDeclaredName()
         {
-            var page = new DefaultPropertyNameStrategyPage();
+            var page = new PropertyNameStrategyPage();
 
-            var result = this._sut.GetPropertyName(page.GetType().GetProperty(nameof(DefaultPropertyNameStrategyPage.Heading)));
+            var result = this._sut.GetPropertyName(page.GetType().GetProperty(nameof(PropertyNameStrategyPage.Heading)));
 
             result.ShouldBe("Heading");
         }
@@ -27,9 +27,9 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenContentSerializerNameAttribute_WhenGetPropertyName_ThenReturnsOverridenName()
         {
-            var page = new DefaultPropertyNameStrategyPage();
+            var page = new PropertyNameStrategyPage();
 
-            var result = this._sut.GetPropertyName(page.GetType().GetProperty(nameof(DefaultPropertyNameStrategyPage.Author)));
+            var result = this._sut.GetPropertyName(page.GetType().GetProperty(nameof(PropertyNameStrategyPage.Author)));
 
             result.ShouldBe("customAuthor");
         }

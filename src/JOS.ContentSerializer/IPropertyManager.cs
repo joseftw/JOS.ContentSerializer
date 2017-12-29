@@ -7,6 +7,6 @@ namespace JOS.ContentSerializer
     {
         Dictionary<string, object> GetStructuredData(
             IContentData contentData,
-            ContentSerializerSettings contentSerializerSettings);
+            IContentSerializerSettings contentSerializerSettings);
     }
 }
