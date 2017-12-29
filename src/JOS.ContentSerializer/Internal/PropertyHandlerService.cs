@@ -11,15 +11,20 @@ namespace JOS.ContentSerializer.Internal
 
         public object GetPropertyHandler(PropertyInfo property)
         {
+            if (property == null)
+            {
+                return null;
+            }
             var customPropertyHandlerAttribute = property.GetCustomAttribute<ContentSerializerPropertyHandlerAttribute>();
             if (customPropertyHandlerAttribute != null)
             {
-                return ServiceLocator.Current.GetInstance(customPropertyHandlerAttribute.PropertyHandler);
+                ServiceLocator.Current.TryGetExistingInstance(customPropertyHandlerAttribute.PropertyHandler, out var attributePropertyHandler);
+                return attributePropertyHandler;
             }
 
             var propertyHandlerType = this._propertyHandlerType.MakeGenericType(property.PropertyType);
-
-            return ServiceLocator.Current.GetInstance(propertyHandlerType);
+            ServiceLocator.Current.TryGetExistingInstance(propertyHandlerType, out var propertyHandler);
+            return propertyHandler;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
@@ -50,6 +51,18 @@ namespace JOS.ContentSerializer.Tests.Pages
 
         [Display(Name = "PageReference")]
         public virtual PageReference PageReference { get; set; }
+
+        [Display(Name = "strings")]
+        public virtual IEnumerable<string> Strings { get; set; }
+
+        [Display(Name = "ints")]
+        public virtual IEnumerable<int> Ints { get; set; }
+
+        [Display(Name = "doubles")]
+        public virtual IEnumerable<double> Doubles { get; set; }
+
+        [Display(Name = "dateTimes")]
+        public virtual IEnumerable<DateTime> DateTimes { get; set; }
 
         [JsonIgnore]
         public virtual string Author { get; set; }

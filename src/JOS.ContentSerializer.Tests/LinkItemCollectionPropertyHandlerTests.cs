@@ -26,7 +26,15 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenMailToLink_WhenGetValue_ThenReturnsCorrectMailToLink()
+        public void GivenNullLinkItemCollection_WhenHandle_ThenReturnsNull()
+        {
+            var result = this._sut.Handle(null, null, null);
+
+            result.ShouldBeNull();
+        }
+
+        [Fact]
+        public void GivenMailToLink_WhenHandle_ThenReturnsCorrectMailToLink()
         {
             var value = "mailto:mail@example.com";
             var linkItemCollection = new LinkItemCollection();
@@ -46,7 +54,7 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenExternalLink_WhenGetValue_ThenReturnsCorrectLink()
+        public void GivenExternalLink_WhenHandle_ThenReturnsCorrectLink()
         {
             var value = "https://example.com/anypage?query=value";
             var linkItemCollection = new LinkItemCollection();
@@ -68,7 +76,7 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenInternalLink_WhenGetValue_ThenReturnsCorrectAbsoluteLink()
+        public void GivenInternalLink_WhenHandle_ThenReturnsCorrectAbsoluteLink()
         {
             var value = "random-internallink";
             var linkItemCollection = new LinkItemCollection();
@@ -96,7 +104,7 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenInternalLink_WhenGetValueWithUseAbsoluteUrlsSetToFalse_ThenReturnsCorrectRelativeLink()
+        public void GivenInternalLink_WhenHandleWithUseAbsoluteUrlsSetToFalse_ThenReturnsCorrectRelativeLink()
         {
             var value = "random-internallink";
             var linkItemCollection = new LinkItemCollection();

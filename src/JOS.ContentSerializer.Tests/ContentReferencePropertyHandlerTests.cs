@@ -21,7 +21,23 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenContentReference_WhenGetValue_ThenReturnsAbsoluteUrlString()
+        public void GivenNullContentReference_WhenHandle_ThenReturnsNull()
+        {
+            var result = this._sut.Handle(null, null, null);
+
+            result.ShouldBeNull();
+        }
+
+        [Fact]
+        public void GivenEmptyContentReference_WhenHandle_ThenReturnsNull()
+        {
+            var result = this._sut.Handle(ContentReference.EmptyReference, null, null);
+
+            result.ShouldBeNull();
+        }
+
+        [Fact]
+        public void GivenContentReference_WhenHandle_ThenReturnsAbsoluteUrlString()
         {
             var host = "example.com";
             var scheme = "https://";
@@ -37,7 +53,7 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenContentReference_WhenGetValueWithUseAbsoluteUrlsSetToFalse_ThenReturnsRelativeUrlString()
+        public void GivenContentReference_WhenHandleWithUseAbsoluteUrlsSetToFalse_ThenReturnsRelativeUrlString()
         {
             var host = "example.com";
             var scheme = "https://";

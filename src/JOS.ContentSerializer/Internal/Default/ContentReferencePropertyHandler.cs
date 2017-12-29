@@ -15,16 +15,16 @@ namespace JOS.ContentSerializer.Internal.Default
             _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
         }
 
-        public object Handle(ContentReference value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(ContentReference contentReference, PropertyInfo propertyInfo, IContentData contentData)
         {
-            return Execute(value, this._contentSerializerSettings.UrlSettings);
-        }
+            if (contentReference == null || contentReference == ContentReference.EmptyReference)
+            {
+                return null;
+            }
 
-        private object Execute(ContentReference contentReference, IUrlSettings urlSettings)
-        {
-            var url = new Uri(this._urlHelper.ContentUrl(contentReference, urlSettings));
+            var url = new Uri(this._urlHelper.ContentUrl(contentReference, this._contentSerializerSettings.UrlSettings));
 
-            if (urlSettings.UseAbsoluteUrls && url.IsAbsoluteUri)
+            if (this._contentSerializerSettings.UrlSettings.UseAbsoluteUrls && url.IsAbsoluteUri)
             {
                 return url.AbsoluteUri;
             }

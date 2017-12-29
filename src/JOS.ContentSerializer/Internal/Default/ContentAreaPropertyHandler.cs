@@ -26,6 +26,10 @@ namespace JOS.ContentSerializer.Internal.Default
 
         public object Handle(ContentArea contentArea, PropertyInfo propertyInfo, IContentData contentData)
         {
+            if (contentArea == null)
+            {
+                return null;
+            }
             var contentAreaItems = GetContentAreaItems(contentArea);
             if (WrapItems(contentArea, this._contentSerializerSettings))
             {

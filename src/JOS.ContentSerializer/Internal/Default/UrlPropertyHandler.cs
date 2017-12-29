@@ -9,6 +9,7 @@ namespace JOS.ContentSerializer.Internal.Default
     {
         private readonly IUrlHelper _urlHelper;
         private readonly IContentSerializerSettings _contentSerializerSettings;
+        private const string MailTo = "mailto";
 
         public UrlPropertyHandler(IUrlHelper urlHelper, IContentSerializerSettings contentSerializerSettings)
         {
@@ -16,18 +17,18 @@ namespace JOS.ContentSerializer.Internal.Default
             _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
         }
 
-        public object Handle(Url value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(Url url, PropertyInfo propertyInfo, IContentData contentData)
         {
-            return Execute(value, this._contentSerializerSettings.UrlSettings);
-        }
-        
-        private string Execute(Url url, IUrlSettings urlSettings)
-        {
-            if (url.Scheme == "mailto") return url.OriginalString;
+            if (url == null)
+            {
+                return null;
+            }
+
+            if (url.Scheme == MailTo) return url.OriginalString;
 
             if (url.IsAbsoluteUri)
             {
-                if (urlSettings.UseAbsoluteUrls)
+                if (this._contentSerializerSettings.UrlSettings.UseAbsoluteUrls)
                 {
                     return url.OriginalString;
                 }
@@ -35,7 +36,7 @@ namespace JOS.ContentSerializer.Internal.Default
                 return url.PathAndQuery;
             }
 
-           return this._urlHelper.ContentUrl(url, urlSettings);
+            return this._urlHelper.ContentUrl(url, this._contentSerializerSettings.UrlSettings);
         }
     }
 }

@@ -14,16 +14,12 @@ namespace JOS.ContentSerializer.Internal.Default
             _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
         }
 
-        public object Handle(IEnumerable<ContentReference> value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(IEnumerable<ContentReference> contentReferences, PropertyInfo property, IContentData contentData)
         {
-            return Execute(value, propertyInfo, contentData);
-        }
-
-        private IEnumerable<object> Execute(
-            IEnumerable<ContentReference> contentReferences,
-            PropertyInfo property,
-            IContentData contentData)
-        {
+            if (contentReferences == null)
+            {
+                return null;
+            }
             var links = new List<object>();
 
             foreach (var contentReference in contentReferences)

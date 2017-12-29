@@ -46,7 +46,6 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyHandler<IEnumerable<ContentReference>>, ContentReferenceListPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<LinkItemCollection>, LinkItemCollectionPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<PageType>, PageTypePropertyHandler>();
-            context.Services.AddSingleton<IPropertyHandler<string[]>, StringArrayPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<string>, StringPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<Url>, UrlPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<XhtmlString>, XhtmlStringPropertyHandler>();
@@ -56,6 +55,7 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyHandler<IEnumerable<string>>>(stringListPropertyHandler);
             context.Services.AddSingleton<IPropertyHandler<ICollection<string>>>(stringListPropertyHandler);
             context.Services.AddSingleton<IPropertyHandler<IList<string>>>(stringListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<string[]>>(stringListPropertyHandler);
             var intListPropertyHandler = new IntListPropertyHandler();
             context.Services.AddSingleton<IPropertyHandler<IEnumerable<int>>>(intListPropertyHandler);
             context.Services.AddSingleton<IPropertyHandler<ICollection<int>>>(intListPropertyHandler);

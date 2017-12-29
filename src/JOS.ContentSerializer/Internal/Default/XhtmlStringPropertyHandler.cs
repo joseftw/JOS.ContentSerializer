@@ -8,7 +8,7 @@ namespace JOS.ContentSerializer.Internal.Default
         public object Handle(XhtmlString value, PropertyInfo property, IContentData contentData)
         {
             //TODO Fix parsing of images/blocks/links etc so we can provide pretty links.
-            return value.ToHtmlString();
+            return value?.ToHtmlString();
         }
     }
 }

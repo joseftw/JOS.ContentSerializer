@@ -15,7 +15,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         }
 
         [Fact]
-        public void GivenDateTimeProperty_WhenGetValue_ThenReturnsCorrectValue()
+        public void GivenDateTimeProperty_WhenHandle_ThenReturnsCorrectValue()
         {
             var expected = new DateTime(2000, 01, 01, 12, 00, 30);
             var page = new ValueTypePropertyHandlerPage

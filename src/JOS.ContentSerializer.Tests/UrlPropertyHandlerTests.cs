@@ -21,7 +21,15 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenMailToUrl_WhenGetValue_ThenReturnsCorrectValue()
+        public void GivenNullUrl_WhenHandle_ThenReturnsNull()
+        {
+            var result = this._sut.Handle(null, null, null);
+
+            result.ShouldBeNull();
+        }
+
+        [Fact]
+        public void GivenMailToUrl_WhenHandle_ThenReturnsCorrectValue()
         {
             var value = "mailto:mail@example.com";
             var url = new Url(value);
@@ -32,7 +40,7 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenExternalLink_WhenGetValue_ThenReturnsAbsoulteUrlWithQuery()
+        public void GivenExternalLink_WhenHandle_ThenReturnsAbsoulteUrlWithQuery()
         {
             var value = "https://josef.guru/example/page?anyQueryString=true&anyOtherQuery";
             var url = new Url(value);
@@ -43,7 +51,7 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenExternalLink_WhenGetValueWithAbsoluteUrlSetToFalse_ThenReturnsRelativeUrlWithQuery()
+        public void GivenExternalLink_WhenHandleWithAbsoluteUrlSetToFalse_ThenReturnsRelativeUrlWithQuery()
         {
             this._contentSerializerSettings.UrlSettings.Returns(new UrlSettings {UseAbsoluteUrls = false});
             var value = "https://josef.guru/example/page?anyQueryString=true&anyOtherQuery";
@@ -55,7 +63,7 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenEpiserverPage_WhenGetValue_ThenReturnsRewrittenPrettyAbsoluteUrl()
+        public void GivenEpiserverPage_WhenHandle_ThenReturnsRewrittenPrettyAbsoluteUrl()
         {
             var siteUrl = "https://example.com";
             var prettyPath = "/rewritten/pretty-url/";
@@ -69,7 +77,7 @@ namespace JOS.ContentSerializer.Tests
         }
 
         [Fact]
-        public void GivenEpiserverPage_WhenGetValueWithAbsoluteUrlSetToFalse_ThenReturnsRewrittenPrettyRelativeUrl()
+        public void GivenEpiserverPage_WhenHandleWithAbsoluteUrlSetToFalse_ThenReturnsRewrittenPrettyRelativeUrl()
         {
             var prettyPath = "/rewritten/pretty-url/";
             var value = "/link/d40d0056ede847d5a2f3b4a02778d15b.aspx";

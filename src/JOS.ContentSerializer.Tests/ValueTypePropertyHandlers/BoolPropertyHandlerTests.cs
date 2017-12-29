@@ -14,7 +14,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         }
 
         [Fact]
-        public void GivenBoolProperty_WhenGetValue_ThenReturnsCorrectValue()
+        public void GivenBoolProperty_WhenHandle_ThenReturnsCorrectValue()
         {
             var page = new ValueTypePropertyHandlerPage
             {

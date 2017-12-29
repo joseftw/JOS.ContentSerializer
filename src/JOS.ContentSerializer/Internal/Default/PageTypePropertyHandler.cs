@@ -8,7 +8,7 @@ namespace JOS.ContentSerializer.Internal.Default
     {
         public object Handle(PageType value, PropertyInfo propertyInfo, IContentData contentData)
         {
-            return value.Name;
+            return value == null ? null : new PageTypeModel(value.Name, value.ID);
         }
     }
 }

@@ -5,6 +5,8 @@ using EPiServer.Core;
 using JOS.ContentSerializer.Internal.Default;
 using JOS.ContentSerializer.Tests.Pages;
 using NSubstitute;
+using Shouldly;
+using Xunit;
 
 namespace JOS.ContentSerializer.Tests
 {
@@ -18,6 +20,14 @@ namespace JOS.ContentSerializer.Tests
             SetupContentLoader(contentLoader);
             var propertyManager = Substitute.For<IPropertyManager>();
             this._sut = new ContentAreaPropertyHandler(contentLoader, propertyManager, new ContentSerializerSettings());
+        }
+
+        [Fact]
+        public void GivenNullContentArea_WhenHandle_ThenReturnsNull()
+        {
+            var result = this._sut.Handle(null, null, null);
+
+            result.ShouldBeNull();
         }
 
         // TODO TESTS

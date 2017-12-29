@@ -21,7 +21,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         [InlineData("This is the heading of the page")]
         [InlineData("")]
         [InlineData(null)]
-        public void GivenStringProperty_WhenGetValue_ThenReturnsCorrectValue(string heading)
+        public void GivenStringProperty_WhenHandle_ThenReturnsCorrectValue(string heading)
         {
             var page = new StringPropertyHandlerPage
             {
@@ -36,7 +36,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         }
 
         [Fact]
-        public void GivenStringPropertyWithSelectOneAttribute_WhenGetValue_ThenReturnsCorrectValue()
+        public void GivenStringPropertyWithSelectOneAttribute_WhenHandle_ThenReturnsCorrectValue()
         {
             var page = new StringPropertyHandlerPage
             {
@@ -69,7 +69,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         }
 
         [Fact]
-        public void GivenStringPropertyWithSelectManyAttribute_WhenGetValue_ThenReturnsCorrectValue()
+        public void GivenStringPropertyWithSelectManyAttribute_WhenHandle_ThenReturnsCorrectValue()
         {
             var page = new StringPropertyHandlerPage
             {

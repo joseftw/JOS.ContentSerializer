@@ -14,7 +14,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         }
 
         [Fact]
-        public void GivenDoubleProperty_WhenGetValue_ThenReturnsCorrectValue()
+        public void GivenDoubleProperty_WhenHandle_ThenReturnsCorrectValue()
         {
             var page = new ValueTypePropertyHandlerPage
             {

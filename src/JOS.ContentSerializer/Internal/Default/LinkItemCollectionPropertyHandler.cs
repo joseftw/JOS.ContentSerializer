@@ -19,13 +19,12 @@ namespace JOS.ContentSerializer.Internal.Default
             _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
         }
 
-        public object Handle(LinkItemCollection value, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(LinkItemCollection linkItemCollection, PropertyInfo propertyInfo, IContentData contentData)
         {
-            return Execute(value, this._contentSerializerSettings.UrlSettings);
-        }
-
-        private IEnumerable<object> Execute(LinkItemCollection linkItemCollection, IUrlSettings urlSettings)
-        {
+            if (linkItemCollection == null)
+            {
+                return null;
+            }
             var links = new List<LinkItem>();
 
             foreach (var link in linkItemCollection)
@@ -34,7 +33,7 @@ namespace JOS.ContentSerializer.Internal.Default
                 if (link.ReferencedPermanentLinkIds.Any())
                 {
                     var url = new Url(link.Href);
-                    prettyUrl = this._urlHelper.ContentUrl(url, urlSettings);
+                    prettyUrl = this._urlHelper.ContentUrl(url, this._contentSerializerSettings.UrlSettings);
                 }
                 links.Add(new LinkItem
                 {
