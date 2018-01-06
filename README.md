@@ -45,7 +45,7 @@ public class StartPage : PageData
     ...
 }
 ```
-Now, if you call .ToJson on a StartPage instance you would only get the Heading property in the json output since ```IEnumerable<KeyValyeItem>``` isn't handled out of the box.
+Now, if you call .ToJson on a StartPage instance you would only get the Heading property in the json output since ```IEnumerable<KeyValueItem>``` isn't handled out of the box.
 ```javascript
 {
     "heading" : "Where is my KeyValueItems??"
