@@ -113,6 +113,7 @@ Then swap out the default ```StringPropertyHandler``` in the DI container like t
 ```csharp
 context.Services.AddSingleton<IPropertyHandler<string>, JosefStringPropertyHandler>();
 ```
+**Don't forget to unregister the default ``IPropertyHandler<string>`` as well**
 
 #### Other interfaces
 
