@@ -7,9 +7,9 @@ namespace JOS.ContentSerializer.Internal.Default
     public class BlockDataPropertyHandler : IPropertyHandler<BlockData>
     {
         private readonly IPropertyManager _propertyManager;
-        private readonly ContentSerializerSettings _contentSerializerSettings;
+        private readonly IContentSerializerSettings _contentSerializerSettings;
 
-        public BlockDataPropertyHandler(IPropertyManager propertyManager, ContentSerializerSettings contentSerializerSettings)
+        public BlockDataPropertyHandler(IPropertyManager propertyManager, IContentSerializerSettings contentSerializerSettings)
         {
             _propertyManager = propertyManager ?? throw new ArgumentNullException(nameof(propertyManager));
             _contentSerializerSettings = contentSerializerSettings;
