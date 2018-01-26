@@ -4,7 +4,7 @@
     <id>JOS.ContentSerializer</id>
     <version>$version$</version>
     <authors>Josef Ottosson</authors>
-    <description>Let's you serialize any ContentData object by simply calling .Serialize or .ToJson on it.</description>
+    <description>A library that lets you serialize any ContentData object by simply calling .Serialize or .ToJson on it.</description>
     <language>en-US</language>
     <projectUrl>https://github.com/joseftw/JOS.ContentSerializer</projectUrl>
         <releaseNotes>
