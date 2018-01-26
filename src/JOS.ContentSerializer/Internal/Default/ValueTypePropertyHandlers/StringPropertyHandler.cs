@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using EPiServer.Core;
 using EPiServer.Shell.ObjectEditing;
+using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Internal.Default.ValueTypePropertyHandlers
 {
@@ -11,80 +12,60 @@ namespace JOS.ContentSerializer.Internal.Default.ValueTypePropertyHandlers
     {
         public object Handle(string stringValue, PropertyInfo property, IContentData contentData)
         {
-            if (HasSelectAttribute(property))
-            {
-                var selectOneAttribute = GetSelectOneAttribute(property);
-                Type selectionFactoryType;
-                if (selectOneAttribute != null)
-                {
-                    selectionFactoryType = selectOneAttribute.SelectionFactoryType;
-                }
-                else
-                {
-                    var selectManyAttribute = GetSelectManyAttribute(property);
-                    selectionFactoryType = selectManyAttribute.SelectionFactoryType;
-                }
+            var selectAttribute = GetSelectAttribute(property);
+            return selectAttribute == null ? stringValue : GetStructuredData(property, contentData, selectAttribute);
+        }
 
-                var valueAsDictionary = GetStructuredData(property, contentData, selectionFactoryType);
-                return valueAsDictionary;
+        private static Attribute GetSelectAttribute(PropertyInfo property)
+        {
+            return (Attribute)GetAttribute<SelectOneAttribute>(property) ?? GetAttribute<SelectManyAttribute>(property);
+        }
+
+        private static T GetAttribute<T>(PropertyInfo propertyInfo) where T : Attribute
+        {
+            return (T)Attribute.GetCustomAttribute(propertyInfo, typeof(T));
+        }
+
+        private static object GetStructuredData(PropertyInfo property, IContentData contentData, Attribute selectAttribute)
+        {
+            var selectionOptions = GetSelectionOptions(selectAttribute, property);
+            var propertyValue = (string)property.GetValue(contentData);
+            var options = GetSelectOptions(propertyValue, selectionOptions);
+
+            var selectedValuesOnlyAttribute = GetAttribute<ContentSerializerSelectedOptionsOnlyAttribute>(property);
+            if (selectedValuesOnlyAttribute == null) return options;
+
+            var selectedOptions = options.Where(option => option.Selected);
+            if (!selectedValuesOnlyAttribute.SelectedValueOnly) return selectedOptions;
+
+            var selectedValues = selectedOptions.Select(option => option.Value);
+            if (selectAttribute is SelectOneAttribute)
+            {
+                return selectedValues.FirstOrDefault();
             }
 
-            return stringValue;
+            return selectedValues;
         }
 
-        private static bool HasSelectAttribute(PropertyInfo property)
+        private static IEnumerable<ISelectItem> GetSelectionOptions(Attribute attribute, object property)
         {
-            var selectOne = GetSelectOneAttribute(property);
-            if (selectOne != null) return true;
+            var selectionFactoryType = (attribute as SelectOneAttribute)?.SelectionFactoryType ?? (attribute as SelectManyAttribute)?.SelectionFactoryType;
+            if (selectionFactoryType == null) return Enumerable.Empty<ISelectItem>();
 
-            var selectMany = GetSelectManyAttribute(property);
-            return selectMany != null;
-        }
-
-        private static SelectOneAttribute GetSelectOneAttribute(PropertyInfo propertyInfo)
-        {
-            var attribute = (SelectOneAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(SelectOneAttribute));
-            return attribute;
-        }
-
-        private static SelectManyAttribute GetSelectManyAttribute(PropertyInfo propertyInfo)
-        {
-            var selectMany = (SelectManyAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(SelectManyAttribute));
-            return selectMany;
-        }
-
-        private static object GetStructuredData(PropertyInfo property, IContentData contentData, Type selectionFactoryType)
-        {
-            var selectOptions = GetSelectionOptions(selectionFactoryType, property);
-            var propertyValue = (string)property.GetValue(contentData);
-            return GetSelectOptions(propertyValue, selectOptions);
-        }
-
-        private static IEnumerable<ISelectItem> GetSelectionOptions(Type selectionFactoryType, object property)
-        {
             var factory = (ISelectionFactory)Activator.CreateInstance(selectionFactoryType);
-            var options = factory.GetSelections(property as ExtendedMetadata);
-            return options;
+            return factory.GetSelections(property as ExtendedMetadata);
         }
 
         private static IEnumerable<SelectOption> GetSelectOptions(string property, IEnumerable<ISelectItem> selectOptions)
         {
-            var items = new List<SelectOption>();
-            var selectedValues = property?.Split(',') ?? Enumerable.Empty<string>();
+            var selectedValues = property?.Split(',') ?? Enumerable.Empty<string>().ToArray();
 
-            foreach (var option in selectOptions)
+            return selectOptions.Select(option => new SelectOption()
             {
-                var item = new SelectOption
-                {
-                    Selected = selectedValues.Contains(option.Value.ToString()),
-                    Text = option.Text,
-                    Value = option.Value.ToString()
-                };
-
-                items.Add(item);
-            }
-
-            return items;
+                Selected = selectedValues.Contains(option.Value.ToString()),
+                Text = option.Text,
+                Value = option.Value.ToString()
+            });
         }
     }
 }
