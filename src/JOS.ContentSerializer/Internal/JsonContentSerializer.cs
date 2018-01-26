@@ -19,7 +19,7 @@ namespace JOS.ContentSerializer.Internal
             return Execute(contentData, new ContentSerializerSettings());
         }
 
-        public string Serialize(IContentData contentData, ContentSerializerSettings settings)
+        public string Serialize(IContentData contentData, IContentSerializerSettings settings)
         {
             return Execute(contentData, settings);
         }
@@ -29,12 +29,12 @@ namespace JOS.ContentSerializer.Internal
             return this._propertyManager.GetStructuredData(contentData, new ContentSerializerSettings());
         }
 
-        public object GetStructuredData(IContentData contentData, ContentSerializerSettings settings)
+        public object GetStructuredData(IContentData contentData, IContentSerializerSettings settings)
         {
             return this._propertyManager.GetStructuredData(contentData, settings);
         }
 
-        private string Execute(IContentData contentData, ContentSerializerSettings settings)
+        private string Execute(IContentData contentData, IContentSerializerSettings settings)
         {
             var result = this._propertyManager.GetStructuredData(contentData, settings);
             return JsonConvert.SerializeObject(result, new JsonSerializerSettings

@@ -12,13 +12,13 @@ namespace JOS.ContentSerializer.Internal
         private readonly UrlHelper _urlHelper;
         private readonly ISiteDefinitionResolver _siteDefinitionResolver;
         private readonly IRequestHostResolver _requestHostResolver;
-        private readonly ContentSerializerSettings _contentSerializerSettings;
+        private readonly IContentSerializerSettings _contentSerializerSettings;
 
         public UrlHelperAdapter(
             UrlHelper urlHelper,
             ISiteDefinitionResolver siteDefinitionResolver,
             IRequestHostResolver requestHostResolver,
-            ContentSerializerSettings contentSerializerSettings)
+            IContentSerializerSettings contentSerializerSettings)
         {
             _requestHostResolver = requestHostResolver ?? throw new ArgumentNullException(nameof(requestHostResolver));
             _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));

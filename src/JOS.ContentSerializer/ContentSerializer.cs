@@ -17,7 +17,7 @@ namespace JOS.ContentSerializer
             return this._contentSerializer.Serialize(contentData);
         }
 
-        public string ToJson(IContentData contentData, ContentSerializerSettings settings)
+        public string ToJson(IContentData contentData, IContentSerializerSettings settings)
         {
             return this._contentSerializer.Serialize(contentData, settings);
         }

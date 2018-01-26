@@ -13,7 +13,7 @@ namespace JOS.ContentSerializer
             return contentSerializer.Serialize(contentData);
         }
 
-        public static string Serialize(this IContentData contentData, ContentSerializerSettings contentSerializerSettings)
+        public static string Serialize(this IContentData contentData, IContentSerializerSettings contentSerializerSettings)
         {
             var contentSerializer = ServiceLocator.Current.GetInstance<IContentSerializer>();
             return contentSerializer.Serialize(contentData, contentSerializerSettings);
@@ -30,7 +30,7 @@ namespace JOS.ContentSerializer
             return result;
         }
 
-        public static string ToJson(this IContentData contentData, ContentSerializerSettings contentSerializerSettings)
+        public static string ToJson(this IContentData contentData, IContentSerializerSettings contentSerializerSettings)
         {
             var contentSerializer = GetContentJsonSerializer();
             return contentSerializer.Serialize(contentData, contentSerializerSettings);
