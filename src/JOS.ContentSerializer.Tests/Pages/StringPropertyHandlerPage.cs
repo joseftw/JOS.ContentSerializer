@@ -3,6 +3,7 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Shell.ObjectEditing;
+using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Tests.Pages
 {
@@ -22,5 +23,21 @@ namespace JOS.ContentSerializer.Tests.Pages
 
         [SelectMany(SelectionFactoryType = typeof(SelectionFactory))]
         public virtual string SelectMany { get; set; }
+
+        [SelectOne(SelectionFactoryType = typeof(SelectionFactory))]
+        [ContentSerializerSelectedOptionsOnly]
+        public virtual string SelectedOnlyOne { get; set; }
+
+        [SelectMany(SelectionFactoryType = typeof(SelectionFactory))]
+        [ContentSerializerSelectedOptionsOnly]
+        public virtual string SelectedOnlyMany { get; set; }
+
+        [SelectOne(SelectionFactoryType = typeof(SelectionFactory))]
+        [ContentSerializerSelectedOptionsOnly(SelectedValueOnly = true)]
+        public virtual string SelectedOnlyValueOnlyOne { get; set; }
+
+        [SelectMany(SelectionFactoryType = typeof(SelectionFactory))]
+        [ContentSerializerSelectedOptionsOnly(SelectedValueOnly = true)]
+        public virtual string SelectedOnlyValueOnlyMany { get; set; }
     }
 }
