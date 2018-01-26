@@ -2,13 +2,13 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
     <id>JOS.ContentSerializer</id>
-    <version>3.0.0</version>
+    <version>$version$</version>
     <authors>Josef Ottosson</authors>
     <description>Let's you serialize any ContentData object by simply calling .Serialize or .ToJson on it.</description>
     <language>en-US</language>
     <projectUrl>https://github.com/joseftw/JOS.ContentSerializer</projectUrl>
         <releaseNotes>
-            Release 3.0
+            Breaking Change: Now using IContentSerializerSettings instead of ContentSerializerSettings
         </releaseNotes>
     <tags>episerver json</tags>
     </metadata>
