@@ -175,7 +175,7 @@
     <Compile Include="Internal\Default\ValueListPropertyHandlers\StringListPropertyHandler.cs" />
     <Compile Include="Internal\Default\XhtmlStringPropertyHandler.cs" />
     <Compile Include="Internal\LinkItem.cs" />
-    <Compile Include="Internal\Default\ValueTypePropertyHandlers\StringPropertyHandler.cs" />
+    <Compile Include="Internal\Default\StringPropertyHandler.cs" />
     <Compile Include="Internal\UrlHelperAdapter.cs" />
     <Compile Include="IPropertyHandlerService.cs" />
     <Compile Include="IUrlHelper.cs" />
