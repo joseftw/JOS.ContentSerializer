@@ -23,15 +23,23 @@ namespace JOS.ContentSerializer.Internal.Default
                 var selectOneAttribute = GetSelectOneAttribute(property);
                 if (selectOneAttribute != null)
                 {
-                    return this._selectOneStrategy.Execute(property, contentData, (ISelectionFactory)Activator.CreateInstance(selectOneAttribute.SelectionFactoryType));
+                    var selectionFactory = CreateSelectionFactoryInstance(selectOneAttribute.SelectionFactoryType);
+                    return this._selectOneStrategy.Execute(property, contentData, selectionFactory);
                 }
-
-                var selectManyAttribute = GetSelectManyAttribute(property);
-                return this._selectManyStrategy.Execute(property, contentData,
-                    (ISelectionFactory)Activator.CreateInstance(selectManyAttribute.SelectionFactoryType));
+                else
+                {
+                    var selectManyAttribute = GetSelectManyAttribute(property);
+                    var selectionFactory = CreateSelectionFactoryInstance(selectManyAttribute.SelectionFactoryType);
+                    return this._selectManyStrategy.Execute(property, contentData, selectionFactory);
+                }
             }
 
             return stringValue;
+        }
+
+        private static ISelectionFactory CreateSelectionFactoryInstance(Type type)
+        {
+            return (ISelectionFactory) Activator.CreateInstance(type);
         }
 
         private static bool HasSelectAttribute(PropertyInfo property)
