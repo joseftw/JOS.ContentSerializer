@@ -22,5 +22,17 @@ namespace JOS.ContentSerializer.Tests.Pages
 
         [SelectMany(SelectionFactoryType = typeof(SelectionFactory))]
         public virtual string SelectMany { get; set; }
+
+        [SelectOne(SelectionFactoryType = typeof(SelectionFactory))]
+        public virtual string SelectedOnlyOne { get; set; }
+
+        [SelectMany(SelectionFactoryType = typeof(SelectionFactory))]
+        public virtual string SelectedOnlyMany { get; set; }
+
+        [SelectOne(SelectionFactoryType = typeof(SelectionFactory))]
+        public virtual string SelectedOnlyValueOnlyOne { get; set; }
+
+        [SelectMany(SelectionFactoryType = typeof(SelectionFactory))]
+        public virtual string SelectedOnlyValueOnlyMany { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JOS.ContentSerializer.Internal;
-using JOS.ContentSerializer.Internal.Default.ValueTypePropertyHandlers;
+using JOS.ContentSerializer.Internal.Default;
 using JOS.ContentSerializer.Tests.Pages;
 using Shouldly;
 using Xunit;
@@ -14,7 +14,8 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 
         public StringPropertyHandlerTests()
         {
-            this._sut = new StringPropertyHandler();
+            var selectStrategy = new DefaultSelectStrategy();
+            this._sut = new StringPropertyHandler(selectStrategy, selectStrategy);
         }
 
         [Theory]
@@ -31,7 +32,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
             var result = this._sut.Handle(page.Heading,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.Heading)),
                 page);
-  
+
             ((string)result).ShouldBe(heading);
         }
 
@@ -61,7 +62,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
                 SelectOne = selectOneValue
             };
 
-            var result = (List<SelectOption>)this._sut.Handle(page.SelectOne,
+            var result = (IEnumerable<SelectOption>)this._sut.Handle(page.SelectOne,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectOne)),
                 page);
 
@@ -96,7 +97,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
                 SelectMany = selectManyValue
             };
 
-            var result = (List<SelectOption>)this._sut.Handle(page.SelectMany,
+            var result = (IEnumerable<SelectOption>)this._sut.Handle(page.SelectMany,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectOne)),
                 page);
 

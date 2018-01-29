@@ -18,7 +18,7 @@ namespace JOS.ContentSerializer.Tests
     {
         private readonly PropertyManager _sut;
         private readonly StandardPage _page;
-        private IContentSerializerSettings _contentSerializerSettings;
+        private readonly IContentSerializerSettings _contentSerializerSettings;
         private readonly IContentLoader _contentLoader;
         public PropertyManagerTests()
         {
@@ -40,7 +40,8 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<string>), out var _).Returns(x =>
             {
-                x[1] = new StringPropertyHandler();
+                var selectStrategy = new DefaultSelectStrategy();
+                x[1] = new StringPropertyHandler(selectStrategy, selectStrategy);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -173,7 +174,8 @@ namespace JOS.ContentSerializer.Tests
             });
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<string>), out var _).Returns(x =>
             {
-                x[1] = new StringPropertyHandler();
+                var selectStrategy = new DefaultSelectStrategy();
+                x[1] = new StringPropertyHandler(selectStrategy, selectStrategy);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
