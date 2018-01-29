@@ -69,6 +69,10 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyHandler<ICollection<double>>>(doubleListPropertyHandler);
             context.Services.AddSingleton<IPropertyHandler<IList<double>>>(doubleListPropertyHandler);
 
+            var defaultSelectStrategy = new DefaultSelectStrategy();
+            context.Services.AddSingleton<ISelectOneStrategy>(defaultSelectStrategy);
+            context.Services.AddSingleton<ISelectManyStrategy>(defaultSelectStrategy);
+
             stopwatch.Stop();
             Trace.WriteLine($"{nameof(ContentSerializerInitalizationModule)} took {stopwatch.ElapsedMilliseconds}ms");
         }

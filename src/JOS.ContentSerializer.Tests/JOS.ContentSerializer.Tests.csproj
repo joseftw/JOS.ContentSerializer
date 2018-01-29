@@ -43,6 +43,9 @@
     <Compile Include="ContentReferencePropertyHandlerTests.cs" />
     <Compile Include="PageTypePropertyHandlerTests.cs" />
     <Compile Include="PropertyHandlerServiceTests.cs" />
+    <Compile Include="SelectStrategies\CustomSelectManyStrategy.cs" />
+    <Compile Include="SelectStrategies\CustomSelectOneStrategy.cs" />
+    <Compile Include="StringPropertyHandlerWithCustomSelectStrategiesTests.cs" />
     <Compile Include="ValueTypeListPropertyHandlers\DateTimeListPropertyHandlerTests.cs" />
     <Compile Include="ValueTypeListPropertyHandlers\DoubleListPropertyHandlerTests.cs" />
     <Compile Include="ValueTypeListPropertyHandlers\IntListPropertyHandlerTests.cs" />
