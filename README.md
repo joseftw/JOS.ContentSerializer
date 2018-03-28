@@ -1,4 +1,4 @@
-# JOS.ContentSerializer
+# JOS.ContentSerializer - Converts any Episerver ContentData object to JSON
 
 ## Serialize any ContentData object to JSON(or xml, or something else)
 
