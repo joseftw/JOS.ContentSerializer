@@ -324,7 +324,7 @@ public class DemoPage : PageData
 		"target": "_blank",
 		"text": "External"
 	}, {
-		"href": "mailto:i@josef.guru",
+		"href": "mailto:mail@example.com",
 		"title": "Email link",
 		"target": null,
 		"text": "Email"
