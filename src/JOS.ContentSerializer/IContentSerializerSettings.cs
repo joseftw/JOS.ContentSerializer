@@ -5,5 +5,6 @@
         bool WrapContentAreaItems { get; set; }
         IUrlSettings UrlSettings { get; set; }
         string BlockTypePropertyName { get; set; }
+        bool IgnoreEmptyValues { get; set; }
     }
 }

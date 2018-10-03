@@ -29,7 +29,8 @@ namespace JOS.ContentSerializer.Tests
             this._sut = new PropertyManager(
                 new PropertyNameStrategy(),
                 new PropertyResolver(),
-                new PropertyHandlerService()
+                new PropertyHandlerService(),
+                _contentSerializerSettings
             );
             this._page = new StandardPageBuilder().Build();
         }
