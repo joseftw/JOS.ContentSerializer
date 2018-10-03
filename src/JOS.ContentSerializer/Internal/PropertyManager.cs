@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using EPiServer.Core;
+using EPiServer.ServiceLocation;
 
 namespace JOS.ContentSerializer.Internal
 {
@@ -43,7 +44,8 @@ namespace JOS.ContentSerializer.Internal
                 {
                     var key = this._propertyNameStrategy.GetPropertyName(property);
                     var value = property.GetValue(contentData);
-                    var result = method.Invoke(propertyHandler, new[] { value, property, contentData });
+                    ServiceLocator.Current.TryGetExistingInstance(typeof(IContentSerializerSettings), out var contentSerializerSettings);
+                    var result = method.Invoke(propertyHandler, new[] { value, property, contentData,  settings ?? contentSerializerSettings});
                     structuredData.Add(key, result);
                 }
             }

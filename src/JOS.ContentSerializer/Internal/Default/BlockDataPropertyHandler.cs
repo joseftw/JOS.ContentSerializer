@@ -15,7 +15,8 @@ namespace JOS.ContentSerializer.Internal.Default
             _contentSerializerSettings = contentSerializerSettings;
         }
 
-        public object Handle(BlockData value, PropertyInfo property, IContentData contentData)
+        public object Handle(BlockData value, PropertyInfo property, IContentData contentData,
+            IContentSerializerSettings contentSerializerSettings)
         {
             return this._propertyManager.GetStructuredData(value, this._contentSerializerSettings);
         }

@@ -7,24 +7,23 @@ namespace JOS.ContentSerializer.Internal.Default
     public class ContentReferencePropertyHandler : IPropertyHandler<ContentReference>
     {
         private readonly IUrlHelper _urlHelper;
-        private readonly IContentSerializerSettings _contentSerializerSettings;
 
-        public ContentReferencePropertyHandler(IUrlHelper urlHelper, IContentSerializerSettings contentSerializerSettings)
+        public ContentReferencePropertyHandler(IUrlHelper urlHelper)
         {
             _urlHelper = urlHelper;
-            _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
         }
 
-        public object Handle(ContentReference contentReference, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(ContentReference contentReference, PropertyInfo propertyInfo, IContentData contentData,
+            IContentSerializerSettings contentSerializerSettings)
         {
             if (contentReference == null || contentReference == ContentReference.EmptyReference)
             {
                 return null;
             }
 
-            var url = new Uri(this._urlHelper.ContentUrl(contentReference, this._contentSerializerSettings.UrlSettings));
+            var url = new Uri(this._urlHelper.ContentUrl(contentReference, contentSerializerSettings.UrlSettings));
 
-            if (this._contentSerializerSettings.UrlSettings.UseAbsoluteUrls && url.IsAbsoluteUri)
+            if (contentSerializerSettings.UrlSettings.UseAbsoluteUrls && url.IsAbsoluteUri)
             {
                 return url.AbsoluteUri;
             }

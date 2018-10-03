@@ -6,7 +6,8 @@ namespace JOS.ContentSerializer.Internal.Default.ValueListPropertyHandlers
 {
     public class DoubleListPropertyHandler : IPropertyHandler<IEnumerable<double>>
     {
-        public object Handle(IEnumerable<double> value, PropertyInfo property, IContentData contentData)
+        public object Handle(IEnumerable<double> value, PropertyInfo property, IContentData contentData,
+            IContentSerializerSettings contentSerializerSettings)
         {
             return value;
         }

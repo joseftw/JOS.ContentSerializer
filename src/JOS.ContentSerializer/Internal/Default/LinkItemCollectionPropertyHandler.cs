@@ -11,15 +11,14 @@ namespace JOS.ContentSerializer.Internal.Default
     public class LinkItemCollectionPropertyHandler : IPropertyHandler<LinkItemCollection>
     {
         private readonly IUrlHelper _urlHelper;
-        private readonly IContentSerializerSettings _contentSerializerSettings;
 
-        public LinkItemCollectionPropertyHandler(IUrlHelper urlHelper, IContentSerializerSettings contentSerializerSettings)
+        public LinkItemCollectionPropertyHandler(IUrlHelper urlHelper)
         {
             _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
-            _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
         }
 
-        public object Handle(LinkItemCollection linkItemCollection, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(LinkItemCollection linkItemCollection, PropertyInfo propertyInfo, IContentData contentData,
+            IContentSerializerSettings contentSerializerSettings)
         {
             if (linkItemCollection == null)
             {
@@ -33,7 +32,7 @@ namespace JOS.ContentSerializer.Internal.Default
                 if (link.ReferencedPermanentLinkIds.Any())
                 {
                     var url = new Url(link.Href);
-                    prettyUrl = this._urlHelper.ContentUrl(url, this._contentSerializerSettings.UrlSettings);
+                    prettyUrl = this._urlHelper.ContentUrl(url, contentSerializerSettings.UrlSettings);
                 }
                 links.Add(new LinkItem
                 {

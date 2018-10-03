@@ -13,9 +13,10 @@ namespace JOS.ContentSerializer.Internal.Default
             _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
         }
 
-        public object Handle(PageReference value, PropertyInfo property, IContentData contentData)
+        public object Handle(PageReference value, PropertyInfo property, IContentData contentData,
+            IContentSerializerSettings contentSerializerSettings)
         {
-            return this._contentReferencePropertyHandler.Handle(value, property, contentData);
+            return this._contentReferencePropertyHandler.Handle(value, property, contentData, contentSerializerSettings);
         }
     }
 }

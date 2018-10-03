@@ -14,7 +14,8 @@ namespace JOS.ContentSerializer.Internal.Default
             _contentReferencePropertyHandler = contentReferencePropertyHandler ?? throw new ArgumentNullException(nameof(contentReferencePropertyHandler));
         }
 
-        public object Handle(IEnumerable<ContentReference> contentReferences, PropertyInfo property, IContentData contentData)
+        public object Handle(IEnumerable<ContentReference> contentReferences, PropertyInfo property,
+            IContentData contentData, IContentSerializerSettings contentSerializerSettings)
         {
             if (contentReferences == null)
             {
@@ -24,7 +25,7 @@ namespace JOS.ContentSerializer.Internal.Default
 
             foreach (var contentReference in contentReferences)
             {
-                var result = this._contentReferencePropertyHandler.Handle(contentReference, property, contentData);
+                var result = this._contentReferencePropertyHandler.Handle(contentReference, property, contentData, contentSerializerSettings);
                 links.Add(result);
             }
 
