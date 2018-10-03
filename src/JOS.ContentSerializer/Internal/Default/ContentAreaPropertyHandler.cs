@@ -31,7 +31,7 @@ namespace JOS.ContentSerializer.Internal.Default
                 return null;
             }
             var contentAreaItems = GetContentAreaItems(contentArea);
-            if (WrapItems(contentArea, this._contentSerializerSettings))
+            if (WrapItems(propertyInfo, this._contentSerializerSettings))
             {
                 var items = new Dictionary<string, List<object>>();
                 foreach (var item in contentAreaItems)
@@ -63,7 +63,7 @@ namespace JOS.ContentSerializer.Internal.Default
 
                 return items;
             }
-            
+
         }
 
         private IEnumerable<IContentData> GetContentAreaItems(ContentArea contentArea)
@@ -86,9 +86,9 @@ namespace JOS.ContentSerializer.Internal.Default
             return content;
         }
 
-        private static bool WrapItems(ContentArea contentArea, IContentSerializerSettings contentSerializerSettings)
+        private static bool WrapItems(PropertyInfo propertyInfo, IContentSerializerSettings contentSerializerSettings)
         {
-            var wrapItemsAttribute = contentArea.GetType().GetCustomAttribute<ContentSerializerWrapItemsAttribute>();
+            var wrapItemsAttribute = propertyInfo.GetCustomAttribute<ContentSerializerWrapItemsAttribute>();
             var wrapItems = wrapItemsAttribute?.WrapItems ?? contentSerializerSettings.WrapContentAreaItems;
             return wrapItems;
         }
