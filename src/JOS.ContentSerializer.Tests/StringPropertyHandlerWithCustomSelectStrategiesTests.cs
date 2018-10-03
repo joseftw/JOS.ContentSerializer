@@ -30,7 +30,7 @@ namespace JOS.ContentSerializer.Tests
 
             var result = (SelectOption)this._sut.Handle(page.SelectedOnlyOne,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectedOnlyOne)),
-                page);
+                page, null);
 
             result.Selected.ShouldBeTrue();
             result.Text.ShouldBe("Option 4");
@@ -47,7 +47,7 @@ namespace JOS.ContentSerializer.Tests
 
             var result = (string)this._sut.Handle(page.SelectedOnlyValueOnlyOne,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectedOnlyValueOnlyOne)),
-                page);
+                page, null);
 
             result.ShouldBe("option5");
         }
@@ -62,7 +62,7 @@ namespace JOS.ContentSerializer.Tests
 
             var result = ((IEnumerable<SelectOption>)this._sut.Handle(page.SelectedOnlyMany,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectedOnlyMany)),
-                page)).ToList();
+                page, null)).ToList();
 
             result.ShouldContain(x => x.Selected && x.Value.Equals("option5") && x.Text.Equals("Option 5"));
             result.ShouldContain(x => x.Selected && x.Value.Equals("option6") && x.Text.Equals("Option 6"));
@@ -81,7 +81,7 @@ namespace JOS.ContentSerializer.Tests
 
             var result = ((IEnumerable<string>)this._sut.Handle(page.SelectedOnlyValueOnlyMany,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectedOnlyValueOnlyMany)),
-                page)).ToList();
+                page, null)).ToList();
 
             result.ShouldContain(x => x == "option5");
             result.ShouldContain(x => x == "option6");

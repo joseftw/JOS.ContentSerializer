@@ -16,7 +16,7 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenNullXhtmlString_WhenHandle_ThenReturnsNull()
         {
-            var result = this._sut.Handle(null, null, null);
+            var result = this._sut.Handle(null, null, null, null);
 
             result.ShouldBeNull();
         }

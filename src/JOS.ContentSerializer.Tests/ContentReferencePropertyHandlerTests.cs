@@ -17,13 +17,13 @@ namespace JOS.ContentSerializer.Tests
             this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
             this._contentSerializerSettings.UrlSettings = new UrlSettings();
             this._urlHelper = Substitute.For<IUrlHelper>();
-            this._sut = new ContentReferencePropertyHandler(this._urlHelper, this._contentSerializerSettings);
+            this._sut = new ContentReferencePropertyHandler(this._urlHelper);
         }
 
         [Fact]
         public void GivenNullContentReference_WhenHandle_ThenReturnsNull()
         {
-            var result = this._sut.Handle(null, null, null);
+            var result = this._sut.Handle(null, null, null, this._contentSerializerSettings);
 
             result.ShouldBeNull();
         }
@@ -31,7 +31,7 @@ namespace JOS.ContentSerializer.Tests
         [Fact]
         public void GivenEmptyContentReference_WhenHandle_ThenReturnsNull()
         {
-            var result = this._sut.Handle(ContentReference.EmptyReference, null, null);
+            var result = this._sut.Handle(ContentReference.EmptyReference, null, null, this._contentSerializerSettings);
 
             result.ShouldBeNull();
         }
@@ -47,7 +47,7 @@ namespace JOS.ContentSerializer.Tests
             this._urlHelper.ContentUrl(contentReference, this._contentSerializerSettings.UrlSettings)
                 .Returns($"{baseUrl}{prettyPath}");
 
-            var result = this._sut.Handle(contentReference, null, null);
+            var result = this._sut.Handle(contentReference, null, null, this._contentSerializerSettings);
 
             result.ShouldBe($"{baseUrl}{prettyPath}");
         }
@@ -64,7 +64,7 @@ namespace JOS.ContentSerializer.Tests
             this._urlHelper.ContentUrl(Arg.Any<ContentReference>(), this._contentSerializerSettings.UrlSettings)
                 .Returns($"{baseUrl}{prettyPath}");
 
-            var result = this._sut.Handle(contentReference, null, null);
+            var result = this._sut.Handle(contentReference, null, null, this._contentSerializerSettings);
 
             result.ShouldBe(prettyPath);
         }

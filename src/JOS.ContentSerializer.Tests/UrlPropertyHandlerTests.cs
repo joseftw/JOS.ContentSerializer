@@ -11,19 +11,19 @@ namespace JOS.ContentSerializer.Tests
         private readonly UrlPropertyHandler _sut;
         private readonly IUrlHelper _urlHelper;
         private IContentSerializerSettings _contentSerializerSettings;
-        
+
         public UrlPropertyHandlerTests()
         {
             this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
             this._contentSerializerSettings.UrlSettings = new UrlSettings();
             this._urlHelper = Substitute.For<IUrlHelper>();
-            this._sut = new UrlPropertyHandler(this._urlHelper, this._contentSerializerSettings);
+            this._sut = new UrlPropertyHandler(this._urlHelper);
         }
 
         [Fact]
         public void GivenNullUrl_WhenHandle_ThenReturnsNull()
         {
-            var result = this._sut.Handle(null, null, null);
+            var result = this._sut.Handle(null, null, null, this._contentSerializerSettings);
 
             result.ShouldBeNull();
         }
@@ -34,7 +34,7 @@ namespace JOS.ContentSerializer.Tests
             var value = "mailto:mail@example.com";
             var url = new Url(value);
 
-            var result = this._sut.Handle(url, null, null);
+            var result = this._sut.Handle(url, null, null, this._contentSerializerSettings);
 
             result.ShouldBe(value);
         }
@@ -45,7 +45,7 @@ namespace JOS.ContentSerializer.Tests
             var value = "https://josef.guru/example/page?anyQueryString=true&anyOtherQuery";
             var url = new Url(value);
 
-            var result = this._sut.Handle(url, null, null);
+            var result = this._sut.Handle(url, null, null, this._contentSerializerSettings);
 
             result.ShouldBe(value);
         }
@@ -57,7 +57,7 @@ namespace JOS.ContentSerializer.Tests
             var value = "https://josef.guru/example/page?anyQueryString=true&anyOtherQuery";
             var url = new Url(value);
 
-            var result = this._sut.Handle(url, null, null);
+            var result = this._sut.Handle(url, null, null, this._contentSerializerSettings);
 
             result.ShouldBe(url.PathAndQuery);
         }
@@ -70,8 +70,8 @@ namespace JOS.ContentSerializer.Tests
             var value = "/link/d40d0056ede847d5a2f3b4a02778d15b.aspx";
             var url = new Url(value);
             this._urlHelper.ContentUrl(Arg.Any<Url>(), this._contentSerializerSettings.UrlSettings).Returns($"{siteUrl}{prettyPath}");
-         
-            var result = this._sut.Handle(url, null, null);
+
+            var result = this._sut.Handle(url, null, null, this._contentSerializerSettings);
 
             result.ShouldBe($"{siteUrl}{prettyPath}");
         }
@@ -85,7 +85,7 @@ namespace JOS.ContentSerializer.Tests
             this._contentSerializerSettings.UrlSettings.Returns(new UrlSettings { UseAbsoluteUrls = false });
             this._urlHelper.ContentUrl(Arg.Any<Url>(), this._contentSerializerSettings.UrlSettings).Returns(prettyPath);
 
-            var result = this._sut.Handle(url, null, null);
+            var result = this._sut.Handle(url, null, null, this._contentSerializerSettings);
 
             result.ShouldBe(prettyPath);
         }

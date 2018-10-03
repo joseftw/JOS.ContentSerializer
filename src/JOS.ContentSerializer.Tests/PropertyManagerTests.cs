@@ -129,7 +129,7 @@ namespace JOS.ContentSerializer.Tests
             urlHelper.ContentUrl(contentReference, Arg.Any<IUrlSettings>()).Returns(contentReferencePageUrl);
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<ContentReference>), out var _).Returns(x =>
             {
-                x[1] = new ContentReferencePropertyHandler(urlHelper, this._contentSerializerSettings);
+                x[1] = new ContentReferencePropertyHandler(urlHelper);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -147,7 +147,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             var urlHelper = Substitute.For<IUrlHelper>();
             var pageReferenceUrl = "https://josefottosson.se/";
-            var contentReferencePropertyHandler = new ContentReferencePropertyHandler(urlHelper, this._contentSerializerSettings);
+            var contentReferencePropertyHandler = new ContentReferencePropertyHandler(urlHelper);
             urlHelper.ContentUrl(pageReference, Arg.Any<IUrlSettings>()).Returns(pageReferenceUrl);
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<PageReference>), out var _).Returns(x =>
             {
@@ -169,7 +169,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<ContentArea>), out var _).Returns(x =>
             {
-                x[1] = new ContentAreaPropertyHandler(this._contentLoader, this._sut, this._contentSerializerSettings);
+                x[1] = new ContentAreaPropertyHandler(this._contentLoader, this._sut);
                 return true;
             });
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<string>), out var _).Returns(x =>
@@ -297,7 +297,7 @@ namespace JOS.ContentSerializer.Tests
             };
             contentArea.Count.Returns(items.Count);
             contentArea.FilteredItems.Returns(items);
-            
+
             return contentArea;
         }
     }

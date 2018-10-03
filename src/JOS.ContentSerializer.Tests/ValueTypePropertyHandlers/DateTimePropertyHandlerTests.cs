@@ -26,7 +26,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
             var result = (DateTime)this._sut.Handle(
                 page.DateTime,
                 page.GetType().GetProperty(nameof(ValueTypePropertyHandlerPage.DateTime)),
-                page);
+                page, null);
 
             result.ShouldBe(expected);
         }

@@ -22,13 +22,13 @@ namespace JOS.ContentSerializer.Tests
             this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
             this._contentSerializerSettings.UrlSettings = new UrlSettings();
             this._urlHelper = Substitute.For<IUrlHelper>();
-            this._sut = new LinkItemCollectionPropertyHandler(this._urlHelper, this._contentSerializerSettings);
+            this._sut = new LinkItemCollectionPropertyHandler(this._urlHelper);
         }
 
         [Fact]
         public void GivenNullLinkItemCollection_WhenHandle_ThenReturnsNull()
         {
-            var result = this._sut.Handle(null, null, null);
+            var result = this._sut.Handle(null, null, null, this._contentSerializerSettings);
 
             result.ShouldBeNull();
         }
@@ -45,7 +45,7 @@ namespace JOS.ContentSerializer.Tests
                 Title = "any title"
             });
 
-            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null)).ToList();
+            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null, this._contentSerializerSettings)).ToList();
 
             result.Count.ShouldBe(1);
             result.ShouldContain(x => x.Href == value);
@@ -66,7 +66,7 @@ namespace JOS.ContentSerializer.Tests
                 Target = "_blank"
             });
 
-            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null)).ToList();
+            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null, this._contentSerializerSettings)).ToList();
 
             result.Count.ShouldBe(1);
             result.ShouldContain(x => x.Href == value);
@@ -94,7 +94,7 @@ namespace JOS.ContentSerializer.Tests
             });
             linkItemCollection.Add(linkItem);
 
-            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null)).ToList();
+            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null, this._contentSerializerSettings)).ToList();
 
             result.Count.ShouldBe(1);
             result.ShouldContain(x => x.Href == expected);
@@ -122,7 +122,7 @@ namespace JOS.ContentSerializer.Tests
             });
             linkItemCollection.Add(linkItem);
 
-            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null)).ToList();
+            var result = ((IEnumerable<LinkItem>)this._sut.Handle(linkItemCollection, null, null, this._contentSerializerSettings)).ToList();
 
             result.Count.ShouldBe(1);
             result.ShouldContain(x => x.Href == expected);

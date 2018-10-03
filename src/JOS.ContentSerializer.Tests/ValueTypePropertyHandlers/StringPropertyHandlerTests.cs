@@ -31,7 +31,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 
             var result = this._sut.Handle(page.Heading,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.Heading)),
-                page);
+                page, null);
 
             ((string)result).ShouldBe(heading);
         }
@@ -46,7 +46,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 
             var result = (List<SelectOption>)this._sut.Handle(page.SelectOne,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectOne)),
-                page);
+                page, null);
 
             result.ShouldContain(x => x.Selected && x.Value.Equals("option3") && x.Text.Equals("Option 3"));
             result.Count(x => x.Selected).ShouldBe(1);
@@ -64,7 +64,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 
             var result = (IEnumerable<SelectOption>)this._sut.Handle(page.SelectOne,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectOne)),
-                page);
+                page, null);
 
             result.Count(x => x.Selected).ShouldBe(0);
         }
@@ -79,7 +79,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 
             var result = (List<SelectOption>)this._sut.Handle(page.SelectMany,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectMany)),
-                page);
+                page, null);
 
             result.ShouldContain(x => x.Selected && x.Value.Equals("option3") && x.Text.Equals("Option 3"));
             result.ShouldContain(x => x.Selected && x.Value.Equals("option4") && x.Text.Equals("Option 4"));
@@ -99,7 +99,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 
             var result = (IEnumerable<SelectOption>)this._sut.Handle(page.SelectMany,
                 page.GetType().GetProperty(nameof(StringPropertyHandlerPage.SelectOne)),
-                page);
+                page, null);
 
             result.Count(x => x.Selected).ShouldBe(0);
         }

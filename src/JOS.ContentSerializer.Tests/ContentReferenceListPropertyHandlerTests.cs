@@ -19,13 +19,13 @@ namespace JOS.ContentSerializer.Tests
             this._urlHelper = Substitute.For<IUrlHelper>();
             this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
             this._contentSerializerSettings.UrlSettings = new UrlSettings();
-            this._sut = new ContentReferenceListPropertyHandler(new ContentReferencePropertyHandler(this._urlHelper, this._contentSerializerSettings));
+            this._sut = new ContentReferenceListPropertyHandler(new ContentReferencePropertyHandler(this._urlHelper));
         }
 
         [Fact]
         public void GivenNullList_WhenHandle_ThenReturnsNull()
         {
-            var result = this._sut.Handle(null, null, null);
+            var result = this._sut.Handle(null, null, null, this._contentSerializerSettings);
 
             result.ShouldBeNull();
         }
@@ -35,7 +35,7 @@ namespace JOS.ContentSerializer.Tests
         {
             var contentReferences = Enumerable.Empty<ContentReference>();
 
-            var result = this._sut.Handle(contentReferences, null, null);
+            var result = this._sut.Handle(contentReferences, null, null, this._contentSerializerSettings);
 
             ((IEnumerable<object>)result).ShouldBeEmpty();
         }
@@ -53,7 +53,7 @@ namespace JOS.ContentSerializer.Tests
             this._urlHelper.ContentUrl(contentReference, this._contentSerializerSettings.UrlSettings)
                 .Returns($"{baseUrl}{prettyPath}");
 
-            var result = this._sut.Handle(contentReferences, null, null);
+            var result = this._sut.Handle(contentReferences, null, null, this._contentSerializerSettings);
             var items = ((IEnumerable<object>)result).Cast<string>().ToList();
 
             items.Count.ShouldBe(1);

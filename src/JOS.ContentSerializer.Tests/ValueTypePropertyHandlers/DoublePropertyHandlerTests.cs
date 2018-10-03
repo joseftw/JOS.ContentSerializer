@@ -24,7 +24,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
             var result = (double)this._sut.Handle(
                 page.Double,
                 page.GetType().GetProperty(nameof(ValueTypePropertyHandlerPage.Double)),
-                page);
+                page, null);
 
             result.ShouldBe(10.50);
         }
