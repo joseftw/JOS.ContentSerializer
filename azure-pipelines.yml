@@ -34,7 +34,6 @@ steps:
 
 - task: VSTest@2
   inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: 'src\JOS.ContentSerializer.Tests\bin\Release\JOS.ContentSerializer.Tests.dll'
+    testSelector: 'testRun'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     configuration: 'Release'
