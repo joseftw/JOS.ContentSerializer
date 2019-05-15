@@ -37,4 +37,4 @@ steps:
     testSelector: 'testAssemblies'
     testAssemblyVer2: 'src\JOS.ContentSerializer.Tests\bin\Release\JOS.ContentSerializer.Tests.dll'
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    configuration: '$(buildConfiguration)'
+    configuration: 'Release'
