@@ -34,6 +34,9 @@ steps:
 
 - task: VSTest@2
   inputs:
-    testSelector: 'testRun'
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: '**\*Test*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     configuration: 'Release'
