@@ -164,6 +164,7 @@
     <Compile Include="Internal\Default\ContentReferencePropertyHandler.cs" />
     <Compile Include="Internal\Default\DefaultSelectStrategy.cs" />
     <Compile Include="Internal\Default\PageTypeModel.cs" />
+    <Compile Include="Internal\Default\NullableTimeSpanPropertyHandler.cs" />
     <Compile Include="Internal\Default\ValueTypePropertyHandlers\DateTimePropertyHandler.cs" />
     <Compile Include="Internal\Default\ValueTypePropertyHandlers\DoublePropertyHandler.cs" />
     <Compile Include="Internal\Default\ValueListPropertyHandlers\DateTimeListPropertyHandler.cs" />

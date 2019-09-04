@@ -50,7 +50,7 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyHandler<Url>, UrlPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<XhtmlString>, XhtmlStringPropertyHandler>();
             context.Services.AddSingleton<IPropertyHandler<BlockData>, BlockDataPropertyHandler>();
-
+            
             var stringListPropertyHandler = new StringListPropertyHandler();
             context.Services.AddSingleton<IPropertyHandler<IEnumerable<string>>>(stringListPropertyHandler);
             context.Services.AddSingleton<IPropertyHandler<ICollection<string>>>(stringListPropertyHandler);
@@ -68,6 +68,7 @@ namespace JOS.ContentSerializer.Internal
             context.Services.AddSingleton<IPropertyHandler<IEnumerable<double>>>(doubleListPropertyHandler);
             context.Services.AddSingleton<IPropertyHandler<ICollection<double>>>(doubleListPropertyHandler);
             context.Services.AddSingleton<IPropertyHandler<IList<double>>>(doubleListPropertyHandler);
+            context.Services.AddSingleton<IPropertyHandler<TimeSpan?>, NullableTimeSpanPropertyHandler>();
 
             var defaultSelectStrategy = new DefaultSelectStrategy();
             context.Services.AddSingleton<ISelectOneStrategy>(defaultSelectStrategy);
