@@ -5,7 +5,7 @@ using EPiServer.Shell.ObjectEditing;
 
 namespace JOS.ContentSerializer.Internal.Default
 {
-    public class StringPropertyHandler : IPropertyHandler<string>
+    public class StringPropertyHandler : IPropertyHandler<string>, IPropertyHandler2<string>
     {
         private readonly ISelectOneStrategy _selectOneStrategy;
         private readonly ISelectManyStrategy _selectManyStrategy;
@@ -35,6 +35,11 @@ namespace JOS.ContentSerializer.Internal.Default
             }
 
             return stringValue;
+        }
+
+        public object Handle2(string stringValue, PropertyInfo property, IContentData contentData, IContentSerializerSettings contentSerializerSettings)
+        {
+            return Handle(stringValue, property, contentData);
         }
 
         private static ISelectionFactory CreateSelectionFactoryInstance(Type type)

@@ -4,7 +4,7 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal.Default
 {
-    public class BlockDataPropertyHandler : IPropertyHandler<BlockData>
+    public class BlockDataPropertyHandler : IPropertyHandler<BlockData>, IPropertyHandler2<BlockData>
     {
         private readonly IPropertyManager _propertyManager;
         private readonly IContentSerializerSettings _contentSerializerSettings;
@@ -18,6 +18,11 @@ namespace JOS.ContentSerializer.Internal.Default
         public object Handle(BlockData value, PropertyInfo property, IContentData contentData)
         {
             return this._propertyManager.GetStructuredData(value, this._contentSerializerSettings);
+        }
+
+        public object Handle2(BlockData value, PropertyInfo property, IContentData contentData, IContentSerializerSettings contentSerializerSettings)
+        {
+            return this._propertyManager.GetStructuredData(value, contentSerializerSettings);
         }
     }
 }

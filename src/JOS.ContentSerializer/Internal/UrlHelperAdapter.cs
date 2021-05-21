@@ -9,6 +9,10 @@ namespace JOS.ContentSerializer.Internal
 {
     public class UrlHelperAdapter : IUrlHelper
     {
+        // TODO: Use a parameter in the methods for the IContentSerializerSettings implementation instead of
+        // injecting it via dependency injection. The injected one will be the wrong one if someone wants to
+        // occationally use their own IContentSerializerSettings implementation.
+
         private readonly UrlHelper _urlHelper;
         private readonly ISiteDefinitionResolver _siteDefinitionResolver;
         private readonly IRequestHostResolver _requestHostResolver;

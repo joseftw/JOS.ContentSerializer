@@ -52,12 +52,12 @@ Now, if you call .ToJson on a StartPage instance you would only get the Heading 
 }
 ```
 
-To add support for it, first create a new class that implements the ```IPropertyHandler<>``` interface
+To add support for it, first create a new class that implements the ```IPropertyHandler2<>``` interface
 
 ```csharp
-public class KeyValueItemListPropertyHandler : IPropertyHandler<IEnumerable<KeyValueItem>>
+public class KeyValueItemListPropertyHandler : IPropertyHandler2<IEnumerable<KeyValueItem>>
 {
-    public object Handle(IEnumerable<KeyValueItem> value, PropertyInfo property, IContentData contentData)
+    public object Handle2(IEnumerable<KeyValueItem> value, PropertyInfo property, IContentData contentData, IContentSerializerSettings contentSerializerSettings)
     {
         // Do whatever you want with the property here.
         return value;
@@ -73,7 +73,7 @@ public class MyConfigurationModule : IConfigurableModule
 {
     public void ConfigureContainer(ServiceConfigurationContext context)
     { 
-    context.Services.AddSingleton<IPropertyHandler<IEnumerable<KeyValueItem>>, KeyValueItemListPropertyHandler>();
+    context.Services.AddSingleton<IPropertyHandler2<IEnumerable<KeyValueItem>>, KeyValueItemListPropertyHandler>();
     }
 }
 ```
@@ -100,9 +100,9 @@ Say that you, for some reason, want all strings to return "JOSEF OTTOSSON!!" ins
 
 Just create a new propertyhandler for strings like this.
 ```csharp
-public class JosefStringPropertyHandler : IPropertyHandler<string>
+public class JosefStringPropertyHandler : IPropertyHandler2<string>
 {
-    public object Handle(string value, PropertyInfo property, IContentData contentData)
+    public object Handle2(string value, PropertyInfo property, IContentData contentData, IContentSerializerSettings contentSerializerSettings)
     {
         return "JOSEF OTTOSSON!!";
     }
@@ -111,7 +111,7 @@ public class JosefStringPropertyHandler : IPropertyHandler<string>
 
 Then swap out the default ```StringPropertyHandler``` in the DI container like this:
 ```csharp
-context.Services.AddSingleton<IPropertyHandler<string>, JosefStringPropertyHandler>();
+context.Services.AddSingleton<IPropertyHandler2<string>, JosefStringPropertyHandler>();
 ```
 **Don't forget to unregister the default ``IPropertyHandler<string>`` as well**
 

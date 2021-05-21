@@ -7,6 +7,8 @@ namespace JOS.ContentSerializer.Internal
 {
     public class PropertyHandlerService : IPropertyHandlerService
     {
+        private readonly Type _propertyHandler2Type = typeof(IPropertyHandler2<>);
+
         private readonly Type _propertyHandlerType = typeof(IPropertyHandler<>);
 
         public object GetPropertyHandler(PropertyInfo property)
@@ -23,8 +25,27 @@ namespace JOS.ContentSerializer.Internal
             }
 
             var propertyHandlerType = this._propertyHandlerType.MakeGenericType(property.PropertyType);
-            ServiceLocator.Current.TryGetExistingInstance(propertyHandlerType, out var propertyHandler);
-            return propertyHandler;
+            if (ServiceLocator.Current.TryGetExistingInstance(propertyHandlerType, out var propertyHandler) &&
+                propertyHandler.GetType().Assembly != typeof(PropertyHandlerService).Assembly)
+            {
+                // Non-JOS implementations of the IPropertyHandler are considered first in order to maintain legacy functionality.
+                return propertyHandler;
+            }
+
+            var propertyHandler2Type = this._propertyHandler2Type.MakeGenericType(property.PropertyType);
+            if (propertyHandler2Type.IsAssignableFrom(propertyHandler?.GetType()))
+            {
+                // All internal JOS handlers implement both IPropertyHandler and IPropertyHandler2, so no need to retrieve
+                // the handler through the second interface.
+                return propertyHandler;
+            }
+            if (ServiceLocator.Current.TryGetExistingInstance(propertyHandler2Type, out var propertyHandler2))
+            {
+                // Non-JOS implementations of the IPropertyHandler2 interface.
+                return propertyHandler2;
+            }
+
+            return null;
         }
     }
 }

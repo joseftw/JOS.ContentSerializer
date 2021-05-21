@@ -179,6 +179,7 @@
     <Compile Include="Internal\LinkItem.cs" />
     <Compile Include="Internal\Default\StringPropertyHandler.cs" />
     <Compile Include="Internal\UrlHelperAdapter.cs" />
+    <Compile Include="IPropertyHandler2.cs" />
     <Compile Include="IPropertyHandlerService.cs" />
     <Compile Include="ISelectManyStrategy.cs" />
     <Compile Include="ISelectOneStrategy.cs" />

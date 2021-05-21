@@ -4,7 +4,7 @@ using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal.Default
 {
-    public class ContentReferencePropertyHandler : IPropertyHandler<ContentReference>
+    public class ContentReferencePropertyHandler : IPropertyHandler<ContentReference>, IPropertyHandler2<ContentReference>
     {
         private readonly IUrlHelper _urlHelper;
         private readonly IContentSerializerSettings _contentSerializerSettings;
@@ -17,14 +17,24 @@ namespace JOS.ContentSerializer.Internal.Default
 
         public object Handle(ContentReference contentReference, PropertyInfo propertyInfo, IContentData contentData)
         {
+            return HandleInternal(contentReference, this._contentSerializerSettings);
+        }
+
+        public object Handle2(ContentReference contentReference, PropertyInfo propertyInfo, IContentData contentData, IContentSerializerSettings contentSerializerSettings)
+        {
+            return HandleInternal(contentReference, contentSerializerSettings);
+        }
+
+        private object HandleInternal(ContentReference contentReference, IContentSerializerSettings contentSerializerSettings)
+        {
             if (contentReference == null || contentReference == ContentReference.EmptyReference)
             {
                 return null;
             }
 
-            var url = new Uri(this._urlHelper.ContentUrl(contentReference, this._contentSerializerSettings.UrlSettings));
+            var url = new Uri(this._urlHelper.ContentUrl(contentReference, contentSerializerSettings.UrlSettings));
 
-            if (this._contentSerializerSettings.UrlSettings.UseAbsoluteUrls && url.IsAbsoluteUri)
+            if (contentSerializerSettings.UrlSettings.UseAbsoluteUrls && url.IsAbsoluteUri)
             {
                 return url.AbsoluteUri;
             }

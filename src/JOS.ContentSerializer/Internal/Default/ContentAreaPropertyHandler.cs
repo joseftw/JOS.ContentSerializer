@@ -8,7 +8,7 @@ using JOS.ContentSerializer.Attributes;
 
 namespace JOS.ContentSerializer.Internal.Default
 {
-    public class ContentAreaPropertyHandler : IPropertyHandler<ContentArea>
+    public class ContentAreaPropertyHandler : IPropertyHandler<ContentArea>, IPropertyHandler2<ContentArea>
     {
         private readonly IContentLoader _contentLoader;
         private readonly IPropertyManager _propertyManager;
@@ -26,19 +26,29 @@ namespace JOS.ContentSerializer.Internal.Default
 
         public object Handle(ContentArea contentArea, PropertyInfo propertyInfo, IContentData contentData)
         {
+            return HandleInternal(contentArea, this._contentSerializerSettings);
+        }
+
+        public object Handle2(ContentArea contentArea, PropertyInfo propertyInfo, IContentData contentData, IContentSerializerSettings contentSerializerSettings)
+        {
+            return HandleInternal(contentArea, contentSerializerSettings);
+        }
+
+        private object HandleInternal(ContentArea contentArea, IContentSerializerSettings contentSerializerSettings)
+        {
             if (contentArea == null)
             {
                 return null;
             }
             var contentAreaItems = GetContentAreaItems(contentArea);
-            if (WrapItems(contentArea, this._contentSerializerSettings))
+            if (WrapItems(contentArea, contentSerializerSettings))
             {
                 var items = new Dictionary<string, List<object>>();
                 foreach (var item in contentAreaItems)
                 {
-                    var result = this._propertyManager.GetStructuredData(item, this._contentSerializerSettings);
+                    var result = this._propertyManager.GetStructuredData(item, contentSerializerSettings);
                     var typeName = item.GetOriginalType().Name;
-                    result.Add(this._contentSerializerSettings.BlockTypePropertyName, typeName);
+                    result.Add(contentSerializerSettings.BlockTypePropertyName, typeName);
                     if (items.ContainsKey(typeName))
                     {
                         items[typeName].Add(result);
@@ -56,14 +66,13 @@ namespace JOS.ContentSerializer.Internal.Default
                 var items = new List<object>();
                 foreach (var item in contentAreaItems)
                 {
-                    var result = this._propertyManager.GetStructuredData(item, this._contentSerializerSettings);
-                    result.Add(this._contentSerializerSettings.BlockTypePropertyName, item.GetOriginalType().Name);
+                    var result = this._propertyManager.GetStructuredData(item, contentSerializerSettings);
+                    result.Add(contentSerializerSettings.BlockTypePropertyName, item.GetOriginalType().Name);
                     items.Add(result);
                 }
 
                 return items;
             }
-            
         }
 
         private IEnumerable<IContentData> GetContentAreaItems(ContentArea contentArea)
