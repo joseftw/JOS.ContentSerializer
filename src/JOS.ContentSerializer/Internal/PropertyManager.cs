@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
@@ -38,14 +39,15 @@ namespace JOS.ContentSerializer.Internal
                     continue;
                 }
 
-                var method = propertyHandler.GetType().GetMethod(nameof(IPropertyHandler<object>.Handle));
-                if (method != null)
-                {
-                    var key = this._propertyNameStrategy.GetPropertyName(property);
-                    var value = property.GetValue(contentData);
-                    var result = method.Invoke(propertyHandler, new[] { value, property, contentData });
-                    structuredData.Add(key, result);
-                }
+                var method = propertyHandler.GetType().GetMethods()
+                    .Where(x => x.Name.Equals(nameof(IPropertyHandler<object>.Handle)))
+                    .OrderByDescending(x => x.GetParameters().Length)
+                    .First();
+
+                var key = this._propertyNameStrategy.GetPropertyName(property);
+                var value = property.GetValue(contentData);
+                var result = method.Invoke(propertyHandler, new[] { value, property, contentData, settings });
+                structuredData.Add(key, result);
             }
             return structuredData;
         }
