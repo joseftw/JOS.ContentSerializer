@@ -26,19 +26,28 @@ namespace JOS.ContentSerializer.Internal.Default
 
         public object Handle(ContentArea contentArea, PropertyInfo propertyInfo, IContentData contentData)
         {
+            return Handle(contentArea, propertyInfo, contentData, _contentSerializerSettings);
+        }
+
+        public object Handle(
+            ContentArea contentArea,
+            PropertyInfo property,
+            IContentData contentData,
+            IContentSerializerSettings settings)
+        {
             if (contentArea == null)
             {
                 return null;
             }
             var contentAreaItems = GetContentAreaItems(contentArea);
-            if (WrapItems(contentArea, this._contentSerializerSettings))
+            if (WrapItems(contentArea, settings))
             {
                 var items = new Dictionary<string, List<object>>();
                 foreach (var item in contentAreaItems)
                 {
-                    var result = this._propertyManager.GetStructuredData(item, this._contentSerializerSettings);
+                    var result = this._propertyManager.GetStructuredData(item, settings);
                     var typeName = item.GetOriginalType().Name;
-                    result.Add(this._contentSerializerSettings.BlockTypePropertyName, typeName);
+                    result.Add(settings.BlockTypePropertyName, typeName);
                     if (items.ContainsKey(typeName))
                     {
                         items[typeName].Add(result);
@@ -56,14 +65,13 @@ namespace JOS.ContentSerializer.Internal.Default
                 var items = new List<object>();
                 foreach (var item in contentAreaItems)
                 {
-                    var result = this._propertyManager.GetStructuredData(item, this._contentSerializerSettings);
-                    result.Add(this._contentSerializerSettings.BlockTypePropertyName, item.GetOriginalType().Name);
+                    var result = this._propertyManager.GetStructuredData(item, settings);
+                    result.Add(settings.BlockTypePropertyName, item.GetOriginalType().Name);
                     items.Add(result);
                 }
 
                 return items;
             }
-            
         }
 
         private IEnumerable<IContentData> GetContentAreaItems(ContentArea contentArea)

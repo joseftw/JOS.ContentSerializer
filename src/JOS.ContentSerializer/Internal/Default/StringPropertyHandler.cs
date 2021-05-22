@@ -9,14 +9,27 @@ namespace JOS.ContentSerializer.Internal.Default
     {
         private readonly ISelectOneStrategy _selectOneStrategy;
         private readonly ISelectManyStrategy _selectManyStrategy;
+        private readonly IContentSerializerSettings _contentSerializerSettings;
 
-        public StringPropertyHandler(ISelectOneStrategy selectOneStrategy, ISelectManyStrategy selectManyStrategy)
+        public StringPropertyHandler(
+            ISelectOneStrategy selectOneStrategy,
+            ISelectManyStrategy selectManyStrategy,
+            IContentSerializerSettings contentSerializerSettings)
         {
             _selectOneStrategy = selectOneStrategy ?? throw new ArgumentNullException(nameof(selectOneStrategy));
             _selectManyStrategy = selectManyStrategy ?? throw new ArgumentNullException(nameof(selectManyStrategy));
+            _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
         }
 
-        public object Handle(string stringValue, PropertyInfo property, IContentData contentData)
+        public object Handle(
+            string stringValue,
+            PropertyInfo property,
+            IContentData contentData)
+        {
+            return Handle(stringValue, property, contentData, _contentSerializerSettings);
+        }
+
+        public object Handle(string stringValue, PropertyInfo property, IContentData contentData, IContentSerializerSettings settings)
         {
             if (HasSelectAttribute(property))
             {
