@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
-        private static readonly Dictionary<Type, MethodInfo> CachedHandleMethodInfos;
+        private static readonly ConcurrentDictionary<Type, MethodInfo> CachedHandleMethodInfos;
         private readonly IPropertyResolver _propertyResolver;
         private readonly IPropertyNameStrategy _propertyNameStrategy;
         private readonly IPropertyHandlerService _propertyHandlerService;
 
         static PropertyManager()
         {
-            CachedHandleMethodInfos = new Dictionary<Type, MethodInfo>();
+            CachedHandleMethodInfos = new ConcurrentDictionary<Type, MethodInfo>();
         }
 
         public PropertyManager(
@@ -61,7 +62,8 @@ namespace JOS.ContentSerializer.Internal
             var type = propertyHandler.GetType();
             if (CachedHandleMethodInfos.ContainsKey(type))
             {
-                return CachedHandleMethodInfos[type];
+                CachedHandleMethodInfos.TryGetValue(type, out var cachedMethod);
+                return cachedMethod;
             }
 
             var method = propertyHandler.GetType().GetMethods()
@@ -69,7 +71,7 @@ namespace JOS.ContentSerializer.Internal
                 .OrderByDescending(x => x.GetParameters().Length)
                 .First();
 
-            CachedHandleMethodInfos[type] = method;
+            CachedHandleMethodInfos.TryAdd(type, method);
             return method;
         }
     }
