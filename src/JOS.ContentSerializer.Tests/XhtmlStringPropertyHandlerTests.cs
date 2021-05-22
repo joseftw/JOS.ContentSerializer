@@ -10,7 +10,7 @@ namespace JOS.ContentSerializer.Tests
 
         public XhtmlStringPropertyHandlerTests()
         {
-            this._sut = new XhtmlStringPropertyHandler();
+            this._sut = new XhtmlStringPropertyHandler(new ContentSerializerSettings());
         }
 
         [Fact]

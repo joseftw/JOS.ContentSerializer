@@ -12,14 +12,18 @@ namespace JOS.ContentSerializer.Tests
     {
         private readonly ContentReferenceListPropertyHandler _sut;
         private readonly IUrlHelper _urlHelper;
-        private IContentSerializerSettings _contentSerializerSettings;
+        private readonly IContentSerializerSettings _contentSerializerSettings;
 
         public ContentReferenceListPropertyHandlerTests()
         {
             this._urlHelper = Substitute.For<IUrlHelper>();
             this._contentSerializerSettings = Substitute.For<IContentSerializerSettings>();
             this._contentSerializerSettings.UrlSettings = new UrlSettings();
-            this._sut = new ContentReferenceListPropertyHandler(new ContentReferencePropertyHandler(this._urlHelper, this._contentSerializerSettings));
+            this._sut = new ContentReferenceListPropertyHandler(
+                new ContentReferencePropertyHandler(
+                    this._urlHelper,
+                    this._contentSerializerSettings),
+                this._contentSerializerSettings);
         }
 
         [Fact]

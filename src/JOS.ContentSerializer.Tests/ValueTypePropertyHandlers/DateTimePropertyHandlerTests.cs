@@ -11,7 +11,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         private readonly DateTimePropertyHandler _sut;
         public DateTimePropertyHandlerTests()
         {
-            this._sut = new DateTimePropertyHandler();
+            this._sut = new DateTimePropertyHandler(new ContentSerializerSettings());
         }
 
         [Fact]

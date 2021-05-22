@@ -10,7 +10,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         private readonly DoublePropertyHandler _sut;
         public DoublePropertyHandlerTests()
         {
-            this._sut = new DoublePropertyHandler();
+            this._sut = new DoublePropertyHandler(new ContentSerializerSettings());
         }
 
         [Fact]

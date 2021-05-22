@@ -12,7 +12,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypeListPropertyHandlers
 
         public StringListPropertyHandlerTests()
         {
-            this._sut = new StringListPropertyHandler();
+            this._sut = new StringListPropertyHandler(new ContentSerializerSettings());
         }
 
         [Fact]

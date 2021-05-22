@@ -17,7 +17,7 @@ namespace JOS.ContentSerializer.Tests
         {
             var customSelectOneStrategy = new CustomSelectOneStrategy();
             var customSelectManyStrategy = new CustomSelectManyStrategy();
-            this._sut = new StringPropertyHandler(customSelectOneStrategy, customSelectManyStrategy);
+            this._sut = new StringPropertyHandler(customSelectOneStrategy, customSelectManyStrategy, new ContentSerializerSettings());
         }
 
         [Fact]

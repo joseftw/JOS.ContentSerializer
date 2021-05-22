@@ -11,7 +11,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
 
         public IntPropertyHandlerTests()
         {
-            this._sut = new IntPropertyHandler();
+            this._sut = new IntPropertyHandler(new ContentSerializerSettings());
         }
 
         [Fact]

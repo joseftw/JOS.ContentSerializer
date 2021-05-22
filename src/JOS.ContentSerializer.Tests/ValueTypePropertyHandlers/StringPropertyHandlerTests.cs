@@ -15,7 +15,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypePropertyHandlers
         public StringPropertyHandlerTests()
         {
             var selectStrategy = new DefaultSelectStrategy();
-            this._sut = new StringPropertyHandler(selectStrategy, selectStrategy);
+            this._sut = new StringPropertyHandler(selectStrategy, selectStrategy, new ContentSerializerSettings());
         }
 
         [Theory]

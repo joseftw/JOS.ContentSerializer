@@ -11,7 +11,7 @@ namespace JOS.ContentSerializer.Tests
 
         public PageTypePropertyHandlerTests()
         {
-            this._sut = new PageTypePropertyHandler();
+            this._sut = new PageTypePropertyHandler(new ContentSerializerSettings());
         }
 
         [Fact]
