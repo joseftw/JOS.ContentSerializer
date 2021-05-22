@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
+        private static readonly Dictionary<Type, MethodInfo> CachedHandleMethodInfos;
         private readonly IPropertyResolver _propertyResolver;
         private readonly IPropertyNameStrategy _propertyNameStrategy;
         private readonly IPropertyHandlerService _propertyHandlerService;
+
+        static PropertyManager()
+        {
+            CachedHandleMethodInfos = new Dictionary<Type, MethodInfo>();
+        }
 
         public PropertyManager(
             IPropertyNameStrategy propertyNameStrategy,
@@ -39,10 +46,7 @@ namespace JOS.ContentSerializer.Internal
                     continue;
                 }
 
-                var method = propertyHandler.GetType().GetMethods()
-                    .Where(x => x.Name.Equals(nameof(IPropertyHandler<object>.Handle)))
-                    .OrderByDescending(x => x.GetParameters().Length)
-                    .First();
+                var method = GetMethodInfo(propertyHandler);
 
                 var key = this._propertyNameStrategy.GetPropertyName(property);
                 var value = property.GetValue(contentData);
@@ -50,6 +54,23 @@ namespace JOS.ContentSerializer.Internal
                 structuredData.Add(key, result);
             }
             return structuredData;
+        }
+
+        private static MethodInfo GetMethodInfo(object propertyHandler)
+        {
+            var type = propertyHandler.GetType();
+            if (CachedHandleMethodInfos.ContainsKey(type))
+            {
+                return CachedHandleMethodInfos[type];
+            }
+
+            var method = propertyHandler.GetType().GetMethods()
+                .Where(x => x.Name.Equals(nameof(IPropertyHandler<object>.Handle)))
+                .OrderByDescending(x => x.GetParameters().Length)
+                .First();
+
+            CachedHandleMethodInfos[type] = method;
+            return method;
         }
     }
 }

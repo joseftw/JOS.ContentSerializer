@@ -275,6 +275,36 @@ namespace JOS.ContentSerializer.Tests
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.DateTimes)) && x.Value.Equals(dateTimes));
         }
 
+        [Fact]
+        public void ShouldUsePassedInContentSerializerSettings()
+        {
+            var pageReference = new PageReference(3000);
+            var page = new StandardPageBuilder().WithPageReference(pageReference).Build();
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            var urlHelper = Substitute.For<IUrlHelper>();
+            var pageReferenceUrl = "https://josefottosson.se/some-path";
+            var contentReferencePropertyHandler = new ContentReferencePropertyHandler(urlHelper, this._contentSerializerSettings);
+            urlHelper.ContentUrl(pageReference, Arg.Any<IUrlSettings>()).Returns(pageReferenceUrl);
+            serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<PageReference>), out var _).Returns(x =>
+            {
+                x[1] = new PageReferencePropertyHandler(contentReferencePropertyHandler, _contentSerializerSettings);
+                return true;
+            });
+            ServiceLocator.SetLocator(serviceLocator);
+            var customContentSerializerSettings = new ContentSerializerSettings
+            {
+                UrlSettings = new UrlSettings
+                {
+                    UseAbsoluteUrls = false
+                }
+            };
+
+            var result = this._sut.GetStructuredData(page, customContentSerializerSettings);
+
+            result.ShouldContainKey("PageReference");
+            result["PageReference"].ShouldBe("/some-path");
+        }
+
         private static void SetupContentLoader(IContentLoader contentLoader)
         {
             contentLoader.Get<ContentData>(new ContentReference(1000))
