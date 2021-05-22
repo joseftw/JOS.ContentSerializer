@@ -1,15 +1,24 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using EPiServer.Core;
 
 namespace JOS.ContentSerializer.Internal
 {
     public class PropertyManager : IPropertyManager
     {
+        private static readonly ConcurrentDictionary<Type, MethodInfo> CachedHandleMethodInfos;
         private readonly IPropertyResolver _propertyResolver;
         private readonly IPropertyNameStrategy _propertyNameStrategy;
         private readonly IPropertyHandlerService _propertyHandlerService;
+
+        static PropertyManager()
+        {
+            CachedHandleMethodInfos = new ConcurrentDictionary<Type, MethodInfo>();
+        }
 
         public PropertyManager(
             IPropertyNameStrategy propertyNameStrategy,
@@ -38,16 +47,32 @@ namespace JOS.ContentSerializer.Internal
                     continue;
                 }
 
-                var method = propertyHandler.GetType().GetMethod(nameof(IPropertyHandler<object>.Handle));
-                if (method != null)
-                {
-                    var key = this._propertyNameStrategy.GetPropertyName(property);
-                    var value = property.GetValue(contentData);
-                    var result = method.Invoke(propertyHandler, new[] { value, property, contentData });
-                    structuredData.Add(key, result);
-                }
+                var method = GetMethodInfo(propertyHandler);
+
+                var key = this._propertyNameStrategy.GetPropertyName(property);
+                var value = property.GetValue(contentData);
+                var result = method.Invoke(propertyHandler, new[] { value, property, contentData, settings });
+                structuredData.Add(key, result);
             }
             return structuredData;
+        }
+
+        private static MethodInfo GetMethodInfo(object propertyHandler)
+        {
+            var type = propertyHandler.GetType();
+            if (CachedHandleMethodInfos.ContainsKey(type))
+            {
+                CachedHandleMethodInfos.TryGetValue(type, out var cachedMethod);
+                return cachedMethod;
+            }
+
+            var method = propertyHandler.GetType().GetMethods()
+                .Where(x => x.Name.Equals(nameof(IPropertyHandler<object>.Handle)))
+                .OrderByDescending(x => x.GetParameters().Length)
+                .First();
+
+            CachedHandleMethodInfos.TryAdd(type, method);
+            return method;
         }
     }
 }

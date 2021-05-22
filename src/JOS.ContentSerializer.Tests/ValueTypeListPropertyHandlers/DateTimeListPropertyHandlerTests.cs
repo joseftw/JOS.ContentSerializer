@@ -13,7 +13,7 @@ namespace JOS.ContentSerializer.Tests.ValueTypeListPropertyHandlers
 
         public DateTimeListPropertyHandlerTests()
         {
-            this._sut = new DateTimeListPropertyHandler();
+            this._sut = new DateTimeListPropertyHandler(new ContentSerializerSettings());
         }
 
         [Fact]

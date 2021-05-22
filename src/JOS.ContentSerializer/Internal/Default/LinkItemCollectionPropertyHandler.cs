@@ -21,6 +21,14 @@ namespace JOS.ContentSerializer.Internal.Default
 
         public object Handle(LinkItemCollection linkItemCollection, PropertyInfo propertyInfo, IContentData contentData)
         {
+            return Handle(linkItemCollection, propertyInfo, contentData, _contentSerializerSettings);
+        }
+
+        public object Handle(LinkItemCollection linkItemCollection,
+            PropertyInfo property,
+            IContentData contentData,
+            IContentSerializerSettings settings)
+        {
             if (linkItemCollection == null)
             {
                 return null;
@@ -33,7 +41,7 @@ namespace JOS.ContentSerializer.Internal.Default
                 if (link.ReferencedPermanentLinkIds.Any())
                 {
                     var url = new Url(link.Href);
-                    prettyUrl = this._urlHelper.ContentUrl(url, this._contentSerializerSettings.UrlSettings);
+                    prettyUrl = this._urlHelper.ContentUrl(url, settings.UrlSettings);
                 }
                 links.Add(new LinkItem
                 {

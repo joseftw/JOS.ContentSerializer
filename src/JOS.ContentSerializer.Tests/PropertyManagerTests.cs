@@ -41,7 +41,7 @@ namespace JOS.ContentSerializer.Tests
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<string>), out var _).Returns(x =>
             {
                 var selectStrategy = new DefaultSelectStrategy();
-                x[1] = new StringPropertyHandler(selectStrategy, selectStrategy);
+                x[1] = new StringPropertyHandler(selectStrategy, selectStrategy, _contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -57,7 +57,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<int>), out var _).Returns(x =>
             {
-                x[1] = new IntPropertyHandler();
+                x[1] = new IntPropertyHandler(_contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -73,7 +73,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<double>), out var _).Returns(x =>
             {
-                x[1] = new DoublePropertyHandler();
+                x[1] = new DoublePropertyHandler(_contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -89,7 +89,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<bool>), out var _).Returns(x =>
             {
-                x[1] = new BoolPropertyHandler();
+                x[1] = new BoolPropertyHandler(_contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -106,7 +106,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<DateTime>), out var _).Returns(x =>
             {
-                x[1] = new DateTimePropertyHandler();
+                x[1] = new DateTimePropertyHandler(_contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -151,7 +151,7 @@ namespace JOS.ContentSerializer.Tests
             urlHelper.ContentUrl(pageReference, Arg.Any<IUrlSettings>()).Returns(pageReferenceUrl);
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<PageReference>), out var _).Returns(x =>
             {
-                x[1] = new PageReferencePropertyHandler(contentReferencePropertyHandler);
+                x[1] = new PageReferencePropertyHandler(contentReferencePropertyHandler, _contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -175,7 +175,7 @@ namespace JOS.ContentSerializer.Tests
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<string>), out var _).Returns(x =>
             {
                 var selectStrategy = new DefaultSelectStrategy();
-                x[1] = new StringPropertyHandler(selectStrategy, selectStrategy);
+                x[1] = new StringPropertyHandler(selectStrategy, selectStrategy, _contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -193,7 +193,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<IEnumerable<string>>), out var _).Returns(x =>
             {
-                x[1] = new StringListPropertyHandler();
+                x[1] = new StringListPropertyHandler(_contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -211,7 +211,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<IEnumerable<string>>), out var _).Returns(x =>
             {
-                x[1] = new StringListPropertyHandler();
+                x[1] = new StringListPropertyHandler(_contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -229,7 +229,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<IEnumerable<int>>), out var _).Returns(x =>
             {
-                x[1] = new IntListPropertyHandler();
+                x[1] = new IntListPropertyHandler(_contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -247,7 +247,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<IEnumerable<double>>), out var _).Returns(x =>
             {
-                x[1] = new DoubleListPropertyHandler();
+                x[1] = new DoubleListPropertyHandler(_contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -265,7 +265,7 @@ namespace JOS.ContentSerializer.Tests
             var serviceLocator = Substitute.For<IServiceLocator>();
             serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<IEnumerable<DateTime>>), out var _).Returns(x =>
             {
-                x[1] = new DateTimeListPropertyHandler();
+                x[1] = new DateTimeListPropertyHandler(_contentSerializerSettings);
                 return true;
             });
             ServiceLocator.SetLocator(serviceLocator);
@@ -273,6 +273,36 @@ namespace JOS.ContentSerializer.Tests
             var result = this._sut.GetStructuredData(page, this._contentSerializerSettings);
 
             result.ShouldContain(x => x.Key.Equals(nameof(StandardPage.DateTimes)) && x.Value.Equals(dateTimes));
+        }
+
+        [Fact]
+        public void ShouldUsePassedInContentSerializerSettings()
+        {
+            var pageReference = new PageReference(3000);
+            var page = new StandardPageBuilder().WithPageReference(pageReference).Build();
+            var serviceLocator = Substitute.For<IServiceLocator>();
+            var urlHelper = Substitute.For<IUrlHelper>();
+            var pageReferenceUrl = "https://josefottosson.se/some-path";
+            var contentReferencePropertyHandler = new ContentReferencePropertyHandler(urlHelper, this._contentSerializerSettings);
+            urlHelper.ContentUrl(pageReference, Arg.Any<IUrlSettings>()).Returns(pageReferenceUrl);
+            serviceLocator.TryGetExistingInstance(typeof(IPropertyHandler<PageReference>), out var _).Returns(x =>
+            {
+                x[1] = new PageReferencePropertyHandler(contentReferencePropertyHandler, _contentSerializerSettings);
+                return true;
+            });
+            ServiceLocator.SetLocator(serviceLocator);
+            var customContentSerializerSettings = new ContentSerializerSettings
+            {
+                UrlSettings = new UrlSettings
+                {
+                    UseAbsoluteUrls = false
+                }
+            };
+
+            var result = this._sut.GetStructuredData(page, customContentSerializerSettings);
+
+            result.ShouldContainKey("PageReference");
+            result["PageReference"].ShouldBe("/some-path");
         }
 
         private static void SetupContentLoader(IContentLoader contentLoader)

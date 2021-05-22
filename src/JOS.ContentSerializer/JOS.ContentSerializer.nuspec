@@ -8,7 +8,7 @@
     <language>en-US</language>
     <projectUrl>https://github.com/joseftw/JOS.ContentSerializer</projectUrl>
         <releaseNotes>
-            Adds ISelectOne/ISelectManyStrategy interfaces.
+            Fixes ContentSerializerSettings bug
         </releaseNotes>
     <tags>episerver json</tags>
     </metadata>

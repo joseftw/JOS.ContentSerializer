@@ -17,7 +17,19 @@ namespace JOS.ContentSerializer.Internal.Default
             _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
         }
 
-        public object Handle(Url url, PropertyInfo propertyInfo, IContentData contentData)
+        public object Handle(
+            Url url,
+            PropertyInfo propertyInfo,
+            IContentData contentData)
+        {
+            return Handle(url, propertyInfo, contentData, _contentSerializerSettings);
+        }
+
+        public object Handle(
+            Url url,
+            PropertyInfo property,
+            IContentData contentData,
+            IContentSerializerSettings settings)
         {
             if (url == null)
             {
@@ -28,7 +40,7 @@ namespace JOS.ContentSerializer.Internal.Default
 
             if (url.IsAbsoluteUri)
             {
-                if (this._contentSerializerSettings.UrlSettings.UseAbsoluteUrls)
+                if (settings.UrlSettings.UseAbsoluteUrls)
                 {
                     return url.OriginalString;
                 }
@@ -36,7 +48,7 @@ namespace JOS.ContentSerializer.Internal.Default
                 return url.PathAndQuery;
             }
 
-            return this._urlHelper.ContentUrl(url, this._contentSerializerSettings.UrlSettings);
+            return this._urlHelper.ContentUrl(url, settings.UrlSettings);
         }
     }
 }

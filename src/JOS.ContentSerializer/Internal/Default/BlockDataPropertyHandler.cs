@@ -9,7 +9,9 @@ namespace JOS.ContentSerializer.Internal.Default
         private readonly IPropertyManager _propertyManager;
         private readonly IContentSerializerSettings _contentSerializerSettings;
 
-        public BlockDataPropertyHandler(IPropertyManager propertyManager, IContentSerializerSettings contentSerializerSettings)
+        public BlockDataPropertyHandler(
+            IPropertyManager propertyManager,
+            IContentSerializerSettings contentSerializerSettings)
         {
             _propertyManager = propertyManager ?? throw new ArgumentNullException(nameof(propertyManager));
             _contentSerializerSettings = contentSerializerSettings;
@@ -17,7 +19,16 @@ namespace JOS.ContentSerializer.Internal.Default
 
         public object Handle(BlockData value, PropertyInfo property, IContentData contentData)
         {
-            return this._propertyManager.GetStructuredData(value, this._contentSerializerSettings);
+            return Handle(value, property, contentData, _contentSerializerSettings);
+        }
+
+        public object Handle(
+            BlockData value,
+            PropertyInfo property,
+            IContentData contentData,
+            IContentSerializerSettings settings)
+        {
+            return this._propertyManager.GetStructuredData(value, settings);
         }
     }
 }
