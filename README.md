@@ -115,6 +115,107 @@ context.Services.AddSingleton<IPropertyHandler<string>, JosefStringPropertyHandl
 ```
 **Don't forget to unregister the default ``IPropertyHandler<string>`` as well**
 
+### Breaking changes
+
+#### Version 5.0
+To fix the issue with IContentSerializerSettings not getting passed on to ```IPropertyHandlers``` I needed to do a breaking change.
+I've added the following method to the ```IPropertyHandler``` interface:
+```csharp
+object Handle(T value, PropertyInfo property, IContentData contentData, IContentSerializerSettings settings);
+```
+**This method will now be called by the default implementation of ```IPropertyManager```**.
+
+If you've built any custom ```IPropertyHandlers``` you will need to implement this new method as well.
+Example:
+
+Old **UrlPropertyHandler**
+```csharp
+public class UrlPropertyHandler : IPropertyHandler<Url>
+{
+    private readonly IUrlHelper _urlHelper;
+    private readonly IContentSerializerSettings _contentSerializerSettings;
+    private const string MailTo = "mailto";
+
+    public UrlPropertyHandler(IUrlHelper urlHelper, IContentSerializerSettings contentSerializerSettings)
+    {
+        _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
+        _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
+    }
+
+    public object Handle(Url url, PropertyInfo propertyInfo, IContentData contentData)
+    {
+        if (url == null)
+        {
+            return null;
+        }
+
+        if (url.Scheme == MailTo) return url.OriginalString;
+
+        if (url.IsAbsoluteUri)
+        {
+            if (this._contentSerializerSettings.UrlSettings.UseAbsoluteUrls)
+            {
+                return url.OriginalString;
+            }
+
+            return url.PathAndQuery;
+        }
+
+        return this._urlHelper.ContentUrl(url, this._contentSerializerSettings.UrlSettings);
+    }
+}
+```
+
+Updated **UrlPropertyHandler**
+```csharp
+public class UrlPropertyHandler : IPropertyHandler<Url>
+{
+    private readonly IUrlHelper _urlHelper;
+    private readonly IContentSerializerSettings _contentSerializerSettings;
+    private const string MailTo = "mailto";
+
+    public UrlPropertyHandler(IUrlHelper urlHelper, IContentSerializerSettings contentSerializerSettings)
+    {
+        _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
+        _contentSerializerSettings = contentSerializerSettings ?? throw new ArgumentNullException(nameof(contentSerializerSettings));
+    }
+
+    public object Handle(
+        Url url,
+        PropertyInfo propertyInfo,
+        IContentData contentData)
+    {
+        return Handle(url, propertyInfo, contentData, _contentSerializerSettings);
+    }
+
+    public object Handle(
+        Url url,
+        PropertyInfo property,
+        IContentData contentData,
+        IContentSerializerSettings settings)
+    {
+        if (url == null)
+        {
+            return null;
+        }
+
+        if (url.Scheme == MailTo) return url.OriginalString;
+
+        if (url.IsAbsoluteUri)
+        {
+            if (settings.UrlSettings.UseAbsoluteUrls)
+            {
+                return url.OriginalString;
+            }
+
+            return url.PathAndQuery;
+        }
+
+        return this._urlHelper.ContentUrl(url, settings.UrlSettings);
+    }
+}
+```
+
 #### Other interfaces
 
 -  IContentJsonSerializer - The default Json serializer. Implent it and register your own if you want to replace it.
